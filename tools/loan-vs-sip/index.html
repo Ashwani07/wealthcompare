@@ -12,15 +12,17 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
      crossorigin="anonymous"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/assets/js/amount-words.js"></script>
 
 <style>
 /* (CSS unchanged — same as previous version) */
 * { box-sizing: border-box; }
 body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     background: radial-gradient(circle at top, #4f46e5 0, #e3f2fd 40%, #f3e5f5 100%);
     color: #111827;
 }
@@ -28,7 +30,7 @@ body {
 .hero-inner {
     max-width: 900px; margin: 0 auto;
     background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
-    padding: 24px 18px; border-radius: 24px;
+    padding: 20px 18px; border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 .container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
@@ -41,6 +43,9 @@ body {
 .card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
 .inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
 .input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 4px; color: #374151; font-size: 13px; font-weight: 600; }
+.input-group input { padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; }
+.amount-words { min-height: 28px; padding-top: 4px; color: #6b7280; font-size: 11px; line-height: 1.35; }
 button {
     padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5);
     color: white; border: none; border-radius: 12px; font-size: 15px;
@@ -48,6 +53,18 @@ button {
 }
 .results-layout { display: flex; flex-wrap: wrap; gap: 16px; }
 .results-column { flex: 1 1 280px; }
+.results-column h3 { margin: 0 0 14px; color: #1f2937; font-size: 18px; }
+.result-section { padding: 16px; border: 1px solid #e5e7eb; border-radius: 14px; background: #fff; }
+.metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.metric { padding: 10px 12px; border-radius: 10px; background: #f8fafc; }
+.metric-label { display: block; color: #6b7280; font-size: 11px; }
+.metric-value { display: block; margin-top: 3px; color: #111827; font-size: 14px; font-weight: 700; }
+.final-result { margin: 14px 0; padding: 14px; border-left: 4px solid #10b981; border-radius: 10px; background: #ecfdf5; }
+.final-result .metric-value { color: #047857; font-size: 22px; }
+.comparison-result { margin-top: 14px; padding: 18px; border-radius: 14px; background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; }
+.comparison-result .metric-value { color: #3730a3; font-size: 24px; }
+.analysis-panel { padding: 16px; border-radius: 14px; background: #f8fafc; border: 1px solid #e5e7eb; }
+.section-note { margin: -6px 0 12px; color: #6b7280; font-size: 12px; }
 .chart-container {
     background: rgba(255,255,255,0.95); padding: 16px; border-radius: 18px;
     margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
@@ -56,6 +73,17 @@ button {
 </head>
 
 <body>
+
+<header class="site-header">
+    <a class="brand" href="/" aria-label="WealthCompare home">
+        <img src="/assets/logo.svg" alt="">
+        <span class="brand-name">Wealth<span>Compare</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+    </nav>
+</header>
 
 <div class="hero">
     <div class="hero-inner">
@@ -70,7 +98,6 @@ button {
 </div>
 
 <div class="container">
-
     <!-- Input Card -->
     <div class="card">
         <h2 style="background:linear-gradient(135deg,#4f46e5,#3b82f6);color:white;padding:10px;border-radius:10px;">
@@ -81,10 +108,12 @@ button {
             <div class="input-group">
                 <label>Property Price (₹)</label>
                 <input id="propertyPrice" type="number" min="0" step="1000" value="10000000">
+                <span id="propertyPriceWords" class="amount-words" aria-live="polite"></span>
             </div>
             <div class="input-group">
                 <label>Loan Amount (₹)</label>
                 <input id="loanAmount" type="number" min="0" step="1000" value="8000000">
+                <span id="loanAmountWords" class="amount-words" aria-live="polite"></span>
             </div>
             <div class="input-group">
                 <label>Loan Interest (% per year)</label>
@@ -127,7 +156,7 @@ button {
     </div>
 
     <!-- Results + Analysis -->
-    <div class="card">
+    <div class="card analysis-panel">
         <div class="results-layout">
             <div id="results" class="results-column"></div>
             <div id="analysis" class="results-column"></div>
@@ -203,20 +232,19 @@ function calculate() {
 
     // RESULTS SECTION
     document.getElementById("results").innerHTML = `
-        <h3>🏠 Property Summary</h3>
-        <p><b>Property Price:</b><br>₹${formatINR(propertyPrice)}</p>
-        <p><b>Loan Amount:</b><br>₹${formatINR(loanAmount)}</p>
-        <p><b>Your Down Payment:</b><br>₹${formatINR(propertyPrice - loanAmount)}</p>
-        <p><b>Total Interest Paid:</b><br>₹${formatINR(totalInterest)}</p>
-        <p><b>Total Maintenance Cost:</b><br>₹${formatINR(maintenance)}</p>
-        <p><b>Property Future Value (Nominal):</b><br>
-           ₹${formatINR(futureValue)}<br>
-           <small>Estimated market value after ${tenureYears} years, before inflation.</small>
-        </p>
-        <p><b>Inflation-Adjusted Property Value (Real):</b><br>
-           ₹${formatINR(realProperty)}</p>
-        <p><b>Net Property Gain (Real):</b><br>
-           ₹${formatINR(netProperty)}</p>
+          <div class="result-section">
+                <h3>🏠 Property Summary</h3>
+                <p class="section-note">The property path after loan costs and maintenance.</p>
+                <div class="metric-grid">
+                     <div class="metric"><span class="metric-label">Property price</span><span class="metric-value">₹${formatINR(propertyPrice)}</span></div>
+                     <div class="metric"><span class="metric-label">Loan amount</span><span class="metric-value">₹${formatINR(loanAmount)}</span></div>
+                     <div class="metric"><span class="metric-label">Down payment</span><span class="metric-value">₹${formatINR(propertyPrice - loanAmount)}</span></div>
+                     <div class="metric"><span class="metric-label">Interest paid</span><span class="metric-value">₹${formatINR(totalInterest)}</span></div>
+                     <div class="metric"><span class="metric-label">Maintenance cost</span><span class="metric-value">₹${formatINR(maintenance)}</span></div>
+                     <div class="metric"><span class="metric-label">Future value, nominal</span><span class="metric-value">₹${formatINR(futureValue)}</span></div>
+                </div>
+                <div class="final-result"><span class="metric-label">Inflation-adjusted property value, net</span><span class="metric-value">₹${formatINR(netProperty)}</span></div>
+          </div>
 
         <!-- ⭐ Placement 2: Between Property & SIP Summary -->
         <div style="margin:20px 0;">
@@ -231,31 +259,32 @@ function calculate() {
 
         <hr>
 
-        <h3>📈 SIP Summary</h3>
-        <p><b>Total SIP Amount Invested:</b><br>₹${formatINR(sipInvested)}</p>
-        <p><b>SIP Future Value (Nominal):</b><br>
-           ₹${formatINR(fv)}<br>
-           <small>Total SIP corpus after ${tenureYears} years, before tax and inflation.</small>
-        </p>
-        <p><b>LTCG Tax (12.5%):</b><br>
-           ₹${formatINR(tax)}</p>
-        <p><b>SIP Value After Tax (Nominal):</b><br>
-           ₹${formatINR(fvAfterTax)}</p>
-        <p><b>Inflation-Adjusted SIP Value (Real):</b><br>
-           ₹${formatINR(realSIP)}</p>
-        <p><b>SIP Gain (Nominal, after tax):</b><br>
-           ₹${formatINR(sipGainNominal)}</p>
-        <p><b>SIP Gain (Real, after tax):</b><br>
-           ₹${formatINR(sipGainReal)}</p>
+          <div class="result-section">
+                <h3>📈 SIP Summary</h3>
+                <p class="section-note">The alternative path using the same monthly EMI.</p>
+                <div class="metric-grid">
+                     <div class="metric"><span class="metric-label">Total invested</span><span class="metric-value">₹${formatINR(sipInvested)}</span></div>
+                     <div class="metric"><span class="metric-label">Future value, nominal</span><span class="metric-value">₹${formatINR(fv)}</span></div>
+                     <div class="metric"><span class="metric-label">LTCG tax</span><span class="metric-value">₹${formatINR(tax)}</span></div>
+                     <div class="metric"><span class="metric-label">Value after tax</span><span class="metric-value">₹${formatINR(fvAfterTax)}</span></div>
+                     <div class="metric"><span class="metric-label">Nominal gain</span><span class="metric-value">₹${formatINR(sipGainNominal)}</span></div>
+                     <div class="metric"><span class="metric-label">Real gain</span><span class="metric-value">₹${formatINR(sipGainReal)}</span></div>
+                </div>
+                <div class="final-result"><span class="metric-label">Inflation-adjusted SIP value, after tax</span><span class="metric-value">₹${formatINR(realSIP)}</span></div>
+          </div>
     `;
 
     // ANALYSIS SECTION
     document.getElementById("analysis").innerHTML = `
-        <h3>⚖️ Real Wealth Comparison</h3>
-        <p><b>Property Real Value (Net):</b><br>₹${formatINR(netProperty)}</p>
-        <p><b>SIP Real Value (After Tax):</b><br>₹${formatINR(realSIP)}</p>
-        <p><b>Difference (SIP − Property, Real Wealth):</b><br>
-           ₹${formatINR(diffRealWealth)}</p>
+        <div class="comparison-result">
+            <h3>⚖️ Real Wealth Comparison</h3>
+            <p class="section-note">The decision metric: today's purchasing power after the modeled costs.</p>
+            <div class="metric-grid">
+                <div class="metric"><span class="metric-label">Net property value</span><span class="metric-value">₹${formatINR(netProperty)}</span></div>
+                <div class="metric"><span class="metric-label">SIP value after tax</span><span class="metric-value">₹${formatINR(realSIP)}</span></div>
+            </div>
+            <div class="final-result"><span class="metric-label">Difference, SIP minus property</span><span class="metric-value">₹${formatINR(diffRealWealth)}</span></div>
+        </div>
 
         <!-- ⭐ Placement 3: Inside Real Wealth Comparison -->
         <div style="margin:20px 0;">
@@ -322,6 +351,8 @@ function calculate() {
 }
 
 calculate();
+bindAmountInWords("propertyPrice", "propertyPriceWords");
+bindAmountInWords("loanAmount", "loanAmountWords");
 </script>
 
 </body>

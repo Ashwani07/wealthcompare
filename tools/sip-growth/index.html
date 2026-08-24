@@ -12,14 +12,16 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
      crossorigin="anonymous"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/assets/js/amount-words.js"></script>
 
 <style>
 * { box-sizing: border-box; }
 body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     background: radial-gradient(circle at top, #4f46e5 0, #e3f2fd 40%, #f3e5f5 100%);
     color: #111827;
 }
@@ -91,6 +93,7 @@ a { text-decoration: none; color: inherit; }
     font-size: 14px;
     width: 100%;
 }
+.amount-words { min-height: 28px; padding-top: 4px; color: #6b7280; font-size: 11px; line-height: 1.35; }
 button {
     padding: 12px 24px;
     background: linear-gradient(135deg, #3b82f6, #4f46e5);
@@ -116,6 +119,14 @@ button {
     font-weight: 700;
     color: #4f46e5;
 }
+.result-section { padding: 16px; border: 1px solid #e5e7eb; border-radius: 14px; background: #fff; }
+.metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.metric { padding: 10px 12px; border-radius: 10px; background: #f8fafc; }
+.metric-label { display: block; color: #6b7280; font-size: 11px; }
+.metric-value { display: block; margin-top: 3px; color: #111827; font-size: 14px; font-weight: 700; }
+.final-result { margin: 14px 0; padding: 14px; border-left: 4px solid #10b981; border-radius: 10px; background: #ecfdf5; }
+.final-result .metric-value { color: #047857; font-size: 22px; }
+.analysis-panel { padding: 16px; border-radius: 14px; background: #f8fafc; border: 1px solid #e5e7eb; }
 .chart-container {
     background: rgba(255,255,255,0.95);
     padding: 16px;
@@ -166,9 +177,12 @@ th {
 
 <body>
 
-<header class="header">
-    <div class="logo"><a href="/">WealthCompare</a></div>
-    <nav class="nav-links">
+<header class="site-header">
+    <a class="brand" href="/" aria-label="WealthCompare home">
+        <img src="/assets/logo.svg" alt="">
+        <span class="brand-name">Wealth<span>Compare</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
         <a href="/">Home</a>
         <a href="/#tools">Tools</a>
     </nav>
@@ -205,6 +219,7 @@ th {
                 <label>Monthly SIP Amount (₹)</label>
                 <small>Amount you invest every month.</small>
                 <input id="sipAmount" type="number" min="0" step="500" value="20000">
+                <span id="sipAmountWords" class="amount-words" aria-live="polite"></span>
             </div>
             <div class="input-group">
                 <label>Expected Return (% per year)</label>
@@ -237,7 +252,7 @@ th {
     </div>
 
     <!-- Results + Analysis -->
-    <div class="card">
+    <div class="card analysis-panel">
         <div class="results-layout">
             <div id="results" class="results-column"></div>
             <div id="analysis" class="results-column"></div>
@@ -304,18 +319,16 @@ function calculateSIP() {
     let gainReal = fvReal - totalInvested;
 
     document.getElementById("results").innerHTML = `
-        <h3>📊 SIP Summary</h3>
-        <p><b>Total Invested:</b><br>₹${formatINR(totalInvested)}</p>
-        <p><b>Future Value (Nominal):</b><br>
-           <span class="result-number">₹${formatINR(fvNominal)}</span><br>
-           <small>Actual rupee value after ${tenureYears} years, before inflation.</small>
-        </p>
-        <p><b>Inflation-Adjusted Value (Real):</b><br>
-           <span class="result-number">₹${formatINR(fvReal)}</span><br>
-           <small>What your SIP corpus is worth in today's purchasing power.</small>
-        </p>
-        <p><b>Nominal Gain:</b><br>₹${formatINR(gainNominal)}</p>
-        <p><b>Real Gain:</b><br>₹${formatINR(gainReal)}</p>
+        <div class="result-section">
+            <h3>📊 SIP Summary</h3>
+            <div class="metric-grid">
+                <div class="metric"><span class="metric-label">Total invested</span><span class="metric-value">₹${formatINR(totalInvested)}</span></div>
+                <div class="metric"><span class="metric-label">Nominal gain</span><span class="metric-value">₹${formatINR(gainNominal)}</span></div>
+                <div class="metric"><span class="metric-label">Real gain</span><span class="metric-value">₹${formatINR(gainReal)}</span></div>
+            </div>
+            <div class="final-result"><span class="metric-label">Inflation-adjusted value, today's purchasing power</span><span class="metric-value">₹${formatINR(fvReal)}</span></div>
+            <div class="metric"><span class="metric-label">Future value, nominal</span><span class="metric-value">₹${formatINR(fvNominal)}</span></div>
+        </div>
 
         <!-- Placement 2: Between summary & extra info -->
         <div style="margin:20px 0;">
@@ -330,11 +343,15 @@ function calculateSIP() {
 
         <hr>
 
-        <h3>📌 SIP Inputs</h3>
-        <p><b>Monthly SIP:</b><br>₹${formatINR(sipAmount)}</p>
-        <p><b>Expected Return:</b><br>${returnRate.toFixed(2)}% per year</p>
-        <p><b>Tenure:</b><br>${tenureYears} years (${tenureMonths} months)</p>
-        <p><b>Inflation:</b><br>${inflationRate.toFixed(2)}% per year</p>
+        <div class="result-section">
+            <h3>📌 SIP Inputs</h3>
+            <div class="metric-grid">
+                <div class="metric"><span class="metric-label">Monthly SIP</span><span class="metric-value">₹${formatINR(sipAmount)}</span></div>
+                <div class="metric"><span class="metric-label">Expected return</span><span class="metric-value">${returnRate.toFixed(2)}% per year</span></div>
+                <div class="metric"><span class="metric-label">Tenure</span><span class="metric-value">${tenureYears} years</span></div>
+                <div class="metric"><span class="metric-label">Inflation</span><span class="metric-value">${inflationRate.toFixed(2)}% per year</span></div>
+            </div>
+        </div>
     `;
 
     document.getElementById("analysis").innerHTML = `
@@ -440,6 +457,7 @@ function calculateSIP() {
 }
 
 calculateSIP();
+bindAmountInWords("sipAmount", "sipAmountWords");
 </script>
 
 </body>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">WealthCompare mark</title>
+  <desc id="desc">A rising line inside a rounded square representing measured wealth growth.</desc>
+  <rect width="64" height="64" rx="16" fill="#123B4A"/>
+  <path d="M15 43 26 32l8 7 15-18" fill="none" stroke="#F4B942" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/>
+  <path d="M41 21h8v8" fill="none" stroke="#F4B942" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+</svg>

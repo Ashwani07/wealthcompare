@@ -12,13 +12,14 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
      crossorigin="anonymous"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css" rel="stylesheet">
 
 <style>
 * { box-sizing: border-box; }
 body {
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     background: radial-gradient(circle at top, #4f46e5 0, #e3f2fd 40%, #f3e5f5 100%);
     color: #111827;
 }
@@ -130,6 +131,14 @@ a { text-decoration: none; color: inherit; }
     font-weight: 600;
     color: #4f46e5;
 }
+.tool-tile.is-placeholder {
+    cursor: default;
+    opacity: 0.72;
+}
+.tool-tile.is-placeholder:hover {
+    transform: none;
+    box-shadow: none;
+}
 
 /* Insights */
 .insights-grid {
@@ -152,6 +161,15 @@ a { text-decoration: none; color: inherit; }
     font-size: 13px;
     color: #4b5563;
 }
+.article-status {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #6b7280;
+}
 
 /* Footer */
 .footer {
@@ -172,9 +190,12 @@ a { text-decoration: none; color: inherit; }
 
 <body>
 
-<header class="header">
-    <div class="logo">WealthCompare</div>
-    <nav class="nav-links">
+<header class="site-header">
+    <a class="brand" href="/" aria-label="WealthCompare home">
+        <img src="/assets/logo.svg" alt="">
+        <span class="brand-name">Wealth<span>Compare</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
         <a href="/">Home</a>
         <a href="#tools">Tools</a>
         <a href="#insights">Insights</a>
@@ -235,7 +256,18 @@ a { text-decoration: none; color: inherit; }
                 <div class="tool-link">Open calculator →</div>
             </a>
 
-                <a class="tool-tile" href="#tools">
+            <a class="tool-tile" href="/tools/sip-growth/">
+                <div>
+                    <div class="tool-icon">📈</div>
+                    <div class="tool-title">SIP Growth Projection</div>
+                    <div class="tool-desc">
+                        Project your SIP corpus over time and see its inflation-adjusted value in today's money.
+                    </div>
+                </div>
+                <div class="tool-link">Open calculator →</div>
+            </a>
+
+            <div class="tool-tile is-placeholder" aria-disabled="true">
                 <div>
                     <div class="tool-icon">🏡</div>
                     <div class="tool-title">Rent vs Buy (Coming Soon)</div>
@@ -244,9 +276,9 @@ a { text-decoration: none; color: inherit; }
                     </div>
                 </div>
                 <div class="tool-link">Coming soon</div>
-            </a>
+            </div>
 
-                <a class="tool-tile" href="#tools">
+            <div class="tool-tile is-placeholder" aria-disabled="true">
                 <div>
                     <div class="tool-icon">📈💰</div>
                     <div class="tool-title">SIP vs FD (Coming Soon)</div>
@@ -255,9 +287,9 @@ a { text-decoration: none; color: inherit; }
                     </div>
                 </div>
                 <div class="tool-link">Coming soon</div>
-            </a>
+            </div>
 
-                <a class="tool-tile" href="#tools">
+            <div class="tool-tile is-placeholder" aria-disabled="true">
                 <div>
                     <div class="tool-icon">🔁</div>
                     <div class="tool-title">Loan Prepayment Simulator (Planned)</div>
@@ -266,9 +298,9 @@ a { text-decoration: none; color: inherit; }
                     </div>
                 </div>
                 <div class="tool-link">Planned</div>
-            </a>
+            </div>
 
-                <a class="tool-tile" href="#tools">
+            <div class="tool-tile is-placeholder" aria-disabled="true">
                 <div>
                     <div class="tool-icon">💸</div>
                     <div class="tool-title">Tax & LTCG Optimizer (Planned)</div>
@@ -277,7 +309,7 @@ a { text-decoration: none; color: inherit; }
                     </div>
                 </div>
                 <div class="tool-link">Planned</div>
-            </a>
+            </div>
         </div>
 
         <!-- AdSense: Between tool tiles and next section -->
@@ -294,25 +326,28 @@ a { text-decoration: none; color: inherit; }
 
     <!-- Insights Section -->
     <section id="insights" class="card">
-        <div class="section-title">Insights & Philosophy</div>
+        <div class="section-title">Articles & Insights</div>
         <div class="insights-grid">
             <div class="insight-card">
                 <div class="insight-title">Nominal vs Real Wealth</div>
                 <div class="insight-text">
                     Big future numbers can be misleading. WealthCompare focuses on inflation-adjusted values, so you see what your money is truly worth in today's terms.
                 </div>
+                <div class="article-status">Article coming soon</div>
             </div>
             <div class="insight-card">
                 <div class="insight-title">Loan vs SIP: The Hidden Trade-offs</div>
                 <div class="insight-text">
                     A home loan builds an asset but comes with interest and maintenance. A SIP compounds quietly. Our tools show both paths side by side, transparently.
                 </div>
+                <div class="article-status">Article coming soon</div>
             </div>
             <div class="insight-card">
                 <div class="insight-title">Why Clarity Beats Guesswork</div>
                 <div class="insight-text">
                     Instead of rules of thumb, we use math, inflation, and tax assumptions to show you the actual impact of your decisions over decades.
                 </div>
+                <div class="article-status">Article coming soon</div>
             </div>
         </div>
 
