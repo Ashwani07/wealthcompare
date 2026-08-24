@@ -15,7 +15,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="/assets/css/site.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script src="/assets/js/amount-words.js"></script>
+<script src="/assets/js/export-excel.js"></script>
 
 <style>
 * { box-sizing: border-box; }
@@ -239,6 +241,7 @@ th {
         </div>
 
         <button type="button" onclick="calculateSIP()">Project SIP growth</button>
+        <button type="button" class="export-button" onclick="exportSIP()">Export to Excel</button>
 
         <!-- Placement 1: Below Calculate Button -->
         <div style="margin:20px 0;">
@@ -326,7 +329,7 @@ function calculateSIP() {
                 <div class="metric"><span class="metric-label">Nominal gain</span><span class="metric-value">₹${formatINR(gainNominal)}</span></div>
                 <div class="metric"><span class="metric-label">Real gain</span><span class="metric-value">₹${formatINR(gainReal)}</span></div>
             </div>
-            <div class="final-result"><span class="metric-label">Inflation-adjusted value, today's purchasing power</span><span class="metric-value">₹${formatINR(fvReal)}</span></div>
+            <div class="final-result"><span class="metric-label">Inflation-adjusted value after ${tenureYears} years, today's purchasing power</span><span class="metric-value">₹${formatINR(fvReal)}</span></div>
             <div class="metric"><span class="metric-label">Future value, nominal</span><span class="metric-value">₹${formatINR(fvNominal)}</span></div>
         </div>
 
@@ -357,7 +360,7 @@ function calculateSIP() {
     document.getElementById("analysis").innerHTML = `
         <h3>💡 Understanding Your SIP Growth</h3>
         <p><b>Nominal value</b> is the actual rupee amount you see in your statement after ${tenureYears} years.</p>
-        <p><b>Real value</b> adjusts for inflation, showing what that future money is truly worth in today's terms.</p>
+        <p><b>Real value</b> adjusts for inflation, showing what that future money is truly worth after ${tenureYears} years in today's terms.</p>
         <p><b>Nominal gain</b> is future value minus total invested, without inflation.</p>
         <p><b>Real gain</b> is inflation-adjusted value minus total invested — a better measure of real wealth creation.</p>
 
@@ -453,6 +456,31 @@ function calculateSIP() {
             ]
         },
         options: { responsive: true }
+    });
+}
+
+function exportSIP() {
+    const sipAmount = +document.getElementById("sipAmount").value;
+    const returnRate = +document.getElementById("returnRate").value;
+    const tenureYears = +document.getElementById("tenureYears").value;
+    const inflationRate = +document.getElementById("inflationRate").value;
+    const monthlyReturn = returnRate / 1200;
+    const rows = [["Year", "Invested (₹)", "Nominal value (₹)", "Real value (₹)"]];
+
+    for (let year = 1; year <= tenureYears; year++) {
+        const months = year * 12;
+        const nominal = monthlyReturn === 0 ? sipAmount * months : sipAmount * (Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn;
+        rows.push([year, sipAmount * months, nominal, nominal / Math.pow(1 + inflationRate / 100, year)]);
+    }
+
+    const totalInvested = sipAmount * tenureYears * 12;
+    const finalNominal = rows[rows.length - 1][2];
+    const finalReal = rows[rows.length - 1][3];
+    exportWorkbook("sip-growth-projection.xlsx", {
+        Inputs: [["SIP Growth Inputs"], ["Input", "Value"], ["Monthly SIP", sipAmount], ["Expected return", returnRate + "% per year"], ["Tenure", tenureYears + " years"], ["Inflation", inflationRate + "% per year"]],
+        Results: [["SIP Growth Results"], ["Metric", "Value"], ["Total invested", totalInvested], ["Nominal gain after " + tenureYears + " years", finalNominal - totalInvested], ["Real gain after " + tenureYears + " years", finalReal - totalInvested], ["Future value after " + tenureYears + " years, nominal", finalNominal], ["Value after " + tenureYears + " years, real", finalReal]],
+        Analysis: [["Understanding Your SIP Growth"], ["Nominal value", "The actual rupee amount after the investment period."], ["Real value", "The future value adjusted for inflation and expressed in today's purchasing power."], ["Nominal gain", "Future value minus total invested, without inflation adjustment."], ["Real gain", "Inflation-adjusted value minus total invested, a measure of real wealth creation."], ["Important", "Actual returns vary based on market conditions, fund choice, and tax rules."]],
+        Projection: rows
     });
 }
 

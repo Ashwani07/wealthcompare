@@ -53,6 +53,17 @@
     color: var(--brand-teal);
 }
 
+.export-button {
+    background: var(--brand-teal) !important;
+    margin-left: 8px;
+}
+
+@media (max-width: 600px) {
+    .export-button {
+        margin-left: 0;
+    }
+}
+
 @media (max-width: 520px) {
     .site-header {
         width: min(100% - 24px, 1100px);

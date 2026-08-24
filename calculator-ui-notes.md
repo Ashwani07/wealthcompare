@@ -1,5 +1,22 @@
 # Calculator UI Notes
 
+## Excel Export
+
+All calculators offer an `Export to Excel` action after the calculated output. Each workbook includes:
+
+- `Inputs`: the values entered by the user and their units.
+- `Results`: the calculated values shown in the result cards, including the selected time horizon.
+- `Analysis`: the explanatory text shown beside or below the results.
+- `Projection` on SIP Growth: the year-by-year invested, nominal, and inflation-adjusted values.
+
+The export is generated in the browser using SheetJS. It reflects the input values at the time the export button is clicked; users should recalculate first when they have changed inputs.
+
+## Calculator Presentation
+
+- Loan vs SIP emphasizes the real-wealth comparison, with property and SIP summaries kept separate.
+- Maintenance in Loan vs SIP can be entered as a percentage of property price or as annual rupees.
+- LTCG in Loan vs SIP is shown as a 12.5% educational assumption on equity-SIP gains above the current ₹1,00,000 exemption. Tax rules and individual outcomes may differ.
+
 ## Amount guidance
 
 Indian-rupee inputs show a live amount-in-words line below the field. This helps users confirm values such as `10000000` as **Rupees Ten Crore only**. The words are presentation-only; calculations continue to use the numeric input.

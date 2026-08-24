@@ -15,6 +15,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="/assets/css/site.css" rel="stylesheet">
 <script src="/assets/js/amount-words.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="/assets/js/export-excel.js"></script>
 
 <style>
 * { box-sizing: border-box; }
@@ -170,6 +172,7 @@ button {
         </div>
 
         <button type="button" onclick="calculateEMI()">Calculate EMI</button>
+        <button type="button" class="export-button" onclick="exportEMI()">Export to Excel</button>
 
         <!-- Placement 1: Below Calculate Button -->
         <div style="margin:20px 0;">
@@ -279,6 +282,22 @@ function calculateEMI() {
         <p>Reducing tenure or interest rate can significantly lower your total interest cost.</p>
         <p>Use this EMI as a base to compare different banks, offers, and prepayment strategies.</p>
     `;
+}
+
+function exportEMI() {
+    const loanAmount = +document.getElementById("loanAmount").value;
+    const interestRate = +document.getElementById("interestRate").value;
+    const tenureYears = +document.getElementById("tenureYears").value;
+    const months = tenureYears * 12;
+    const monthlyRate = interestRate / 1200;
+    const emi = monthlyRate === 0 ? loanAmount / months : loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+    const totalPayment = emi * months;
+
+    exportWorkbook("emi-calculator.xlsx", {
+        Inputs: [["EMI Calculator Inputs"], ["Input", "Value"], ["Loan amount", loanAmount], ["Interest rate", interestRate + "% per year"], ["Tenure", tenureYears + " years"]],
+        Results: [["EMI Calculator Results"], ["Metric", "Value"], ["Monthly EMI", emi], ["Total interest payable", totalPayment - loanAmount], ["Total amount payable", totalPayment]],
+        Analysis: [["Understanding Your EMI"], ["EMI", "The fixed amount paid every month to repay the loan."], ["Interest and principal", "Each EMI includes both interest and principal. Earlier payments generally contain more interest."], ["Total interest", "The extra amount paid over the borrowed loan amount."], ["Total amount payable", "The loan amount plus total interest over the full tenure."], ["Tip", "Reducing tenure or interest rate can lower total interest cost."]]
+    });
 }
 
 calculateEMI();
