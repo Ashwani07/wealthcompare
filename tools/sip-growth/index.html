@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SIP Growth Projection Tool | WealthCompare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Project SIP returns in India with monthly investment, expected return, tenure, and inflation-adjusted purchasing power.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/sip-growth/">
+<title>SIP Calculator India: Growth and Inflation-Adjusted Value | WealthCompare</title>
 
 <!-- AdSense Auto Ads -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
@@ -188,7 +192,6 @@ th {
              data-ad-slot="400000001"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
     <!-- Input Card -->
@@ -201,26 +204,26 @@ th {
             <div class="input-group">
                 <label>Monthly SIP Amount (₹)</label>
                 <small>Amount you invest every month.</small>
-                <input id="sipAmount" value="20000">
+                <input id="sipAmount" type="number" min="0" step="500" value="20000">
             </div>
             <div class="input-group">
                 <label>Expected Return (% per year)</label>
                 <small>Annualized return (e.g., 12 for equity SIP).</small>
-                <input id="returnRate" value="12">
+                <input id="returnRate" type="number" min="0" step="0.01" value="12">
             </div>
             <div class="input-group">
                 <label>Tenure (years)</label>
                 <small>How long you will invest.</small>
-                <input id="tenureYears" value="20">
+                <input id="tenureYears" type="number" min="1" step="1" value="20">
             </div>
             <div class="input-group">
                 <label>Inflation (% per year)</label>
                 <small>Average inflation over the period.</small>
-                <input id="inflationRate" value="6">
+                <input id="inflationRate" type="number" min="0" step="0.01" value="6">
             </div>
         </div>
 
-        <button onclick="calculateSIP()">Project SIP Growth</button>
+        <button type="button" onclick="calculateSIP()">Project SIP growth</button>
 
         <!-- Placement 1: Below Calculate Button -->
         <div style="margin:20px 0;">
@@ -230,7 +233,6 @@ th {
                  data-ad-slot="400000002"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
 
@@ -257,7 +259,6 @@ th {
              data-ad-slot="400000003"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
 </div>
@@ -289,7 +290,9 @@ function calculateSIP() {
     let tenureMonths = tenureYears * 12;
 
     // Future value of SIP (nominal)
-    let fvNominal = sipAmount * ((Math.pow(1 + monthlyReturn, tenureMonths) - 1) / monthlyReturn);
+    let fvNominal = monthlyReturn === 0
+        ? sipAmount * tenureMonths
+        : sipAmount * ((Math.pow(1 + monthlyReturn, tenureMonths) - 1) / monthlyReturn);
 
     // Total invested
     let totalInvested = sipAmount * tenureMonths;
@@ -323,7 +326,6 @@ function calculateSIP() {
                  data-ad-format="fluid"
                  data-ad-layout="in-article"
                  data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <hr>
@@ -351,7 +353,6 @@ function calculateSIP() {
                  data-ad-format="fluid"
                  data-ad-layout="in-article"
                  data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <h3>🔍 Why this matters</h3>
@@ -364,7 +365,9 @@ function calculateSIP() {
 
     for (let year = 1; year <= tenureYears; year++) {
         let months = year * 12;
-        nominalValue = sipAmount * ((Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn);
+        nominalValue = monthlyReturn === 0
+            ? sipAmount * months
+            : sipAmount * ((Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn);
         let investedTillNow = sipAmount * months;
         let realValueYear = nominalValue / Math.pow(1 + inflationRate / 100, year);
 
@@ -435,6 +438,8 @@ function calculateSIP() {
         options: { responsive: true }
     });
 }
+
+calculateSIP();
 </script>
 
 </body>

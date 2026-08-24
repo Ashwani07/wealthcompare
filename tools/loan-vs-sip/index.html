@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Loan vs SIP Wealth Comparison | WealthCompare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Compare buying a property with a home loan against investing the same EMI in a SIP, using nominal and inflation-adjusted wealth.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/loan-vs-sip/">
+<title>Loan vs SIP Calculator: Compare Real Wealth | WealthCompare</title>
 
 <!-- Auto Ads (Anchor + Vignette + In‑page) -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
@@ -76,39 +80,39 @@ button {
         <div class="inputs-grid">
             <div class="input-group">
                 <label>Property Price (₹)</label>
-                <input id="propertyPrice" value="10000000">
+                <input id="propertyPrice" type="number" min="0" step="1000" value="10000000">
             </div>
             <div class="input-group">
                 <label>Loan Amount (₹)</label>
-                <input id="loanAmount" value="8000000">
+                <input id="loanAmount" type="number" min="0" step="1000" value="8000000">
             </div>
             <div class="input-group">
                 <label>Loan Interest (% per year)</label>
-                <input id="interest" value="8">
+                <input id="interest" type="number" min="0" step="0.01" value="8">
             </div>
             <div class="input-group">
                 <label>Tenure (years)</label>
-                <input id="tenure" value="20">
+                <input id="tenure" type="number" min="1" step="1" value="20">
             </div>
             <div class="input-group">
                 <label>Maintenance (% per year)</label>
-                <input id="maint" value="1">
+                <input id="maint" type="number" min="0" step="0.01" value="1">
             </div>
             <div class="input-group">
                 <label>Property Appreciation (% per year)</label>
-                <input id="app" value="5">
+                <input id="app" type="number" min="0" step="0.01" value="5">
             </div>
             <div class="input-group">
                 <label>Inflation (% per year)</label>
-                <input id="infl" value="6">
+                <input id="infl" type="number" min="0" step="0.01" value="6">
             </div>
             <div class="input-group">
                 <label>SIP Return (% per year)</label>
-                <input id="sip" value="12">
+                <input id="sip" type="number" min="0" step="0.01" value="12">
             </div>
         </div>
 
-        <button onclick="calculate()">Calculate</button>
+        <button type="button" onclick="calculate()">Compare wealth</button>
 
         <!-- ⭐ Placement 1: Below Calculate Button -->
         <div style="margin:20px 0;">
@@ -118,7 +122,6 @@ button {
                  data-ad-slot="100000001"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
     </div>
@@ -144,7 +147,6 @@ button {
              data-ad-slot="100000004"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
 </div>
@@ -168,7 +170,9 @@ function calculate() {
     let sip = +document.getElementById("sip").value / 1200;
 
     // EMI
-    let emi = loanAmount * interest * Math.pow(1 + interest, tenure) / (Math.pow(1 + interest, tenure) - 1);
+    let emi = interest === 0
+        ? loanAmount / tenure
+        : loanAmount * interest * Math.pow(1 + interest, tenure) / (Math.pow(1 + interest, tenure) - 1);
 
     // Loan interest
     let totalInterest = (emi * tenure) - loanAmount;
@@ -182,7 +186,7 @@ function calculate() {
     let netProperty = realProperty - (totalInterest + maintenance);
 
     // SIP future value
-    let fv = emi * ((Math.pow(1 + sip, tenure) - 1) / sip);
+    let fv = sip === 0 ? emi * tenure : emi * ((Math.pow(1 + sip, tenure) - 1) / sip);
     let sipInvested = emi * tenure;
 
     // LTCG tax
@@ -223,7 +227,6 @@ function calculate() {
                  data-ad-format="fluid"
                  data-ad-layout="in-article"
                  data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <hr>
@@ -263,7 +266,6 @@ function calculate() {
                  data-ad-format="fluid"
                  data-ad-layout="in-article"
                  data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <h3>💡 Understanding Your Results</h3>
@@ -286,7 +288,7 @@ function calculate() {
         propertyValues.push(propVal);
 
         let months = y * 12;
-        let sipVal = emi * ((Math.pow(1 + sip, months) - 1) / sip);
+        let sipVal = sip === 0 ? emi * months : emi * ((Math.pow(1 + sip, months) - 1) / sip);
         sipValues.push(sipVal);
     }
 
@@ -318,6 +320,8 @@ function calculate() {
         options: { responsive: true }
     });
 }
+
+calculate();
 </script>
 
 </body>

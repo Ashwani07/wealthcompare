@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>EMI Calculator | WealthCompare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Calculate home loan, car loan, and personal loan EMI, total interest, and total repayment in Indian rupees.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/emi-calculator/">
+<title>EMI Calculator India: Monthly EMI and Interest | WealthCompare</title>
 
 <!-- AdSense Auto Ads -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
@@ -128,21 +132,21 @@ button {
             <div class="input-group">
                 <label>Loan Amount (₹)</label>
                 <small>Principal amount you borrow.</small>
-                <input id="loanAmount" value="2000000">
+                <input id="loanAmount" type="number" min="0" step="1000" value="2000000">
             </div>
             <div class="input-group">
                 <label>Interest Rate (% per year)</label>
                 <small>Annual interest rate.</small>
-                <input id="interestRate" value="8.5">
+                <input id="interestRate" type="number" min="0" step="0.01" value="8.5">
             </div>
             <div class="input-group">
                 <label>Tenure (years)</label>
                 <small>Loan duration in years.</small>
-                <input id="tenureYears" value="20">
+                <input id="tenureYears" type="number" min="1" step="1" value="20">
             </div>
         </div>
 
-        <button onclick="calculateEMI()">Calculate EMI</button>
+        <button type="button" onclick="calculateEMI()">Calculate EMI</button>
 
         <!-- Placement 1: Below Calculate Button -->
         <div style="margin:20px 0;">
@@ -152,7 +156,6 @@ button {
                  data-ad-slot="200000001"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
 
@@ -172,7 +175,6 @@ button {
              data-ad-slot="200000004"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
 </div>
@@ -191,8 +193,10 @@ function calculateEMI() {
     let tenureMonths = tenureYears * 12;
 
     // EMI formula
-    let emi = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths) /
-              (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+        let emi = monthlyRate === 0
+                ? loanAmount / tenureMonths
+                : loanAmount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths) /
+                    (Math.pow(1 + monthlyRate, tenureMonths) - 1);
 
     let totalPayment = emi * tenureMonths;
     let totalInterest = totalPayment - loanAmount;
@@ -215,7 +219,6 @@ function calculateEMI() {
                  data-ad-format="fluid"
                  data-ad-layout="in-article"
                  data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <hr>
@@ -231,7 +234,7 @@ function calculateEMI() {
         <p><b>EMI (Equated Monthly Instalment)</b> is the fixed amount you pay every month to repay your loan.</p>
         <p>It includes both <b>interest</b> and <b>principal</b>. In the early years, most of your EMI goes towards interest; later, more goes towards principal.</p>
         <p><b>Total Interest</b> shows how much extra you pay over the loan amount because of interest.</p>
-        <p><bTotal Amount Payable</b> is the sum of your loan amount and total interest — the actual rupee outflow over the full tenure.</p>
+        <p><b>Total Amount Payable</b> is the sum of your loan amount and total interest — the actual rupee outflow over the full tenure.</p>
 
         <!-- Placement 3: Inside Explanation -->
         <div style="margin:20px 0;">
@@ -242,7 +245,6 @@ function calculateEMI() {
                  data-ad-format="fluid"
                  data-ad-layout="in-article"
                  data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
 
         <h3>💡 Tips</h3>
@@ -250,6 +252,8 @@ function calculateEMI() {
         <p>Use this EMI as a base to compare different banks, offers, and prepayment strategies.</p>
     `;
 }
+
+calculateEMI();
 </script>
 
 </body>

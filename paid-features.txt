@@ -1,4 +1,79 @@
-PAID FEATURES – WEALTHCOMPARE PREMIUM
+WEALTHCOMPARE PREMIUM ROADMAP
+=============================
+
+Purpose
+-------
+Premium features should help users model realistic assumptions, compare scenarios,
+and export decisions they can discuss with a lender or adviser. Keep the free tools
+useful; premium should add depth, saved work, and convenience rather than hide the
+basic calculation.
+
+Audience
+--------
+Indian home buyers, borrowers, SIP investors, and financially curious households.
+Currency: INR. Use plain language, clear assumptions, and an educational disclaimer.
+
+Prioritised feature backlog
+---------------------------
+P0 - Advanced Tax Engine
+  - Change LTCG tax rate, add STCG logic, indexation, and slab-based simulation
+
+P0 - Year-by-Year Wealth Table
+  - Property and SIP value, inflation-adjusted values, and Excel/PDF download
+
+P0 - Loan Prepayment Simulator
+  - Part/full prepayment events and EMI reduction versus tenure reduction
+
+P0 - Rent vs Buy Calculator
+  - Rent savings, rental yield, and opportunity cost of the down payment
+
+P1 - Multi-Scenario Comparison
+  - Compare 3-5 scenarios side by side and save scenarios for later
+
+P1 - Custom Inflation Curve
+  - Different inflation rates for each year
+
+P1 - Custom SIP Return Curve
+  - Different annual returns with bear and bull market simulations
+
+P1 - Property Expense Engine
+  - Society charges, repairs, insurance, and property tax
+
+P1 - Export Reports
+  - PDF export, shareable link, and email report
+
+P2 - Priority Support
+  - Faster updates and custom tool requests
+
+Suggested release order
+-----------------------
+1. Tax engine and year-by-year table: highest value for transparency and trust.
+2. Prepayment and rent-vs-buy: strongest decision workflows for home buyers.
+3. Scenario saving, custom curves, and property expenses: deeper modelling.
+4. Export reports and support: convenience and retention layer.
+
+Product rules
+-------------
+- Show every assumption beside the result and provide a reset-to-default action.
+- Never present projections as guaranteed returns or personalised financial advice.
+- Validate numeric ranges and explain invalid inputs inline.
+- Keep calculations reproducible: record inputs, formula version, and tax year.
+- Avoid collecting sensitive financial information unless strictly necessary.
+- Give users a clear upgrade value before payment; do not interrupt calculation flow.
+
+SEO and content notes
+---------------------
+- Use one descriptive H1 per tool and a unique title/meta description.
+- Link related tools contextually: EMI -> Loan vs SIP -> Prepayment.
+- Publish educational pages around EMI, SIP, inflation, tax, and rent vs buy.
+- Add a visible last-updated date when tax rules or assumptions change.
+
+Implementation notes
+--------------------
+- Current site is static HTML and can be deployed to Cloudflare Pages.
+- Premium can begin as client-side export/scenario functionality, then move to a
+  backend only when accounts, payments, or saved links are required.
+- Replace placeholder AdSense publisher and slot IDs before production launch.PAID FEATURES – WEALTHCOMPARE PREMIUM
 
 1. Advanced Tax Engine
    - Change LTCG tax rate
