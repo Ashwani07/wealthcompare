@@ -1,0 +1,50 @@
+PAID FEATURES – WEALTHCOMPARE PREMIUM
+
+1. Advanced Tax Engine
+   - Change LTCG tax rate
+   - Add STCG logic
+   - Add indexation benefits
+   - Add slab-based tax simulation
+
+2. Year-by-Year Wealth Table
+   - Property value each year
+   - SIP value each year
+   - Inflation-adjusted values
+   - Download as Excel/PDF
+
+3. Prepayment Simulator
+   - Add part-prepayment events
+   - Add full-prepayment scenarios
+   - Compare EMI reduction vs tenure reduction
+
+4. Rent vs Buy Calculator
+   - Add rent savings
+   - Add rental yield
+   - Add opportunity cost of down payment
+
+5. Multi-Scenario Comparison
+   - Compare 3–5 scenarios side-by-side
+   - Save scenarios for later
+
+6. Custom Inflation Curve
+   - Different inflation rates per year
+   - Realistic long-term modeling
+
+7. Custom SIP Return Curve
+   - Different returns per year
+   - Bear/bull market simulation
+
+8. Property Expense Engine
+   - Society charges
+   - Repairs
+   - Insurance
+   - Property tax
+
+9. Export Reports
+   - PDF export
+   - Shareable link
+   - Email report
+
+10. Priority Support
+    - Faster updates
+    - Custom tool requests

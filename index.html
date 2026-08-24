@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WealthCompare | Smart Financial Tools & Calculators</title>
+
+<!-- AdSense Auto Ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at top, #4f46e5 0, #e3f2fd 40%, #f3e5f5 100%);
+    color: #111827;
+}
+a { text-decoration: none; color: inherit; }
+
+.header {
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    font-weight: 700;
+    font-size: 20px;
+    color: #111827;
+}
+.nav-links a {
+    margin-left: 16px;
+    font-size: 14px;
+    color: #374151;
+}
+
+.hero {
+    padding: 30px 20px 10px;
+    text-align: center;
+    color: white;
+}
+.hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.95), rgba(59,130,246,0.95));
+    padding: 26px 20px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 28px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+.hero-cta {
+    margin-top: 14px;
+}
+.hero-cta a {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: white;
+    color: #4f46e5;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 20px auto 40px;
+    padding: 0 16px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #111827;
+}
+
+.card {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* Tools grid */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+}
+.tool-tile {
+    border-radius: 16px;
+    padding: 14px 14px 16px;
+    background: linear-gradient(135deg, #ffffff, #eef2ff);
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.tool-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.tool-icon {
+    font-size: 22px;
+    margin-bottom: 6px;
+}
+.tool-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+.tool-desc {
+    font-size: 13px;
+    color: #4b5563;
+    margin-bottom: 10px;
+}
+.tool-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4f46e5;
+}
+
+/* Insights */
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+}
+.insight-card {
+    border-radius: 16px;
+    padding: 14px 14px 16px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+.insight-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+.insight-text {
+    font-size: 13px;
+    color: #4b5563;
+}
+
+/* Footer */
+.footer {
+    padding: 18px 20px 26px;
+    font-size: 12px;
+    color: #6b7280;
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .hero-inner { padding: 20px 16px; border-radius: 20px; }
+    .hero h1 { font-size: 22px; }
+    .hero p { font-size: 13px; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">WealthCompare</div>
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="#tools">Tools</a>
+        <a href="#insights">Insights</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>Compare smarter. Decide better.</h1>
+        <p>WealthCompare helps you make better money decisions with transparent, inflation-aware financial calculators.</p>
+        <p>Understand loans, SIPs, property, and taxes in real purchasing power — not just big nominal numbers.</p>
+        <div class="hero-cta">
+            <a href="#tools">Explore Tools & Calculators</a>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+
+    <!-- AdSense: Below Hero -->
+    <div style="margin:20px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="300000001"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Tools Section -->
+    <section id="tools" class="card">
+        <div class="section-title">Tools & Calculators</div>
+        <p style="font-size:13px;color:#4b5563;margin-bottom:14px;">
+            Start with these high-impact calculators. Each tool is built to be transparent, inflation-aware, and easy to understand.
+        </p>
+
+        <div class="tools-grid">
+            <a class="tool-tile" href="/tools/loan-vs-sip/">
+                <div>
+                    <div class="tool-icon">🏠📈</div>
+                    <div class="tool-title">Loan vs SIP Wealth Comparison</div>
+                    <div class="tool-desc">
+                        Compare buying property with a home loan vs investing the same EMI into a SIP, in real terms.
+                    </div>
+                </div>
+                <div class="tool-link">Open calculator →</div>
+            </a>
+
+            <a class="tool-tile" href="/tools/emi-calculator/">
+                <div>
+                    <div class="tool-icon">📊</div>
+                    <div class="tool-title">EMI Calculator</div>
+                    <div class="tool-desc">
+                        Calculate your monthly EMI, total interest, and total payment for any loan — home, car, or personal.
+                    </div>
+                </div>
+                <div class="tool-link">Open calculator →</div>
+            </a>
+
+            <a class="tool-tile" href="/tools/rent-vs-buy/">
+                <div>
+                    <div class="tool-icon">🏡</div>
+                    <div class="tool-title">Rent vs Buy (Coming Soon)</div>
+                    <div class="tool-desc">
+                        Compare long-term wealth impact of renting vs buying a home, with inflation and opportunity cost.
+                    </div>
+                </div>
+                <div class="tool-link">Coming soon</div>
+            </a>
+
+            <a class="tool-tile" href="/tools/sip-vs-fd/">
+                <div>
+                    <div class="tool-icon">📈💰</div>
+                    <div class="tool-title">SIP vs FD (Coming Soon)</div>
+                    <div class="tool-desc">
+                        See how SIPs compare to fixed deposits over time, after tax and inflation.
+                    </div>
+                </div>
+                <div class="tool-link">Coming soon</div>
+            </a>
+
+            <a class="tool-tile" href="/tools/prepayment-simulator/">
+                <div>
+                    <div class="tool-icon">🔁</div>
+                    <div class="tool-title">Loan Prepayment Simulator (Planned)</div>
+                    <div class="tool-desc">
+                        Model how part-prepayments change your EMI, tenure, and total interest outgo.
+                    </div>
+                </div>
+                <div class="tool-link">Planned</div>
+            </a>
+
+            <a class="tool-tile" href="/tools/tax-optimizer/">
+                <div>
+                    <div class="tool-icon">💸</div>
+                    <div class="tool-title">Tax & LTCG Optimizer (Planned)</div>
+                    <div class="tool-desc">
+                        Explore how long-term capital gains tax and holding periods affect your real returns.
+                    </div>
+                </div>
+                <div class="tool-link">Planned</div>
+            </a>
+        </div>
+
+        <!-- AdSense: Between tool tiles and next section -->
+        <div style="margin:20px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="300000002"
+                 data-ad-format="fluid"
+                 data-ad-layout="in-article"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </section>
+
+    <!-- Insights Section -->
+    <section id="insights" class="card">
+        <div class="section-title">Insights & Philosophy</div>
+        <div class="insights-grid">
+            <div class="insight-card">
+                <div class="insight-title">Nominal vs Real Wealth</div>
+                <div class="insight-text">
+                    Big future numbers can be misleading. WealthCompare focuses on inflation-adjusted values, so you see what your money is truly worth in today's terms.
+                </div>
+            </div>
+            <div class="insight-card">
+                <div class="insight-title">Loan vs SIP: The Hidden Trade-offs</div>
+                <div class="insight-text">
+                    A home loan builds an asset but comes with interest and maintenance. A SIP compounds quietly. Our tools show both paths side by side, transparently.
+                </div>
+            </div>
+            <div class="insight-card">
+                <div class="insight-title">Why Clarity Beats Guesswork</div>
+                <div class="insight-text">
+                    Instead of rules of thumb, we use math, inflation, and tax assumptions to show you the actual impact of your decisions over decades.
+                </div>
+            </div>
+        </div>
+
+        <!-- AdSense: Bottom of insights -->
+        <div style="margin:20px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="300000003"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </section>
+
+</div>
+
+<footer class="footer">
+    <div>© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This site is for educational comparison only. Always verify numbers with your bank, advisor, or official documents.
+    </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

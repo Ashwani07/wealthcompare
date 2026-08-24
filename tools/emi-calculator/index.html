@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EMI Calculator | WealthCompare</title>
+
+<!-- AdSense Auto Ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at top, #4f46e5 0, #e3f2fd 40%, #f3e5f5 100%);
+    color: #111827;
+}
+.hero {
+    padding: 30px 20px 40px;
+    text-align: center;
+    color: white;
+}
+.hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 24px 18px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+
+.container {
+    max-width: 1100px;
+    margin: 20px auto 40px;
+    padding: 0 16px;
+}
+.card {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+.inputs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    margin-top: 10px;
+}
+.input-group {
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+}
+.input-group label { margin-bottom: 4px; color: #4b5563; font-size: 13px; }
+.input-group small { color: #6b7280; font-size: 11px; }
+.input-group input {
+    padding: 9px 10px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    width: 100%;
+}
+button {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #3b82f6, #4f46e5);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 16px;
+    width: 100%;
+    max-width: 240px;
+}
+.results-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.results-column {
+    flex: 1 1 280px;
+}
+.result-number {
+    font-size: 20px;
+    font-weight: 700;
+    color: #4f46e5;
+}
+@media (max-width: 767px) {
+    .hero-inner { padding: 18px 14px; border-radius: 20px; }
+    .hero h1 { font-size: 22px; }
+    .hero p { font-size: 13px; }
+    .card { padding: 16px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="hero-inner">
+        <h1>EMI Calculator</h1>
+        <p>Quickly calculate your monthly EMI, total interest, and total payment for any loan.</p>
+        <p>Works for home loans, car loans, personal loans, and more.</p>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- Input Card -->
+    <div class="card">
+        <h2 style="background:linear-gradient(135deg,#4f46e5,#3b82f6);color:white;padding:10px;border-radius:10px;">
+            📥 Enter Loan Details
+        </h2>
+
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label>Loan Amount (₹)</label>
+                <small>Principal amount you borrow.</small>
+                <input id="loanAmount" value="2000000">
+            </div>
+            <div class="input-group">
+                <label>Interest Rate (% per year)</label>
+                <small>Annual interest rate.</small>
+                <input id="interestRate" value="8.5">
+            </div>
+            <div class="input-group">
+                <label>Tenure (years)</label>
+                <small>Loan duration in years.</small>
+                <input id="tenureYears" value="20">
+            </div>
+        </div>
+
+        <button onclick="calculateEMI()">Calculate EMI</button>
+
+        <!-- Placement 1: Below Calculate Button -->
+        <div style="margin:20px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="200000001"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Results + Explanation -->
+    <div class="card">
+        <div class="results-layout">
+            <div id="results" class="results-column"></div>
+            <div id="analysis" class="results-column"></div>
+        </div>
+    </div>
+
+    <!-- Placement 4: Below Results Card (acts like below chart for this tool) -->
+    <div style="margin:20px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="200000004"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+</div>
+
+<script>
+function formatINR(x) {
+    return Number(x.toFixed(2)).toLocaleString('en-IN');
+}
+
+function calculateEMI() {
+    let loanAmount = +document.getElementById("loanAmount").value;
+    let interestRate = +document.getElementById("interestRate").value;
+    let tenureYears = +document.getElementById("tenureYears").value;
+
+    let monthlyRate = interestRate / 1200;
+    let tenureMonths = tenureYears * 12;
+
+    // EMI formula
+    let emi = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths) /
+              (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+
+    let totalPayment = emi * tenureMonths;
+    let totalInterest = totalPayment - loanAmount;
+
+    document.getElementById("results").innerHTML = `
+        <h3>📊 EMI Summary</h3>
+        <p><b>Monthly EMI:</b><br>
+           <span class="result-number">₹${formatINR(emi)}</span></p>
+        <p><b>Total Interest Payable:</b><br>
+           ₹${formatINR(totalInterest)}</p>
+        <p><b>Total Amount Payable (Principal + Interest):</b><br>
+           ₹${formatINR(totalPayment)}</p>
+
+        <!-- Placement 2: Between EMI Summary & Extra Info -->
+        <div style="margin:20px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="200000002"
+                 data-ad-format="fluid"
+                 data-ad-layout="in-article"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <hr>
+
+        <h3>📌 Loan Details</h3>
+        <p><b>Loan Amount:</b><br>₹${formatINR(loanAmount)}</p>
+        <p><b>Interest Rate:</b><br>${interestRate.toFixed(2)}% per year</p>
+        <p><b>Tenure:</b><br>${tenureYears} years (${tenureMonths} months)</p>
+    `;
+
+    document.getElementById("analysis").innerHTML = `
+        <h3>⚖️ Understanding Your EMI</h3>
+        <p><b>EMI (Equated Monthly Instalment)</b> is the fixed amount you pay every month to repay your loan.</p>
+        <p>It includes both <b>interest</b> and <b>principal</b>. In the early years, most of your EMI goes towards interest; later, more goes towards principal.</p>
+        <p><b>Total Interest</b> shows how much extra you pay over the loan amount because of interest.</p>
+        <p><bTotal Amount Payable</b> is the sum of your loan amount and total interest — the actual rupee outflow over the full tenure.</p>
+
+        <!-- Placement 3: Inside Explanation -->
+        <div style="margin:20px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="200000003"
+                 data-ad-format="fluid"
+                 data-ad-layout="in-article"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <h3>💡 Tips</h3>
+        <p>Reducing tenure or interest rate can significantly lower your total interest cost.</p>
+        <p>Use this EMI as a base to compare different banks, offers, and prepayment strategies.</p>
+    `;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Loan vs SIP Wealth Comparison | WealthCompare</title>
+
+<!-- Auto Ads (Anchor + Vignette + In‑page) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+/* (CSS unchanged — same as previous version) */
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at top, #4f46e5 0, #e3f2fd 40%, #f3e5f5 100%);
+    color: #111827;
+}
+.hero { padding: 30px 20px 40px; text-align: center; color: white; }
+.hero-inner {
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 24px 18px; border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
+.card {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 18px; margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
+.input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+button {
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5);
+    color: white; border: none; border-radius: 12px; font-size: 15px;
+    cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px;
+}
+.results-layout { display: flex; flex-wrap: wrap; gap: 16px; }
+.results-column { flex: 1 1 280px; }
+.chart-container {
+    background: rgba(255,255,255,0.95); padding: 16px; border-radius: 18px;
+    margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="hero-inner">
+        <h1>Loan vs SIP Wealth Comparison</h1>
+        <p>This calculator compares two long-term wealth paths:</p>
+        <ul>
+            <li><b>Buying a property</b> using a home loan (with part payment).</li>
+            <li><b>Investing the same EMI</b> into a monthly SIP.</li>
+        </ul>
+        <p>We show both nominal values and inflation-adjusted values.</p>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- Input Card -->
+    <div class="card">
+        <h2 style="background:linear-gradient(135deg,#4f46e5,#3b82f6);color:white;padding:10px;border-radius:10px;">
+            📥 Enter Your Details
+        </h2>
+
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label>Property Price (₹)</label>
+                <input id="propertyPrice" value="10000000">
+            </div>
+            <div class="input-group">
+                <label>Loan Amount (₹)</label>
+                <input id="loanAmount" value="8000000">
+            </div>
+            <div class="input-group">
+                <label>Loan Interest (% per year)</label>
+                <input id="interest" value="8">
+            </div>
+            <div class="input-group">
+                <label>Tenure (years)</label>
+                <input id="tenure" value="20">
+            </div>
+            <div class="input-group">
+                <label>Maintenance (% per year)</label>
+                <input id="maint" value="1">
+            </div>
+            <div class="input-group">
+                <label>Property Appreciation (% per year)</label>
+                <input id="app" value="5">
+            </div>
+            <div class="input-group">
+                <label>Inflation (% per year)</label>
+                <input id="infl" value="6">
+            </div>
+            <div class="input-group">
+                <label>SIP Return (% per year)</label>
+                <input id="sip" value="12">
+            </div>
+        </div>
+
+        <button onclick="calculate()">Calculate</button>
+
+        <!-- ⭐ Placement 1: Below Calculate Button -->
+        <div style="margin:20px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="100000001"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+    </div>
+
+    <!-- Results + Analysis -->
+    <div class="card">
+        <div class="results-layout">
+            <div id="results" class="results-column"></div>
+            <div id="analysis" class="results-column"></div>
+        </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-container">
+        <canvas id="wealthChart"></canvas>
+    </div>
+
+    <!-- ⭐ Placement 4: Below Chart -->
+    <div style="margin:20px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="100000004"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+</div>
+
+<script>
+let chart;
+
+function formatINR(x) {
+    return Number(x.toFixed(2)).toLocaleString('en-IN');
+}
+
+function calculate() {
+    let propertyPrice = +document.getElementById("propertyPrice").value;
+    let loanAmount = +document.getElementById("loanAmount").value;
+    let interest = +document.getElementById("interest").value / 1200;
+    let tenureYears = +document.getElementById("tenure").value;
+    let tenure = tenureYears * 12;
+    let maint = +document.getElementById("maint").value / 100;
+    let app = +document.getElementById("app").value / 100;
+    let infl = +document.getElementById("infl").value / 100;
+    let sip = +document.getElementById("sip").value / 1200;
+
+    // EMI
+    let emi = loanAmount * interest * Math.pow(1 + interest, tenure) / (Math.pow(1 + interest, tenure) - 1);
+
+    // Loan interest
+    let totalInterest = (emi * tenure) - loanAmount;
+
+    // Maintenance
+    let maintenance = propertyPrice * maint * tenureYears;
+
+    // Property future value
+    let futureValue = propertyPrice * Math.pow(1 + app, tenureYears);
+    let realProperty = futureValue / Math.pow(1 + infl, tenureYears);
+    let netProperty = realProperty - (totalInterest + maintenance);
+
+    // SIP future value
+    let fv = emi * ((Math.pow(1 + sip, tenure) - 1) / sip);
+    let sipInvested = emi * tenure;
+
+    // LTCG tax
+    let taxBase = fv - 100000;
+    let tax = taxBase > 0 ? 0.125 * taxBase : 0;
+
+    let fvAfterTax = fv - tax;
+    let realSIP = fvAfterTax / Math.pow(1 + infl, tenureYears);
+
+    let sipGainNominal = fvAfterTax - sipInvested;
+    let sipGainReal = realSIP - sipInvested;
+
+    let diffRealWealth = realSIP - netProperty;
+
+    // RESULTS SECTION
+    document.getElementById("results").innerHTML = `
+        <h3>🏠 Property Summary</h3>
+        <p><b>Property Price:</b><br>₹${formatINR(propertyPrice)}</p>
+        <p><b>Loan Amount:</b><br>₹${formatINR(loanAmount)}</p>
+        <p><b>Your Down Payment:</b><br>₹${formatINR(propertyPrice - loanAmount)}</p>
+        <p><b>Total Interest Paid:</b><br>₹${formatINR(totalInterest)}</p>
+        <p><b>Total Maintenance Cost:</b><br>₹${formatINR(maintenance)}</p>
+        <p><b>Property Future Value (Nominal):</b><br>
+           ₹${formatINR(futureValue)}<br>
+           <small>Estimated market value after ${tenureYears} years, before inflation.</small>
+        </p>
+        <p><b>Inflation-Adjusted Property Value (Real):</b><br>
+           ₹${formatINR(realProperty)}</p>
+        <p><b>Net Property Gain (Real):</b><br>
+           ₹${formatINR(netProperty)}</p>
+
+        <!-- ⭐ Placement 2: Between Property & SIP Summary -->
+        <div style="margin:20px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="100000002"
+                 data-ad-format="fluid"
+                 data-ad-layout="in-article"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <hr>
+
+        <h3>📈 SIP Summary</h3>
+        <p><b>Total SIP Amount Invested:</b><br>₹${formatINR(sipInvested)}</p>
+        <p><b>SIP Future Value (Nominal):</b><br>
+           ₹${formatINR(fv)}<br>
+           <small>Total SIP corpus after ${tenureYears} years, before tax and inflation.</small>
+        </p>
+        <p><b>LTCG Tax (12.5%):</b><br>
+           ₹${formatINR(tax)}</p>
+        <p><b>SIP Value After Tax (Nominal):</b><br>
+           ₹${formatINR(fvAfterTax)}</p>
+        <p><b>Inflation-Adjusted SIP Value (Real):</b><br>
+           ₹${formatINR(realSIP)}</p>
+        <p><b>SIP Gain (Nominal, after tax):</b><br>
+           ₹${formatINR(sipGainNominal)}</p>
+        <p><b>SIP Gain (Real, after tax):</b><br>
+           ₹${formatINR(sipGainReal)}</p>
+    `;
+
+    // ANALYSIS SECTION
+    document.getElementById("analysis").innerHTML = `
+        <h3>⚖️ Real Wealth Comparison</h3>
+        <p><b>Property Real Value (Net):</b><br>₹${formatINR(netProperty)}</p>
+        <p><b>SIP Real Value (After Tax):</b><br>₹${formatINR(realSIP)}</p>
+        <p><b>Difference (SIP − Property, Real Wealth):</b><br>
+           ₹${formatINR(diffRealWealth)}</p>
+
+        <!-- ⭐ Placement 3: Inside Real Wealth Comparison -->
+        <div style="margin:20px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="100000003"
+                 data-ad-format="fluid"
+                 data-ad-layout="in-article"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <h3>💡 Understanding Your Results</h3>
+        <p><b>Nominal values</b> are actual rupee amounts in the future.</p>
+        <p><b>Real values</b> are inflation-adjusted, showing what that future money is worth in today's purchasing power.</p>
+        <p><b>SIP Gain (Real)</b> compares your SIP corpus (after tax & inflation) against what you invested.</p>
+        <p><b>Real Wealth Difference</b> compares SIP vs Property in today's money — this is the correct comparison.</p>
+        <p>It is normal for SIP Gain (Real) to be negative if inflation is high, but SIP can still beat property if its real value is higher.</p>
+    `;
+
+    // Chart Data
+    let years = [];
+    let propertyValues = [];
+    let sipValues = [];
+
+    for (let y = 1; y <= tenureYears; y++) {
+        years.push("Year " + y);
+
+        let propVal = propertyPrice * Math.pow(1 + app, y);
+        propertyValues.push(propVal);
+
+        let months = y * 12;
+        let sipVal = emi * ((Math.pow(1 + sip, months) - 1) / sip);
+        sipValues.push(sipVal);
+    }
+
+    if (chart) chart.destroy();
+
+    chart = new Chart(document.getElementById("wealthChart"), {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: [
+                {
+                    label: "Property Value (Nominal)",
+                    data: propertyValues,
+                    borderColor: "#4f46e5",
+                    backgroundColor: "rgba(79,70,229,0.08)",
+                    borderWidth: 3,
+                    tension: 0.3
+                },
+                {
+                    label: "SIP Value (Nominal)",
+                    data: sipValues,
+                    borderColor: "#10b981",
+                    backgroundColor: "rgba(16,185,129,0.08)",
+                    borderWidth: 3,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: { responsive: true }
+    });
+}
+</script>
+
+</body>
+</html>

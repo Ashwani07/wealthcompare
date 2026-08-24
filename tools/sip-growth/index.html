@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SIP Growth Projection Tool | WealthCompare</title>
+
+<!-- AdSense Auto Ads -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at top, #4f46e5 0, #e3f2fd 40%, #f3e5f5 100%);
+    color: #111827;
+}
+a { text-decoration: none; color: inherit; }
+
+.header {
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo a {
+    font-weight: 700;
+    font-size: 20px;
+    color: #111827;
+}
+.nav-links a {
+    margin-left: 16px;
+    font-size: 14px;
+    color: #374151;
+}
+
+.hero {
+    padding: 30px 20px 10px;
+    text-align: center;
+    color: white;
+}
+.hero-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.95), rgba(59,130,246,0.95));
+    padding: 24px 18px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+
+.container {
+    max-width: 1100px;
+    margin: 20px auto 40px;
+    padding: 0 16px;
+}
+.card {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.inputs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    margin-top: 10px;
+}
+.input-group {
+    flex: 1 1 220px;
+    display: flex;
+    flex-direction: column;
+}
+.input-group label { margin-bottom: 4px; color: #4b5563; font-size: 13px; }
+.input-group small { color: #6b7280; font-size: 11px; }
+.input-group input {
+    padding: 9px 10px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    width: 100%;
+}
+button {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #3b82f6, #4f46e5);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 16px;
+    width: 100%;
+    max-width: 240px;
+}
+.results-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.results-column {
+    flex: 1 1 280px;
+}
+.result-number {
+    font-size: 20px;
+    font-weight: 700;
+    color: #4f46e5;
+}
+.chart-container {
+    background: rgba(255,255,255,0.95);
+    padding: 16px;
+    border-radius: 18px;
+    margin-top: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.chart-container canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+.table-container {
+    max-height: 260px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+th, td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: right;
+}
+th:first-child, td:first-child {
+    text-align: left;
+}
+th {
+    background: #f3f4f6;
+    font-weight: 600;
+}
+.footer {
+    padding: 18px 20px 26px;
+    font-size: 12px;
+    color: #6b7280;
+    text-align: center;
+}
+@media (max-width: 767px) {
+    .hero-inner { padding: 18px 14px; border-radius: 20px; }
+    .hero h1 { font-size: 22px; }
+    .hero p { font-size: 13px; }
+    .card { padding: 16px; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo"><a href="/">WealthCompare</a></div>
+    <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>SIP Growth Projection Tool</h1>
+        <p>See how your monthly SIP can grow over time — in both nominal rupees and inflation-adjusted real wealth.</p>
+        <p>Understand the true purchasing power of your future SIP corpus.</p>
+    </div>
+</section>
+
+<div class="container">
+
+    <!-- AdSense: Below Hero -->
+    <div style="margin:20px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="400000001"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <!-- Input Card -->
+    <div class="card">
+        <h2 style="background:linear-gradient(135deg,#4f46e5,#3b82f6);color:white;padding:10px;border-radius:10px;">
+            📥 Enter SIP Details
+        </h2>
+
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label>Monthly SIP Amount (₹)</label>
+                <small>Amount you invest every month.</small>
+                <input id="sipAmount" value="20000">
+            </div>
+            <div class="input-group">
+                <label>Expected Return (% per year)</label>
+                <small>Annualized return (e.g., 12 for equity SIP).</small>
+                <input id="returnRate" value="12">
+            </div>
+            <div class="input-group">
+                <label>Tenure (years)</label>
+                <small>How long you will invest.</small>
+                <input id="tenureYears" value="20">
+            </div>
+            <div class="input-group">
+                <label>Inflation (% per year)</label>
+                <small>Average inflation over the period.</small>
+                <input id="inflationRate" value="6">
+            </div>
+        </div>
+
+        <button onclick="calculateSIP()">Project SIP Growth</button>
+
+        <!-- Placement 1: Below Calculate Button -->
+        <div style="margin:20px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="400000002"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <!-- Results + Analysis -->
+    <div class="card">
+        <div class="results-layout">
+            <div id="results" class="results-column"></div>
+            <div id="analysis" class="results-column"></div>
+        </div>
+
+        <div class="table-container" id="projectionTable"></div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-container">
+        <canvas id="sipChart"></canvas>
+    </div>
+
+    <!-- Placement 4: Below Chart -->
+    <div style="margin:20px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="400000003"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div>© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. Actual returns will vary based on market conditions, fund choice, and tax rules.
+    </div>
+</footer>
+
+<script>
+let chart;
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+function formatINR(x) {
+    return Number(x.toFixed(2)).toLocaleString('en-IN');
+}
+
+function calculateSIP() {
+    let sipAmount = +document.getElementById("sipAmount").value;
+    let returnRate = +document.getElementById("returnRate").value;
+    let tenureYears = +document.getElementById("tenureYears").value;
+    let inflationRate = +document.getElementById("inflationRate").value;
+
+    let monthlyReturn = returnRate / 1200;
+    let monthlyInflation = inflationRate / 1200;
+    let tenureMonths = tenureYears * 12;
+
+    // Future value of SIP (nominal)
+    let fvNominal = sipAmount * ((Math.pow(1 + monthlyReturn, tenureMonths) - 1) / monthlyReturn);
+
+    // Total invested
+    let totalInvested = sipAmount * tenureMonths;
+
+    // Real value (inflation-adjusted)
+    let fvReal = fvNominal / Math.pow(1 + inflationRate / 100, tenureYears);
+
+    let gainNominal = fvNominal - totalInvested;
+    let gainReal = fvReal - totalInvested;
+
+    document.getElementById("results").innerHTML = `
+        <h3>📊 SIP Summary</h3>
+        <p><b>Total Invested:</b><br>₹${formatINR(totalInvested)}</p>
+        <p><b>Future Value (Nominal):</b><br>
+           <span class="result-number">₹${formatINR(fvNominal)}</span><br>
+           <small>Actual rupee value after ${tenureYears} years, before inflation.</small>
+        </p>
+        <p><b>Inflation-Adjusted Value (Real):</b><br>
+           <span class="result-number">₹${formatINR(fvReal)}</span><br>
+           <small>What your SIP corpus is worth in today's purchasing power.</small>
+        </p>
+        <p><b>Nominal Gain:</b><br>₹${formatINR(gainNominal)}</p>
+        <p><b>Real Gain:</b><br>₹${formatINR(gainReal)}</p>
+
+        <!-- Placement 2: Between summary & extra info -->
+        <div style="margin:20px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="400000004"
+                 data-ad-format="fluid"
+                 data-ad-layout="in-article"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <hr>
+
+        <h3>📌 SIP Inputs</h3>
+        <p><b>Monthly SIP:</b><br>₹${formatINR(sipAmount)}</p>
+        <p><b>Expected Return:</b><br>${returnRate.toFixed(2)}% per year</p>
+        <p><b>Tenure:</b><br>${tenureYears} years (${tenureMonths} months)</p>
+        <p><b>Inflation:</b><br>${inflationRate.toFixed(2)}% per year</p>
+    `;
+
+    document.getElementById("analysis").innerHTML = `
+        <h3>💡 Understanding Your SIP Growth</h3>
+        <p><b>Nominal value</b> is the actual rupee amount you see in your statement after ${tenureYears} years.</p>
+        <p><b>Real value</b> adjusts for inflation, showing what that future money is truly worth in today's terms.</p>
+        <p><b>Nominal gain</b> is future value minus total invested, without inflation.</p>
+        <p><b>Real gain</b> is inflation-adjusted value minus total invested — a better measure of real wealth creation.</p>
+
+        <!-- Placement 3: Inside explanation -->
+        <div style="margin:20px 0;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="400000005"
+                 data-ad-format="fluid"
+                 data-ad-layout="in-article"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <h3>🔍 Why this matters</h3>
+        <p>High nominal returns can look impressive, but inflation quietly erodes purchasing power. This tool helps you see beyond big numbers and focus on real wealth.</p>
+    `;
+
+    // Year-by-year projection
+    let rows = [];
+    let nominalValue = 0;
+
+    for (let year = 1; year <= tenureYears; year++) {
+        let months = year * 12;
+        nominalValue = sipAmount * ((Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn);
+        let investedTillNow = sipAmount * months;
+        let realValueYear = nominalValue / Math.pow(1 + inflationRate / 100, year);
+
+        rows.push({
+            year,
+            invested: investedTillNow,
+            nominal: nominalValue,
+            real: realValueYear
+        });
+    }
+
+    let tableHTML = `
+        <h3>📅 Year-by-Year Projection</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Invested (₹)</th>
+                    <th>Nominal Value (₹)</th>
+                    <th>Real Value (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows.map(r => `
+                    <tr>
+                        <td>${r.year}</td>
+                        <td>${formatINR(r.invested)}</td>
+                        <td>${formatINR(r.nominal)}</td>
+                        <td>${formatINR(r.real)}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+
+    document.getElementById("projectionTable").innerHTML = tableHTML;
+
+    // Chart
+    let labels = rows.map(r => "Year " + r.year);
+    let nominalSeries = rows.map(r => r.nominal);
+    let realSeries = rows.map(r => r.real);
+
+    if (chart) chart.destroy();
+
+    chart = new Chart(document.getElementById("sipChart"), {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Nominal SIP Value",
+                    data: nominalSeries,
+                    borderColor: "#4f46e5",
+                    backgroundColor: "rgba(79,70,229,0.08)",
+                    borderWidth: 3,
+                    tension: 0.3
+                },
+                {
+                    label: "Real SIP Value (Inflation-adjusted)",
+                    data: realSeries,
+                    borderColor: "#10b981",
+                    backgroundColor: "rgba(16,185,129,0.08)",
+                    borderWidth: 3,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: { responsive: true }
+    });
+}
+</script>
+
+</body>
+</html>
