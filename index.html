@@ -13,7 +13,7 @@
      crossorigin="anonymous"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/css/site.css" rel="stylesheet">
+<link href="/assets/css/site.css?v=2" rel="stylesheet">
 
 <style>
 * { box-sizing: border-box; }
@@ -184,6 +184,10 @@ a { text-decoration: none; color: inherit; }
     .hero-inner { padding: 20px 16px; border-radius: 20px; }
     .hero h1 { font-size: 22px; }
     .hero p { font-size: 13px; }
+}
+@media (max-width: 360px) {
+    .site-nav a:last-child { display: none; }
+    .site-nav { gap: 4px; }
 }
 </style>
 </head>
