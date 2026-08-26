@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="About WealthCompare — who builds it, how the calculators work, and how to get in touch.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/about/">
+<title>About & Contact | WealthCompare</title>
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="About & Contact | WealthCompare">
+<meta property="og:description" content="About WealthCompare — who builds it, how the calculators work, and how to get in touch.">
+<meta property="og:url" content="https://wealthcompare.in/about/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css?v=5" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About WealthCompare",
+  "url": "https://wealthcompare.in/about/",
+  "isPartOf": { "@type": "WebSite", "name": "WealthCompare", "url": "https://wealthcompare.in/" }
+}
+</script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
+}
+a { text-decoration: underline; color: var(--brand-teal); }
+.hero { padding: 30px 20px 10px; text-align: center; color: white; }
+.hero-inner {
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.95), rgba(59,130,246,0.95));
+    padding: 24px 20px; border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0; font-size: 26px; }
+.container { max-width: 760px; margin: 20px auto 40px; padding: 0 16px; }
+.card {
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+    padding: 24px; border-radius: 18px; margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    line-height: 1.6; font-size: 14px;
+}
+.card h2 { font-size: 17px; margin: 0 0 10px; color: var(--brand-ink); }
+.card p { margin: 0 0 12px; }
+.contact-box {
+    background: var(--surface-muted); border: 1px solid var(--border-subtle);
+    border-radius: 12px; padding: 14px 16px; margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <a class="brand" href="/" aria-label="WealthCompare home" style="text-decoration:none;">
+        <img src="/assets/logo.svg" alt="">
+        <span class="brand-name">Wealth<span>Compare</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a href="/" style="text-decoration:none;">Home</a>
+        <a href="/#tools" style="text-decoration:none;">Tools</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>About WealthCompare</h1>
+    </div>
+</section>
+
+<div class="container">
+    <div class="card">
+        <h2>Why this site exists</h2>
+        <p>Most loan and SIP calculators show you a big final number and stop there. WealthCompare exists to go one step further: showing what that number is actually worth after inflation and, where relevant, tax — so you're comparing real purchasing power, not just impressive-looking digits.</p>
+    </div>
+
+    <div class="card">
+        <h2>Who's behind it</h2>
+        <p>WealthCompare is built and maintained by <strong>Ashwani</strong>, an independent developer based in India. It's a small, independently run project — not a bank, a fund house, or a licensed advisory.</p>
+        <!-- TODO: replace/expand this with as much or as little as you're comfortable sharing publicly. -->
+    </div>
+
+    <div class="card">
+        <h2>How the calculators work</h2>
+        <p>Every assumption (inflation rate, expected return, tax rate) is a plain input you control — nothing is hidden inside the math. The methodology behind each tool, including known limitations, is documented alongside the results on each calculator page.</p>
+        <p>This site does not provide personalised financial advice. It's an educational tool to help you reason about trade-offs before you talk to your bank, a SEBI-registered investment adviser, or a chartered accountant.</p>
+    </div>
+
+    <div class="card">
+        <h2>Get in touch</h2>
+        <p>Questions, corrections, or a bug you've spotted in a calculation — all welcome.</p>
+        <div class="contact-box">
+            <!-- TODO: replace with your real contact address (e.g. via Cloudflare Email Routing) -->
+            Email: <a href="mailto:hello@wealthcompare.in">hello@wealthcompare.in</a>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

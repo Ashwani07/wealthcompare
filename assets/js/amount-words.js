@@ -1,6 +1,6 @@
 function numberToIndianWords(value) {
     const amount = Math.round(Number(value) || 0);
-    if (amount === 0) return "Zero rupees only";
+    if (amount === 0) return "Zero Only";
 
     const ones = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
     const tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
@@ -32,7 +32,10 @@ function numberToIndianWords(value) {
     if (thousand) words += underThousand(thousand) + " thousand ";
     if (remainder) words += underThousand(remainder);
 
-    return words.trim().replace(/\b\w/g, letter => letter.toUpperCase()) + " rupees only";
+    // "Only" is appended here, not "rupees only" — the caller decides whether
+    // the leading "Rupees" belongs, so the same function stays reusable for
+    // any currency-style prefix without producing a duplicated unit word.
+    return words.trim().replace(/\b\w/g, letter => letter.toUpperCase()) + " Only";
 }
 
 function bindAmountInWords(inputId, outputId) {

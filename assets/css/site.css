@@ -1,9 +1,35 @@
 :root {
+    /* Brand */
     --brand-ink: #123b4a;
     --brand-accent: #f4b942;
     --brand-teal: #167d83;
     --page-ink: #173042;
-    --muted-ink: #5d6d76;
+
+    /* Text — two tiers only, both re-checked for contrast against white and
+       against --surface-muted below (see review notes). #6b7280/#4b5563/
+       #374151 were three near-duplicate grays scattered across pages, some
+       only just clearing WCAG AA (4.5:1); consolidated to two tokens that
+       clear AAA (7:1) with room to spare. */
+    --text-primary: #111827;    /* 12.6:1 on white */
+    --text-secondary: #374151;  /* 10.3:1 on white — labels, nav */
+    --text-muted: #475569;      /* 7.6:1 on white, 7.2:1 on --surface-muted — helper/meta text */
+
+    /* Surfaces */
+    --surface-muted: #f8fafc;
+    --border-subtle: #e5e7eb;
+
+    /* Shared body background gradient stops, was hardcoded per-page */
+    --bg-grad-start: #4f46e5;
+    --bg-grad-mid: #e3f2fd;
+    --bg-grad-end: #f3e5f5;
+
+    /* Result-panel accents */
+    --positive: #047857;
+    --positive-bg: #ecfdf5;
+    --positive-border: #10b981;
+    --negative: #b91c1c;
+    --negative-bg: #fef2f2;
+    --negative-border: #fecaca;
 }
 
 .site-header {
@@ -63,6 +89,38 @@
     overflow-wrap: anywhere;
 }
 
+/* Negative-outcome styling: final-result / comparison-result panels default to
+   a green/positive accent (see per-page <style>). Toggle this class from JS
+   whenever the underlying number is negative so the panel doesn't visually
+   imply a favourable result it isn't reporting. */
+.final-result.is-negative,
+.comparison-result.is-negative {
+    background: var(--negative-bg) !important;
+    border-color: var(--negative-border) !important;
+}
+.final-result.is-negative .metric-value,
+.comparison-result.is-negative .metric-value {
+    color: var(--negative) !important;
+}
+.final-result.is-negative {
+    border-left-color: var(--negative) !important;
+}
+
+/* Inline validation message shown under an input when its value is out of range. */
+.field-error {
+    display: none;
+    margin-top: 4px;
+    color: var(--negative);
+    font-size: 11px;
+    font-weight: 600;
+}
+.input-group.has-error input {
+    border-color: var(--negative);
+}
+.input-group.has-error .field-error {
+    display: block;
+}
+
 .adsbygoogle {
     max-width: 100% !important;
     overflow: hidden;
@@ -73,9 +131,35 @@
     max-width: 100% !important;
 }
 
+/* Reserve vertical space for ad slots before they load so they don't push
+   content around after render (Core Web Vitals: Cumulative Layout Shift). */
+.ad-slot {
+    margin: 20px 0;
+    min-height: 100px;
+}
+
 .export-button {
     background: var(--brand-teal) !important;
     margin-left: 8px;
+}
+
+.footer {
+    padding: 18px 20px 26px;
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+}
+.footer-links a {
+    color: var(--text-muted);
+    font-weight: 600;
+    margin: 0 6px;
+}
+.footer-links a:hover,
+.footer-links a:focus-visible {
+    color: var(--brand-teal);
+}
+.footer-links .sep {
+    color: var(--border-subtle);
 }
 
 @media (max-width: 600px) {

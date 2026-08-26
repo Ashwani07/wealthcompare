@@ -8,20 +8,49 @@
 <link rel="canonical" href="https://wealthcompare.in/">
 <title>Free Financial Calculators for India | WealthCompare</title>
 
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="Free Financial Calculators for India | WealthCompare">
+<meta property="og:description" content="Free Indian financial calculators for EMI, SIP growth, and loan versus SIP comparisons with inflation-aware results.">
+<meta property="og:url" content="https://wealthcompare.in/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Financial Calculators for India | WealthCompare">
+<meta name="twitter:description" content="Free Indian financial calculators for EMI, SIP growth, and loan versus SIP comparisons with inflation-aware results.">
+<meta name="twitter:image" content="https://wealthcompare.in/assets/og-image.png">
+
 <!-- AdSense Auto Ads -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
      crossorigin="anonymous"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/css/site.css?v=2" rel="stylesheet">
+<link href="/assets/css/site.css?v=4" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "WealthCompare",
+  "url": "https://wealthcompare.in/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "description": "Free Indian financial calculators for EMI, SIP growth, and loan versus SIP comparisons with inflation-aware results.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  }
+}
+</script>
 
 <style>
 * { box-sizing: border-box; }
 body {
     margin: 0;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background: radial-gradient(circle at top, #4f46e5 0, #e3f2fd 40%, #f3e5f5 100%);
-    color: #111827;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
 }
 a { text-decoration: none; color: inherit; }
 
@@ -34,12 +63,12 @@ a { text-decoration: none; color: inherit; }
 .logo {
     font-weight: 700;
     font-size: 20px;
-    color: #111827;
+    color: var(--text-primary);
 }
 .nav-links a {
     margin-left: 16px;
     font-size: 14px;
-    color: #374151;
+    color: var(--text-secondary);
 }
 
 .hero {
@@ -55,7 +84,7 @@ a { text-decoration: none; color: inherit; }
     border-radius: 24px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
-.hero h1 { margin: 0 0 10px; font-size: 28px; }
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
 .hero p { margin: 0 0 8px; font-size: 14px; }
 .hero-cta {
     margin-top: 14px;
@@ -80,7 +109,7 @@ a { text-decoration: none; color: inherit; }
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 10px;
-    color: #111827;
+    color: var(--text-primary);
 }
 
 .card {
@@ -102,7 +131,7 @@ a { text-decoration: none; color: inherit; }
     border-radius: 16px;
     padding: 14px 14px 16px;
     background: linear-gradient(135deg, #ffffff, #eef2ff);
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -123,7 +152,7 @@ a { text-decoration: none; color: inherit; }
 }
 .tool-desc {
     font-size: 13px;
-    color: #4b5563;
+    color: var(--text-secondary);
     margin-bottom: 10px;
 }
 .tool-link {
@@ -150,7 +179,7 @@ a { text-decoration: none; color: inherit; }
     border-radius: 16px;
     padding: 14px 14px 16px;
     background: #ffffff;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-subtle);
 }
 .insight-title {
     font-weight: 600;
@@ -159,7 +188,7 @@ a { text-decoration: none; color: inherit; }
 }
 .insight-text {
     font-size: 13px;
-    color: #4b5563;
+    color: var(--text-secondary);
 }
 .article-status {
     display: inline-block;
@@ -168,21 +197,21 @@ a { text-decoration: none; color: inherit; }
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: #6b7280;
+    color: var(--text-muted);
 }
 
 /* Footer */
 .footer {
     padding: 18px 20px 26px;
     font-size: 12px;
-    color: #6b7280;
+    color: var(--text-muted);
     text-align: center;
 }
 
 /* Responsive */
 @media (max-width: 767px) {
     .hero-inner { padding: 20px 16px; border-radius: 20px; }
-    .hero h1 { font-size: 22px; }
+    .hero h1 { font-size: 20px; }
     .hero p { font-size: 13px; }
 }
 @media (max-width: 360px) {
@@ -208,11 +237,11 @@ a { text-decoration: none; color: inherit; }
 
 <section class="hero">
     <div class="hero-inner">
-        <h1>Compare smarter. Decide better.</h1>
+        <h1>Free Financial Calculators for India: EMI, SIP &amp; Loan vs SIP</h1>
         <p>WealthCompare helps you make better money decisions with transparent, inflation-aware financial calculators.</p>
         <p>Understand loans, SIPs, property, and taxes in real purchasing power — not just big nominal numbers.</p>
         <div class="hero-cta">
-            <a href="#tools">Explore Tools & Calculators</a>
+            <a href="#tools">Explore Tools &amp; Calculators</a>
         </div>
     </div>
 </section>
@@ -220,7 +249,7 @@ a { text-decoration: none; color: inherit; }
 <div class="container">
 
     <!-- AdSense: Below Hero -->
-    <div style="margin:20px 0;">
+    <div class="ad-slot">
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -233,7 +262,7 @@ a { text-decoration: none; color: inherit; }
     <!-- Tools Section -->
     <section id="tools" class="card">
         <div class="section-title">Tools & Calculators</div>
-        <p style="font-size:13px;color:#4b5563;margin-bottom:14px;">
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;">
             Start with these high-impact calculators. Each tool is built to be transparent, inflation-aware, and easy to understand.
         </p>
 
@@ -317,7 +346,7 @@ a { text-decoration: none; color: inherit; }
         </div>
 
         <!-- AdSense: Between tool tiles and next section -->
-        <div style="margin:20px 0;">
+        <div class="ad-slot">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -356,7 +385,7 @@ a { text-decoration: none; color: inherit; }
         </div>
 
         <!-- AdSense: Bottom of insights -->
-        <div style="margin:20px 0;">
+        <div class="ad-slot">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"

@@ -8,6 +8,59 @@ and export decisions they can discuss with a lender or adviser. Keep the free to
 useful; premium should add depth, saved work, and convenience rather than hide the
 basic calculation.
 
+Monetization roadmap: sequencing, not just features
+-----------------------------------------------------
+AdSense and paid features are not either/or — they monetize different things
+(attention vs. commitment) and most sites in this category run both at once.
+The real constraint right now is traffic, not model choice. Do not build
+payment infrastructure before Phase 2's trigger is met below.
+
+Phase 0 - Pre-launch (now)
+  - Ship free tools + AdSense as-is. No payment code yet.
+
+Phase 1 - Months 0-3, traffic acquisition
+  - All effort on SEO/content/discoverability. Keep AdSense running.
+  - Track: organic sessions/month, and repeat-visit rate (signals real
+    utility, not just a one-off search click).
+
+Phase 2 - Trigger: ~3,000-5,000 monthly sessions, or clear repeat usage
+  - Ship exactly ONE paid feature as an experiment: a one-time ₹99-149
+    unlock for "save & export this scenario as PDF" via a Razorpay payment
+    link. No accounts, no login, no subscription.
+  - Keep AdSense live for everyone, paid or not, at this stage.
+
+Phase 3 - Trigger: Phase 2 shows real conversions
+  - Only now consider lightweight accounts. Expand into the P1 backlog below
+    (multi-scenario comparison, custom curves). This is also the point where
+    "ad-free for paying users" becomes viable, since accounts exist to gate it.
+
+Phase 4 - Scale
+  - Reassess the ads-vs-paid revenue split with actual data. Reduce ad
+    density if paid revenue justifies it. Don't fully remove ads unless paid
+    clearly outperforms — ads are a hedge, not a phase to graduate out of by
+    decree.
+
+Free-tier baseline (as of this update)
+---------------------------------------
+Premium features build on top of this corrected baseline — read before scoping
+P0 items below, since some of them previously assumed the old (flawed) baseline:
+
+- LTCG is modeled at 12.5% above a ₹1,25,000 annual exemption, applied once at
+  redemption, on BOTH Loan vs SIP and SIP Growth (previously only Loan vs SIP
+  taxed the SIP leg, and used a stale ₹1,00,000 exemption).
+- Loan vs SIP nets real (inflation-adjusted) property value against interest and
+  maintenance that are amortized year-by-year and discounted to today's rupees —
+  not against raw nominal totals.
+- Loan vs SIP invests the down payment as a day-one lump sum in the SIP scenario,
+  in addition to the monthly SIP equal to the EMI, so both paths commit the same
+  total cash.
+- All three calculators validate inputs (amount > 0, tenure 1–40 years, rate caps)
+  and show an inline error instead of rendering NaN/Infinity.
+- Currency is displayed as whole rupees; CDN scripts (chart.js, xlsx) are pinned
+  to exact versions, not `@latest`.
+- Colors are pulled from shared CSS variables in `/assets/css/site.css`, not
+  hardcoded per page — see `calculator-ui-notes.md`.
+
 Audience
 --------
 Indian home buyers, borrowers, SIP investors, and financially curious households.
@@ -16,16 +69,23 @@ Currency: INR. Use plain language, clear assumptions, and an educational disclai
 Prioritised feature backlog
 ---------------------------
 P0 - Advanced Tax Engine
-  - Change LTCG tax rate, add STCG logic, indexation, and slab-based simulation
+  - Change LTCG tax rate and exemption away from the free-tier default (12.5% /
+    ₹1,25,000), add STCG logic, indexation, and slab-based simulation
 
 P0 - Year-by-Year Wealth Table
   - Property and SIP value, inflation-adjusted values, and Excel/PDF download
+  - Extend the existing year-by-year interest/maintenance discounting already
+    used internally by Loan vs SIP into a user-facing table, rather than
+    re-deriving it separately
 
 P0 - Loan Prepayment Simulator
   - Part/full prepayment events and EMI reduction versus tenure reduction
 
 P0 - Rent vs Buy Calculator
   - Rent savings, rental yield, and opportunity cost of the down payment
+  - Note: the free Loan vs SIP tool now already treats the down payment as an
+    opportunity cost (invested on the SIP side) — reuse that logic rather than
+    inventing a second down-payment treatment here
 
 P1 - Multi-Scenario Comparison
   - Compare 3-5 scenarios side by side and save scenarios for later
@@ -38,6 +98,9 @@ P1 - Custom SIP Return Curve
 
 P1 - Property Expense Engine
   - Society charges, repairs, insurance, and property tax
+  - Also add stamp duty, registration, and brokerage as one-time acquisition
+    costs — the free tool currently excludes these entirely, which understates
+    total property cost; flag this to users until the paid engine covers it
 
 P1 - Export Reports
   - PDF export, shareable link, and email report
@@ -47,6 +110,8 @@ P2 - Priority Support
 
 Suggested release order
 -----------------------
+This backlog is Phase 3+ work (see Monetization roadmap above) — do not start
+on it until Phase 2's one-feature experiment has shown real conversions.
 1. Tax engine and year-by-year table: highest value for transparency and trust.
 2. Prepayment and rent-vs-buy: strongest decision workflows for home buyers.
 3. Scenario saving, custom curves, and property expenses: deeper modelling.
@@ -56,7 +121,9 @@ Product rules
 -------------
 - Show every assumption beside the result and provide a reset-to-default action.
 - Never present projections as guaranteed returns or personalised financial advice.
-- Validate numeric ranges and explain invalid inputs inline.
+- Validate numeric ranges and explain invalid inputs inline (now implemented on
+  the free tier — see calculator-ui-notes.md; premium inputs must follow the
+  same pattern rather than reintroducing unvalidated fields).
 - Keep calculations reproducible: record inputs, formula version, and tax year.
 - Avoid collecting sensitive financial information unless strictly necessary.
 - Give users a clear upgrade value before payment; do not interrupt calculation flow.
@@ -67,16 +134,26 @@ SEO and content notes
 - Link related tools contextually: EMI -> Loan vs SIP -> Prepayment.
 - Publish educational pages around EMI, SIP, inflation, tax, and rent vs buy.
 - Add a visible last-updated date when tax rules or assumptions change.
+- Every page should carry Open Graph/Twitter meta tags and a `WebApplication`
+  JSON-LD block (now added to all four live pages) — carry this forward for
+  every new tool page.
 
 Implementation notes
 --------------------
-- Current site is static HTML and can be deployed to Cloudflare Pages.
+- Current site is static HTML, hosted on Cloudflare Pages at wealthcompare.in.
 - Premium can begin as client-side export/scenario functionality, then move to a
   backend only when accounts, payments, or saved links are required.
-- Replace placeholder AdSense publisher and slot IDs before production launch.PAID FEATURES – WEALTHCOMPARE PREMIUM
+- Replace placeholder AdSense publisher and slot IDs before production launch.
+- Ad containers use the shared `.ad-slot` class (reserves height to avoid
+  layout shift) — keep using it for any new ad placement rather than a bare
+  `<div style="margin:...">` wrapper.
+- Pin third-party CDN script versions (chart.js, xlsx) explicitly; don't
+  reintroduce an unpinned `@latest`-style URL.
+
+PAID FEATURES – WEALTHCOMPARE PREMIUM
 
 1. Advanced Tax Engine
-   - Change LTCG tax rate
+   - Change LTCG tax rate and exemption from the free-tier default
    - Add STCG logic
    - Add indexation benefits
    - Add slab-based tax simulation
@@ -95,7 +172,8 @@ Implementation notes
 4. Rent vs Buy Calculator
    - Add rent savings
    - Add rental yield
-   - Add opportunity cost of down payment
+   - Add opportunity cost of down payment (reuse the free tool's existing
+     down-payment-as-lump-sum logic)
 
 5. Multi-Scenario Comparison
    - Compare 3–5 scenarios side-by-side
@@ -114,6 +192,8 @@ Implementation notes
    - Repairs
    - Insurance
    - Property tax
+   - Stamp duty, registration, and brokerage (one-time, currently excluded
+     from the free calculator entirely)
 
 9. Export Reports
    - PDF export

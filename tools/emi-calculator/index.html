@@ -8,23 +8,44 @@
 <link rel="canonical" href="https://wealthcompare.in/tools/emi-calculator/">
 <title>EMI Calculator India: Monthly EMI and Interest | WealthCompare</title>
 
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="EMI Calculator India: Monthly EMI and Interest">
+<meta property="og:description" content="Calculate home loan, car loan, and personal loan EMI, total interest, and total repayment in Indian rupees.">
+<meta property="og:url" content="https://wealthcompare.in/tools/emi-calculator/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
 <!-- AdSense Auto Ads -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
      crossorigin="anonymous"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/css/site.css?v=2" rel="stylesheet">
+<link href="/assets/css/site.css?v=4" rel="stylesheet">
 <script src="/assets/js/amount-words.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="/assets/js/export-excel.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "EMI Calculator",
+  "url": "https://wealthcompare.in/tools/emi-calculator/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "isPartOf": { "@type": "WebSite", "name": "WealthCompare", "url": "https://wealthcompare.in/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
 
 <style>
 * { box-sizing: border-box; }
 body {
     margin: 0;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    background: radial-gradient(circle at top, #4f46e5 0, #e3f2fd 40%, #f3e5f5 100%);
-    color: #111827;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
 }
 .hero {
     padding: 30px 20px 40px;
@@ -71,8 +92,8 @@ body {
     display: flex;
     flex-direction: column;
 }
-.input-group label { margin-bottom: 4px; color: #4b5563; font-size: 13px; }
-.input-group small { color: #6b7280; font-size: 11px; }
+.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; }
+.input-group small { color: var(--text-muted); font-size: 11px; }
 .input-group input {
     padding: 9px 10px;
     border-radius: 10px;
@@ -80,7 +101,7 @@ body {
     font-size: 14px;
     width: 100%;
 }
-.amount-words { min-height: 28px; padding-top: 4px; color: #6b7280; font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 28px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
 button {
     padding: 12px 24px;
     background: linear-gradient(135deg, #3b82f6, #4f46e5);
@@ -93,6 +114,7 @@ button {
     width: 100%;
     max-width: 240px;
 }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
 .results-layout {
     display: flex;
     flex-wrap: wrap;
@@ -106,14 +128,15 @@ button {
     font-weight: 700;
     color: #4f46e5;
 }
-.result-section { padding: 16px; border: 1px solid #e5e7eb; border-radius: 14px; background: #fff; }
+.result-section { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 14px; background: #fff; }
 .metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.metric { padding: 10px 12px; border-radius: 10px; background: #f8fafc; }
-.metric-label { display: block; color: #6b7280; font-size: 11px; }
-.metric-value { display: block; margin-top: 3px; color: #111827; font-size: 14px; font-weight: 700; }
-.final-result { margin: 14px 0; padding: 14px; border-left: 4px solid #10b981; border-radius: 10px; background: #ecfdf5; }
-.final-result .metric-value { color: #047857; font-size: 22px; }
-.analysis-panel { padding: 16px; border-radius: 14px; background: #f8fafc; border: 1px solid #e5e7eb; }
+.metric { padding: 10px 12px; border-radius: 10px; background: var(--surface-muted); }
+.metric-label { display: block; color: var(--text-muted); font-size: 11px; }
+.metric-value { display: block; margin-top: 3px; color: var(--text-primary); font-size: 14px; font-weight: 700; }
+.final-result { margin: 14px 0; padding: 14px; border-left: 4px solid var(--positive-border); border-radius: 10px; background: var(--positive-bg); }
+.final-result .metric-value { color: var(--positive); font-size: 22px; }
+.analysis-panel { padding: 16px; border-radius: 14px; background: var(--surface-muted); border: 1px solid var(--border-subtle); }
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
 @media (max-width: 767px) {
     .hero-inner { padding: 18px 14px; border-radius: 20px; }
     .hero h1 { font-size: 22px; }
@@ -154,28 +177,30 @@ button {
 
         <div class="inputs-grid">
             <div class="input-group">
-                <label>Loan Amount (₹)</label>
+                <label for="loanAmount">Loan Amount (₹)</label>
                 <small>Principal amount you borrow.</small>
-                <input id="loanAmount" type="number" min="0" step="1000" value="2000000">
+                <input id="loanAmount" type="number" min="1" step="1000" value="2000000">
                 <span id="loanAmountWords" class="amount-words" aria-live="polite"></span>
             </div>
             <div class="input-group">
-                <label>Interest Rate (% per year)</label>
+                <label for="interestRate">Interest Rate (% per year)</label>
                 <small>Annual interest rate.</small>
-                <input id="interestRate" type="number" min="0" step="0.01" value="8.5">
+                <input id="interestRate" type="number" min="0" max="50" step="0.01" value="8.5">
             </div>
             <div class="input-group">
-                <label>Tenure (years)</label>
+                <label for="tenureYears">Tenure (years)</label>
                 <small>Loan duration in years.</small>
-                <input id="tenureYears" type="number" min="1" step="1" value="20">
+                <input id="tenureYears" type="number" min="1" max="40" step="1" value="20">
             </div>
         </div>
+
+        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
 
         <button type="button" onclick="calculateEMI()">Calculate EMI</button>
         <button type="button" class="export-button" onclick="exportEMI()">Export to Excel</button>
 
         <!-- Placement 1: Below Calculate Button -->
-        <div style="margin:20px 0;">
+        <div class="ad-slot">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -194,7 +219,7 @@ button {
     </div>
 
     <!-- Placement 4: Below Results Card (acts like below chart for this tool) -->
-    <div style="margin:20px 0;">
+    <div class="ad-slot">
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -207,25 +232,60 @@ button {
 
 <script>
 function formatINR(x) {
-    return Number(x.toFixed(2)).toLocaleString('en-IN');
+    // Whole rupees only: paise-level precision on loan/SIP totals is false
+    // precision and previously rendered with inconsistent decimal places.
+    return Math.round(x).toLocaleString('en-IN');
+}
+
+// Returns a validated set of inputs, or null (and shows an inline error) if
+// anything is missing, non-numeric, or out of a sane range. Guards against
+// the tenure=0 / negative-value division-by-zero and NaN results that the
+// unvalidated version could render straight into the page.
+function readEMIInputs() {
+    const errorEl = document.getElementById("formError");
+    errorEl.textContent = "";
+
+    const loanAmount = +document.getElementById("loanAmount").value;
+    const interestRate = +document.getElementById("interestRate").value;
+    const tenureYears = +document.getElementById("tenureYears").value;
+
+    if (!Number.isFinite(loanAmount) || loanAmount <= 0) {
+        errorEl.textContent = "Enter a loan amount greater than zero.";
+        return null;
+    }
+    if (!Number.isFinite(interestRate) || interestRate < 0 || interestRate > 50) {
+        errorEl.textContent = "Enter an interest rate between 0% and 50%.";
+        return null;
+    }
+    if (!Number.isFinite(tenureYears) || tenureYears < 1 || tenureYears > 40) {
+        errorEl.textContent = "Enter a tenure between 1 and 40 years.";
+        return null;
+    }
+
+    return { loanAmount, interestRate, tenureYears };
+}
+
+function computeEMI({ loanAmount, interestRate, tenureYears }) {
+    const monthlyRate = interestRate / 1200;
+    const tenureMonths = tenureYears * 12;
+
+    const emi = monthlyRate === 0
+        ? loanAmount / tenureMonths
+        : loanAmount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths) /
+            (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+
+    const totalPayment = emi * tenureMonths;
+    const totalInterest = totalPayment - loanAmount;
+
+    return { emi, totalPayment, totalInterest };
 }
 
 function calculateEMI() {
-    let loanAmount = +document.getElementById("loanAmount").value;
-    let interestRate = +document.getElementById("interestRate").value;
-    let tenureYears = +document.getElementById("tenureYears").value;
+    const inputs = readEMIInputs();
+    if (!inputs) return;
 
-    let monthlyRate = interestRate / 1200;
-    let tenureMonths = tenureYears * 12;
-
-    // EMI formula
-        let emi = monthlyRate === 0
-                ? loanAmount / tenureMonths
-                : loanAmount * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths) /
-                    (Math.pow(1 + monthlyRate, tenureMonths) - 1);
-
-    let totalPayment = emi * tenureMonths;
-    let totalInterest = totalPayment - loanAmount;
+    const { loanAmount, interestRate, tenureYears } = inputs;
+    const { emi, totalPayment, totalInterest } = computeEMI(inputs);
 
     document.getElementById("results").innerHTML = `
           <div class="result-section">
@@ -238,7 +298,7 @@ function calculateEMI() {
           </div>
 
         <!-- Placement 2: Between EMI Summary & Extra Info -->
-        <div style="margin:20px 0;">
+        <div class="ad-slot">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -268,7 +328,7 @@ function calculateEMI() {
         <p><b>Total Amount Payable</b> is the sum of your loan amount and total interest — the actual rupee outflow over the full tenure.</p>
 
         <!-- Placement 3: Inside Explanation -->
-        <div style="margin:20px 0;">
+        <div class="ad-slot">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -285,17 +345,15 @@ function calculateEMI() {
 }
 
 function exportEMI() {
-    const loanAmount = +document.getElementById("loanAmount").value;
-    const interestRate = +document.getElementById("interestRate").value;
-    const tenureYears = +document.getElementById("tenureYears").value;
-    const months = tenureYears * 12;
-    const monthlyRate = interestRate / 1200;
-    const emi = monthlyRate === 0 ? loanAmount / months : loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
-    const totalPayment = emi * months;
+    const inputs = readEMIInputs();
+    if (!inputs) return;
+
+    const { loanAmount, interestRate, tenureYears } = inputs;
+    const { emi, totalPayment, totalInterest } = computeEMI(inputs);
 
     exportWorkbook("emi-calculator.xlsx", {
         Inputs: [["EMI Calculator Inputs"], ["Input", "Value"], ["Loan amount", loanAmount], ["Interest rate", interestRate + "% per year"], ["Tenure", tenureYears + " years"]],
-        Results: [["EMI Calculator Results"], ["Metric", "Value"], ["Monthly EMI", emi], ["Total interest payable", totalPayment - loanAmount], ["Total amount payable", totalPayment]],
+        Results: [["EMI Calculator Results"], ["Metric", "Value"], ["Monthly EMI", emi], ["Total interest payable", totalInterest], ["Total amount payable", totalPayment]],
         Analysis: [["Understanding Your EMI"], ["EMI", "The fixed amount paid every month to repay the loan."], ["Interest and principal", "Each EMI includes both interest and principal. Earlier payments generally contain more interest."], ["Total interest", "The extra amount paid over the borrowed loan amount."], ["Total amount payable", "The loan amount plus total interest over the full tenure."], ["Tip", "Reducing tenure or interest rate can lower total interest cost."]]
     });
 }
