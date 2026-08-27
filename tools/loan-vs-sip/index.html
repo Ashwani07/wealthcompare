@@ -8,6 +8,11 @@
 <link rel="canonical" href="https://wealthcompare.in/tools/loan-vs-sip/">
 <title>Loan vs SIP Calculator: Compare Real Wealth | WealthCompare</title>
 
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="WealthCompare">
 <meta property="og:title" content="Loan vs SIP Calculator: Compare Real Wealth">
@@ -21,7 +26,7 @@
      crossorigin="anonymous"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/css/site.css?v=4" rel="stylesheet">
+<link href="/assets/css/site.css?v=5" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="/assets/js/amount-words.js"></script>
@@ -530,6 +535,18 @@ calculate();
 updateMaintenanceUnit();
 bindAmountInWords("propertyPrice", "propertyPriceWords");
 bindAmountInWords("loanAmount", "loanAmountWords");
+</script>
+
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. It excludes stamp duty, registration, and brokerage — verify figures with your bank or advisor.
+    </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
 </body>
