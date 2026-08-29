@@ -26,7 +26,7 @@
      crossorigin="anonymous"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/css/site.css?v=5" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="/assets/js/amount-words.js"></script>
@@ -93,10 +93,17 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 .comparison-result .metric-value { color: #3730a3; font-size: 24px; }
 .analysis-panel { padding: 16px; border-radius: 14px; background: var(--surface-muted); border: 1px solid var(--border-subtle); }
 .analysis-panel { overflow-x: hidden; }
-.section-note { margin: -6px 0 12px; color: var(--text-muted); font-size: 12px; }
 .chart-container {
     background: rgba(255,255,255,0.95); padding: 16px; border-radius: 18px;
     margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.chart-canvas-wrap {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+@media (min-width: 640px) {
+    .chart-canvas-wrap { height: 380px; }
 }
 .hero h1 { margin: 0 0 10px; font-size: 26px; }
 .hero p { margin: 0 0 8px; font-size: 14px; }
@@ -210,7 +217,9 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 
     <!-- Chart -->
     <div class="chart-container">
-        <canvas id="wealthChart"></canvas>
+        <div class="chart-canvas-wrap">
+            <canvas id="wealthChart"></canvas>
+        </div>
     </div>
 
     <!-- ⭐ Placement 4: Below Chart -->
@@ -495,24 +504,56 @@ function calculate() {
             labels: years,
             datasets: [
                 {
-                    label: "Property Value (Nominal)",
+                    label: "Property Value",
+                    fullLabel: "Property Value (Nominal)",
                     data: propertyValues,
                     borderColor: "#4f46e5",
                     backgroundColor: "rgba(79,70,229,0.08)",
                     borderWidth: 3,
-                    tension: 0.3
+                    tension: 0.3,
+                    pointRadius: 2
                 },
                 {
-                    label: "SIP Value incl. Down Payment (Nominal)",
+                    label: "SIP Value",
+                    fullLabel: "SIP Value incl. Down Payment (Nominal)",
                     data: sipValues,
                     borderColor: "#10b981",
                     backgroundColor: "rgba(16,185,129,0.08)",
                     borderWidth: 3,
-                    tension: 0.3
+                    tension: 0.3,
+                    pointRadius: 2
                 }
             ]
         },
-        options: { responsive: true }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: { boxWidth: 14, font: { size: 11 } }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (ctx) {
+                            var name = ctx.dataset.fullLabel || ctx.dataset.label;
+                            return name + ": ₹" + Math.round(ctx.parsed.y).toLocaleString('en-IN');
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { autoSkip: true, maxTicksLimit: 6, maxRotation: 0, minRotation: 0 }
+                },
+                y: {
+                    ticks: {
+                        callback: function (v) { return '₹' + Number(v).toLocaleString('en-IN'); }
+                    }
+                }
+            }
+        }
     });
 }
 
@@ -548,6 +589,8 @@ bindAmountInWords("loanAmount", "loanAmountWords");
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 </script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
 
 </body>
 </html>

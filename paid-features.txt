@@ -71,6 +71,12 @@ Prioritised feature backlog
 P0 - Advanced Tax Engine
   - Change LTCG tax rate and exemption away from the free-tier default (12.5% /
     ₹1,25,000), add STCG logic, indexation, and slab-based simulation
+  - LTCG harvesting calculator: the ₹1,25,000 annual exemption doesn't carry
+    forward — booking ~₹1.25L of gains every year (sell + immediately rebuy)
+    resets cost basis higher and reduces tax on the eventual real exit. Show
+    cumulative tax saved over the holding period vs. not harvesting, as a
+    concrete number, not just an explanation. Good standalone premium teaser:
+    show the mechanism free, gate the personalized savings calculation.
 
 P0 - Year-by-Year Wealth Table
   - Property and SIP value, inflation-adjusted values, and Excel/PDF download

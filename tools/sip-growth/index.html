@@ -26,7 +26,7 @@
      crossorigin="anonymous"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/css/site.css?v=5" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="/assets/js/amount-words.js"></script>
@@ -146,32 +146,13 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
     margin-top: 10px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
-.chart-container canvas {
-    width: 100% !important;
-    height: auto !important;
-}
-.table-container {
-    max-height: 260px;
-    overflow-x: auto;
-    overflow-y: auto;
-    margin-top: 10px;
-}
-table {
+.chart-canvas-wrap {
+    position: relative;
+    height: 300px;
     width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
 }
-th, td {
-    padding: 6px 8px;
-    border-bottom: 1px solid var(--border-subtle);
-    text-align: right;
-}
-th:first-child, td:first-child {
-    text-align: left;
-}
-th {
-    background: #f3f4f6;
-    font-weight: 600;
+@media (min-width: 640px) {
+    .chart-canvas-wrap { height: 380px; }
 }
 .form-error { color: var(--negative); font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
 @media (max-width: 767px) {
@@ -274,7 +255,9 @@ th {
 
     <!-- Chart -->
     <div class="chart-container">
-        <canvas id="sipChart"></canvas>
+        <div class="chart-canvas-wrap">
+            <canvas id="sipChart"></canvas>
+        </div>
     </div>
 
     <!-- Placement 4: Below Chart -->
@@ -344,6 +327,12 @@ function readInputs() {
 
 // Single source of truth for the year-by-year series — used by the on-screen
 // table/chart and by the Excel export, so they can't drift apart.
+//
+// This is deliberately PRE-TAX. LTCG tax is only triggered by an actual sale
+// — showing it deducted in every row would imply you're taxed annually just
+// for holding, which isn't how it works. Inflation, on the other hand,
+// genuinely erodes purchasing power every year whether you've sold or not,
+// so the real (inflation-adjusted) column is legitimate to show per year.
 function computeSIPSeries({ sipAmount, returnRate, tenureYears, inflationRate }) {
     const monthlyReturn = returnRate / 1200;
     const rows = [];
@@ -354,16 +343,24 @@ function computeSIPSeries({ sipAmount, returnRate, tenureYears, inflationRate })
             ? sipAmount * months
             : sipAmount * ((Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn);
         const invested = sipAmount * months;
+        const real = nominal / Math.pow(1 + inflationRate / 100, year);
 
-        const taxBase = nominal - invested - LTCG_EXEMPTION;
-        const tax = taxBase > 0 ? LTCG_RATE * taxBase : 0;
-        const afterTax = nominal - tax;
-        const real = afterTax / Math.pow(1 + inflationRate / 100, year);
-
-        rows.push({ year, invested, nominal, tax, afterTax, real });
+        rows.push({ year, invested, nominal, real });
     }
 
     return rows;
+}
+
+// Tax is computed exactly once, from the final year's row — modeling a
+// single redemption at the end of the tenure, not an annual tax event.
+function computeSIPFinal(rows, inflationRate) {
+    const final = rows[rows.length - 1];
+    const taxBase = final.nominal - final.invested - LTCG_EXEMPTION;
+    const tax = taxBase > 0 ? LTCG_RATE * taxBase : 0;
+    const afterTax = final.nominal - tax;
+    const realAfterTax = afterTax / Math.pow(1 + inflationRate / 100, final.year);
+
+    return { ...final, tax, afterTax, realAfterTax };
 }
 
 function calculateSIP() {
@@ -372,10 +369,10 @@ function calculateSIP() {
     const { sipAmount, returnRate, tenureYears, inflationRate } = inputs;
 
     const rows = computeSIPSeries(inputs);
-    const final = rows[rows.length - 1];
+    const final = computeSIPFinal(rows, inflationRate);
 
     const gainNominal = final.afterTax - final.invested;
-    const gainReal = final.real - final.invested;
+    const gainReal = final.realAfterTax - final.invested;
 
     document.getElementById("results").innerHTML = `
         <div class="result-section">
@@ -383,12 +380,12 @@ function calculateSIP() {
             <div class="metric-grid">
                 <div class="metric"><span class="metric-label">Total invested</span><span class="metric-value">₹${formatINR(final.invested)}</span></div>
                 <div class="metric"><span class="metric-label">Future value, nominal</span><span class="metric-value">₹${formatINR(final.nominal)}</span></div>
-                <div class="metric"><span class="metric-label">LTCG tax</span><span class="metric-value">₹${formatINR(final.tax)}</span></div>
+                <div class="metric"><span class="metric-label">LTCG tax (at redemption)</span><span class="metric-value">₹${formatINR(final.tax)}</span></div>
                 <div class="metric"><span class="metric-label">Value after tax</span><span class="metric-value">₹${formatINR(final.afterTax)}</span></div>
                 <div class="metric"><span class="metric-label">Nominal gain, after tax</span><span class="metric-value">₹${formatINR(gainNominal)}</span></div>
                 <div class="metric"><span class="metric-label">Real gain, after tax</span><span class="metric-value">₹${formatINR(gainReal)}</span></div>
             </div>
-            <div class="final-result"><span class="metric-label">Inflation-adjusted value after ${tenureYears} years, after tax, today's purchasing power</span><span class="metric-value">₹${formatINR(final.real)}</span></div>
+            <div class="final-result"><span class="metric-label">Inflation-adjusted value after ${tenureYears} years, after tax, today's purchasing power</span><span class="metric-value">₹${formatINR(final.realAfterTax)}</span></div>
         </div>
 
         <!-- Placement 2: Between summary & extra info -->
@@ -417,10 +414,10 @@ function calculateSIP() {
 
     document.getElementById("analysis").innerHTML = `
         <h3>💡 Understanding Your SIP Growth</h3>
-        <p><b>Nominal value</b> is the actual rupee amount you see in your statement after ${tenureYears} years, before tax.</p>
-        <p><b>LTCG tax</b> is modeled at 12.5% on gains above the current ₹1,25,000 annual exemption, applied once at redemption. Actual tax depends on the fund, holding period, exemptions, and tax rules in force at the time.</p>
-        <p><b>Real value</b> adjusts your after-tax corpus for inflation, showing what it's truly worth after ${tenureYears} years in today's terms.</p>
-        <p><b>Real gain</b> is inflation-adjusted, after-tax value minus total invested — the most honest measure of wealth actually created.</p>
+        <p><b>Nominal value</b> is the actual rupee amount your SIP is worth at any point, before tax.</p>
+        <p><b>Real value (in the table below)</b> adjusts that nominal value for inflation every year — inflation erodes purchasing power continuously, whether or not you've sold. It does <b>not</b> include tax, since tax only applies when you actually redeem.</p>
+        <p><b>LTCG tax</b>, shown only in the summary above, is modeled at 12.5% on gains above the current ₹1,25,000 annual exemption, applied once — at redemption, not annually. Actual tax depends on the fund, holding period, exemptions, and tax rules in force at the time.</p>
+        <p><b>Real gain</b> (in the summary above) is inflation-adjusted, after-tax value minus total invested — the most honest measure of wealth actually created if you exit after ${tenureYears} years.</p>
 
         <!-- Placement 3: Inside explanation -->
         <div class="ad-slot">
@@ -439,13 +436,14 @@ function calculateSIP() {
 
     let tableHTML = `
         <h3>📅 Year-by-Year Projection</h3>
+        <p class="section-note">Pre-tax — tax is only shown once, in the SIP Summary above, since it only applies when you actually redeem.</p>
         <table>
             <thead>
                 <tr>
                     <th>Year</th>
                     <th>Invested (₹)</th>
                     <th>Nominal Value (₹)</th>
-                    <th>Real Value, After Tax (₹)</th>
+                    <th>Real Value, Pre-Tax (₹)</th>
                 </tr>
             </thead>
             <tbody>
@@ -475,24 +473,56 @@ function calculateSIP() {
             labels,
             datasets: [
                 {
-                    label: "Nominal SIP Value",
+                    label: "Nominal Value",
+                    fullLabel: "Nominal SIP Value",
                     data: nominalSeries,
                     borderColor: "#4f46e5",
                     backgroundColor: "rgba(79,70,229,0.08)",
                     borderWidth: 3,
-                    tension: 0.3
+                    tension: 0.3,
+                    pointRadius: 2
                 },
                 {
-                    label: "Real SIP Value (After Tax, Inflation-adjusted)",
+                    label: "Real Value",
+                    fullLabel: "Real SIP Value (Inflation-adjusted, Pre-Tax)",
                     data: realSeries,
                     borderColor: "#10b981",
                     backgroundColor: "rgba(16,185,129,0.08)",
                     borderWidth: 3,
-                    tension: 0.3
+                    tension: 0.3,
+                    pointRadius: 2
                 }
             ]
         },
-        options: { responsive: true }
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: { boxWidth: 14, font: { size: 11 } }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (ctx) {
+                            var name = ctx.dataset.fullLabel || ctx.dataset.label;
+                            return name + ": ₹" + Math.round(ctx.parsed.y).toLocaleString('en-IN');
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { autoSkip: true, maxTicksLimit: 6, maxRotation: 0, minRotation: 0 }
+                },
+                y: {
+                    ticks: {
+                        callback: function (v) { return '₹' + Number(v).toLocaleString('en-IN'); }
+                    }
+                }
+            }
+        }
     });
 }
 
@@ -501,19 +531,21 @@ function exportSIP() {
     if (!inputs) return;
 
     const rows = computeSIPSeries(inputs);
-    const final = rows[rows.length - 1];
+    const final = computeSIPFinal(rows, inputs.inflationRate);
 
     exportWorkbook("sip-growth-projection.xlsx", {
         Inputs: [["SIP Growth Inputs"], ["Input", "Value"], ["Monthly SIP", inputs.sipAmount], ["Expected return", inputs.returnRate + "% per year"], ["Tenure", inputs.tenureYears + " years"], ["Inflation", inputs.inflationRate + "% per year"]],
-        Results: [["SIP Growth Results"], ["Metric", "Value"], ["Total invested", final.invested], ["Future value, nominal", final.nominal], ["LTCG tax", final.tax], ["Value after tax", final.afterTax], ["Nominal gain after " + inputs.tenureYears + " years, after tax", final.afterTax - final.invested], ["Real gain after " + inputs.tenureYears + " years, after tax", final.real - final.invested], ["Value after " + inputs.tenureYears + " years, real (after tax)", final.real], ["LTCG tax rate", "12.5% on gains above ₹1,25,000"]],
-        Analysis: [["Understanding Your SIP Growth"], ["Nominal value", "The actual rupee amount after the investment period, before tax."], ["LTCG tax", "Modeled at 12.5% on gains above the current ₹1,25,000 annual exemption, applied once at redemption."], ["Real value", "The after-tax future value adjusted for inflation and expressed in today's purchasing power."], ["Real gain", "Inflation-adjusted, after-tax value minus total invested — a measure of real wealth creation."], ["Important", "Actual returns vary based on market conditions, fund choice, and tax rules."]],
-        Projection: [["Year", "Invested (₹)", "Nominal Value (₹)", "LTCG Tax (₹)", "Value After Tax (₹)", "Real Value, After Tax (₹)"], ...rows.map(r => [r.year, r.invested, r.nominal, r.tax, r.afterTax, r.real])]
+        Results: [["SIP Growth Results"], ["Metric", "Value"], ["Total invested", final.invested], ["Future value, nominal", final.nominal], ["LTCG tax (at redemption)", final.tax], ["Value after tax", final.afterTax], ["Nominal gain after " + inputs.tenureYears + " years, after tax", final.afterTax - final.invested], ["Real gain after " + inputs.tenureYears + " years, after tax", final.realAfterTax - final.invested], ["Value after " + inputs.tenureYears + " years, real (after tax)", final.realAfterTax], ["LTCG tax rate", "12.5% on gains above ₹1,25,000, applied once at redemption"]],
+        Analysis: [["Understanding Your SIP Growth"], ["Nominal value", "The actual rupee amount at any point, before tax."], ["Real value (year-by-year)", "Nominal value adjusted for inflation every year. Pre-tax — tax only applies at redemption, not annually."], ["LTCG tax", "Modeled at 12.5% on gains above the current ₹1,25,000 annual exemption, applied once at redemption — shown only in the final Results above, not per year."], ["Real gain", "Inflation-adjusted, after-tax value minus total invested — a measure of real wealth creation if you exit after the full tenure."], ["Important", "Actual returns vary based on market conditions, fund choice, and tax rules."]],
+        Projection: [["Year", "Invested (₹)", "Nominal Value (₹)", "Real Value, Pre-Tax (₹)"], ...rows.map(r => [r.year, r.invested, r.nominal, r.real])]
     });
 }
 
 calculateSIP();
 bindAmountInWords("sipAmount", "sipAmountWords");
 </script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
 
 </body>
 </html>

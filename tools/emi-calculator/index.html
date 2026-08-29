@@ -26,7 +26,7 @@
      crossorigin="anonymous"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="/assets/css/site.css?v=5" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
 <script src="/assets/js/amount-words.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="/assets/js/export-excel.js"></script>
@@ -221,6 +221,8 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
             <div id="results" class="results-column"></div>
             <div id="analysis" class="results-column"></div>
         </div>
+
+        <div class="table-container" id="amortizationTable"></div>
     </div>
 
     <!-- Placement 4: Below Results Card (acts like below chart for this tool) -->
@@ -285,6 +287,32 @@ function computeEMI({ loanAmount, interestRate, tenureYears }) {
     return { emi, totalPayment, totalInterest };
 }
 
+// Year-by-year amortization: how much of each year's payments went to
+// interest vs principal, and what's left owing at year end. Standard on
+// every competitor's free EMI calculator, so it belongs here, not gated.
+function computeAmortizationSchedule({ loanAmount, interestRate, tenureYears }, emi) {
+    const monthlyRate = interestRate / 1200;
+    const months = tenureYears * 12;
+    let balance = loanAmount;
+    const rows = [];
+
+    for (let year = 1; year <= tenureYears; year++) {
+        let yearInterest = 0;
+        let yearPrincipal = 0;
+        for (let m = 0; m < 12 && balance > 0; m++) {
+            const interestPortion = monthlyRate === 0 ? 0 : balance * monthlyRate;
+            let principalPortion = emi - interestPortion;
+            if (principalPortion > balance) principalPortion = balance;
+            balance -= principalPortion;
+            yearInterest += interestPortion;
+            yearPrincipal += principalPortion;
+        }
+        rows.push({ year, principalPaid: yearPrincipal, interestPaid: yearInterest, balance: Math.max(balance, 0) });
+    }
+
+    return rows;
+}
+
 function calculateEMI() {
     const inputs = readEMIInputs();
     if (!inputs) return;
@@ -347,6 +375,31 @@ function calculateEMI() {
         <p>Reducing tenure or interest rate can significantly lower your total interest cost.</p>
         <p>Use this EMI as a base to compare different banks, offers, and prepayment strategies.</p>
     `;
+
+    const schedule = computeAmortizationSchedule(inputs, emi);
+    document.getElementById("amortizationTable").innerHTML = `
+        <h3>📅 Year-by-Year Amortization Schedule</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Principal Paid (₹)</th>
+                    <th>Interest Paid (₹)</th>
+                    <th>Balance Remaining (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${schedule.map(r => `
+                    <tr>
+                        <td>${r.year}</td>
+                        <td>${formatINR(r.principalPaid)}</td>
+                        <td>${formatINR(r.interestPaid)}</td>
+                        <td>${formatINR(r.balance)}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
 }
 
 function exportEMI() {
@@ -355,11 +408,13 @@ function exportEMI() {
 
     const { loanAmount, interestRate, tenureYears } = inputs;
     const { emi, totalPayment, totalInterest } = computeEMI(inputs);
+    const schedule = computeAmortizationSchedule(inputs, emi);
 
     exportWorkbook("emi-calculator.xlsx", {
         Inputs: [["EMI Calculator Inputs"], ["Input", "Value"], ["Loan amount", loanAmount], ["Interest rate", interestRate + "% per year"], ["Tenure", tenureYears + " years"]],
         Results: [["EMI Calculator Results"], ["Metric", "Value"], ["Monthly EMI", emi], ["Total interest payable", totalInterest], ["Total amount payable", totalPayment]],
-        Analysis: [["Understanding Your EMI"], ["EMI", "The fixed amount paid every month to repay the loan."], ["Interest and principal", "Each EMI includes both interest and principal. Earlier payments generally contain more interest."], ["Total interest", "The extra amount paid over the borrowed loan amount."], ["Total amount payable", "The loan amount plus total interest over the full tenure."], ["Tip", "Reducing tenure or interest rate can lower total interest cost."]]
+        Analysis: [["Understanding Your EMI"], ["EMI", "The fixed amount paid every month to repay the loan."], ["Interest and principal", "Each EMI includes both interest and principal. Earlier payments generally contain more interest."], ["Total interest", "The extra amount paid over the borrowed loan amount."], ["Total amount payable", "The loan amount plus total interest over the full tenure."], ["Tip", "Reducing tenure or interest rate can lower total interest cost."]],
+        Amortization: [["Year", "Principal Paid (₹)", "Interest Paid (₹)", "Balance Remaining (₹)"], ...schedule.map(r => [r.year, r.principalPaid, r.interestPaid, r.balance])]
     });
 }
 
@@ -378,6 +433,8 @@ bindAmountInWords("loanAmount", "loanAmountWords");
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
 </script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
 
 </body>
 </html>

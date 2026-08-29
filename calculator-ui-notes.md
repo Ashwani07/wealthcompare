@@ -7,9 +7,10 @@ All calculators offer an `Export to Excel` action after the calculated output. E
 - `Inputs`: the values entered by the user and their units.
 - `Results`: the calculated values shown in the result cards, including the selected time horizon.
 - `Analysis`: the explanatory text shown beside or below the results.
-- `Projection` on SIP Growth: the year-by-year invested, nominal, LTCG tax, after-tax, and inflation-adjusted values.
+- `Projection` on SIP Growth: year-by-year invested, nominal, and inflation-adjusted (pre-tax) values — no per-row tax column, see "Tax timing" below.
+- `Amortization` on EMI Calculator: year-by-year principal paid, interest paid, and remaining balance.
 
-The export is generated in the browser using SheetJS (pinned to `xlsx@0.18.5` via CDN — do not switch back to an unpinned `@latest`-style URL). It reflects the input values at the time the export button is clicked; users should recalculate first when they have changed inputs. On-screen results and the export both read from the same calculation function per page (`computeEMI`, `computeLoanVsSip`, `computeSIPSeries`), so they cannot drift out of sync with each other.
+The export is generated in the browser using SheetJS (pinned to `xlsx@0.18.5` via CDN — do not switch back to an unpinned `@latest`-style URL). It reflects the input values at the time the export button is clicked; users should recalculate first when they have changed inputs. On-screen results and the export both read from the same calculation functions per page (`computeEMI`/`computeAmortizationSchedule`, `computeLoanVsSip`, `computeSIPSeries`/`computeSIPFinal`), so they cannot drift out of sync with each other.
 
 ## Calculator Presentation
 
@@ -62,6 +63,24 @@ All pages pull text, surface, and accent colors from CSS custom properties defin
 ## Ad placement
 
 Every ad container uses the `.ad-slot` class, which reserves `min-height: 100px` before the ad loads, to avoid layout shift (Cumulative Layout Shift) once real AdSense units are wired in. Don't drop back to a bare `<div style="margin:20px 0;">` wrapper.
+
+`assets/js/ad-slot-collapse.js` (included on every page with ad slots) watches each `<ins class="adsbygoogle">` for AdSense's `data-ad-status` attribute and collapses the wrapping `.ad-slot` to zero height if the slot comes back `"unfilled"`, or never resolves within 4 seconds (script blocked, no AdSense account yet, dev server). This is why ad slots look invisible pre-launch instead of sitting as dead empty rectangles — it's automatic and requires no per-page code. Once AdSense is approved and slots are actually filled, this becomes a no-op and the reserved space behaves exactly as before.
+
+## Tax timing (SIP Growth)
+
+LTCG tax is only triggered by an actual sale — it is **never** shown per-row in the year-by-year table or plotted per-year in the chart, because that would imply annual taxation, which isn't how it works. `computeSIPSeries()` returns pre-tax nominal and pre-tax real (inflation-adjusted) values for every year — inflation genuinely erodes value continuously regardless of whether you've sold, so that part is legitimate to show annually. `computeSIPFinal()` applies tax exactly once, to the final year only, and its output (`tax`, `afterTax`, `realAfterTax`) is used solely in the SIP Summary block. If a future change needs tax visible earlier than the final year (e.g. a "what if you exited in year N" feature), build it as a clearly-labeled separate hypothetical — don't fold it back into the main per-year table.
+
+## Amortization schedule (EMI Calculator)
+
+`computeAmortizationSchedule()` runs a full month-by-month amortization (same pattern as Loan vs SIP's internal interest calculation) and aggregates it to yearly principal/interest/balance rows. This is a free feature, not gated — every competitor's EMI calculator shows this, so withholding it would make the free tier look thinner than the competition, not premium. Verified that yearly principal sums to the loan amount, yearly interest sums to total interest, and balance reaches exactly zero at term.
+
+## Chart sizing
+
+Chart.js's default 2:1 aspect ratio (`maintainAspectRatio: true`, the default) renders too short on mobile. Both charts (Loan vs SIP, SIP Growth) use a `.chart-canvas-wrap` div with an explicit CSS height (300px mobile, 380px at ≥640px) and `maintainAspectRatio: false` in the Chart.js options, so the canvas fills that height instead of deriving it from width. Legend labels are kept short (e.g. "Property Value", not "Property Value (Nominal)") with the full descriptive name moved to the tooltip via a `fullLabel` property on each dataset — long legend labels were wrapping to two lines and eating vertical space that should go to the plot. X-axis ticks are capped (`maxTicksLimit: 6`, `maxRotation: 0`) so labels don't rotate diagonally and consume extra height, especially at longer tenures (30–40 years).
+
+## Link styling
+
+`.site-header a` and `.footer-links a` are forced to `text-decoration: none` in the shared `site.css`, deliberately more specific than any page-level `a{}` rule (bare `a` selectors have lower specificity and lose regardless of source order). This exists because two pages (EMI Calculator, Loan vs SIP) had no page-level underline reset at all, and the legal pages (About/Privacy/Terms) intentionally underline body-text links but were letting that bleed into their footer links too. Any new page must not rely on getting its own `a{}` reset right — the component-scoped rule in `site.css` is the actual guarantee.
 
 ## Content rules
 
