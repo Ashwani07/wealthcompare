@@ -185,6 +185,12 @@ a { text-decoration: none; color: inherit; }
     padding: 14px 14px 16px;
     background: #ffffff;
     border: 1px solid var(--border-subtle);
+    display: block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+a.insight-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 .insight-title {
     font-weight: 600;
@@ -365,13 +371,13 @@ a { text-decoration: none; color: inherit; }
                 </div>
                 <div class="article-status">Article coming soon</div>
             </div>
-            <div class="insight-card">
+            <a class="insight-card" href="/insights/loan-vs-sip-hidden-tradeoffs/" style="text-decoration:none;color:inherit;">
                 <div class="insight-title">Loan vs SIP: The Hidden Trade-offs</div>
                 <div class="insight-text">
                     A home loan builds an asset but comes with interest and maintenance. A SIP compounds quietly. Our tools show both paths side by side, transparently.
                 </div>
-                <div class="article-status">Article coming soon</div>
-            </div>
+                <div class="article-status" style="color:var(--brand-teal);">Read the article →</div>
+            </a>
             <div class="insight-card">
                 <div class="insight-title">Why Clarity Beats Guesswork</div>
                 <div class="insight-text">
