@@ -225,6 +225,42 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
         <div class="table-container" id="amortizationTable"></div>
     </div>
 
+    <!-- Static educational content — present on page load, not dependent on
+         JS execution, since AdSense/crawler review shouldn't have to run
+         calculate() to find substantive text on this page. -->
+    <div class="card">
+        <h2 style="color:var(--brand-ink);font-size:19px;margin:0 0 14px;">How EMI is actually calculated</h2>
+        <p>EMI stands for Equated Monthly Instalment — the fixed monthly amount that repays both principal and interest over your loan tenure. Every bank in India uses the same reducing-balance formula:</p>
+        <div class="callout" style="background:var(--surface-muted);border:1px solid var(--border-subtle);border-radius:12px;padding:14px 16px;margin:10px 0;font-family:monospace;font-size:13px;overflow-x:auto;">
+            EMI = P × r × (1 + r)<sup>n</sup> / [(1 + r)<sup>n</sup> − 1]
+        </div>
+        <p style="font-size:13px;color:var(--text-muted);">Where <b>P</b> is the loan principal, <b>r</b> is the monthly interest rate (annual rate ÷ 12 ÷ 100), and <b>n</b> is the total number of monthly instalments (years × 12). Nothing here is proprietary or hidden — this is the standard formula that determines how much of each payment goes to interest versus principal, which is why interest dominates your early EMIs and principal dominates your later ones.</p>
+
+        <h3>Worked example</h3>
+        <p>Using this calculator's own default inputs — a ₹20,00,000 loan at 8.5% for 20 years — the formula above produces:</p>
+        <ul>
+            <li>Monthly EMI: <b>₹17,356</b></li>
+            <li>Total interest paid over 20 years: <b>₹21,65,552</b></li>
+            <li>Total amount repaid: <b>₹41,65,552</b> — more than double the original loan, entirely because of how compounding interest works on a reducing balance over two decades.</li>
+        </ul>
+
+        <h3>Fixed vs floating rate: why your actual EMI may not stay constant</h3>
+        <p>This calculator assumes a constant interest rate for the full tenure, which is accurate for a <b>fixed-rate</b> loan but not for a <b>floating-rate</b> loan — and most Indian home loans are floating, linked to an external benchmark like the RBI repo rate. When the benchmark moves, your bank will adjust either your EMI or your remaining tenure at the next reset date. Use this calculator to understand your EMI at today's rate; re-run it with a new rate whenever your bank notifies you of a reset.</p>
+
+        <h3>What this calculator doesn't include</h3>
+        <ul>
+            <li><b>Processing fees</b> — typically 0.5–1% of the loan amount, charged once, upfront, on top of the EMI schedule shown here.</li>
+            <li><b>Prepayment or foreclosure charges</b> — for floating-rate loans taken by individuals for non-business purposes, RBI's <a href="https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12878" target="_blank" rel="noopener">Pre-payment Charges on Loans Directions, 2025</a> (RBI/2025-26/64) confirms lenders cannot charge a fee for paying off such loans early — this has applied to individual floating-rate home loans since 2012–2014, and was extended and unified across loan types from January 2026. Fixed-rate loans can still carry such charges, so check your specific sanction letter.</li>
+            <li><b>Loan insurance</b>, if bundled — RBI's Fair Practices Code prohibits lenders from making this mandatory as a loan condition, but it's commonly offered and sometimes adds to the effective monthly outflow if you opt in.</li>
+        </ul>
+
+        <h3>Frequently asked questions</h3>
+        <p><b>Does a higher tenure always mean a lower EMI?</b> Yes, but at a cost — a longer tenure lowers the monthly EMI while increasing total interest paid, since you're borrowing the same money for longer. Use the year-by-year schedule above to see exactly where that trade-off lands for your numbers.</p>
+        <p><b>Can I reduce my EMI mid-loan without switching banks?</b> Only by prepaying part of the principal, which your bank must let you apply either toward a lower EMI or a shorter tenure, per RBI's borrower-choice rules. This tool doesn't yet model prepayment scenarios directly, but you can approximate the effect today by re-running this calculator with the reduced principal and remaining tenure.</p>
+        <p><b>Is the EMI the same for every bank at the same rate?</b> Yes — the formula above is universal. What differs between banks is the rate itself, the processing fee, and how quickly they pass on rate cuts or hikes to existing floating-rate customers.</p>
+        <p>For the bigger-picture question — whether taking this loan beats investing the equivalent money instead — see our <a href="/insights/loan-vs-sip-hidden-tradeoffs/">Loan vs SIP: The Hidden Trade-offs</a> article, or run the numbers directly in the <a href="/tools/loan-vs-sip/">Loan vs SIP Calculator</a>.</p>
+    </div>
+
     <!-- Placement 4: Below Results Card (acts like below chart for this tool) -->
     <div class="ad-slot">
         <ins class="adsbygoogle"
