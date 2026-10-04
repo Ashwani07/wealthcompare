@@ -90,13 +90,13 @@ Low risk is not zero risk: a liquid fund can take a credit hit, and bank deposit
 
 An emergency fund has one job: the money must be there, in full, when you need it. Returns and tax come a distant second, so don't choose instruments, or time your withdrawals, to optimise either. Treat the interest as ordinary income: report it and pay the tax the law requires.
 
-*A note on section numbers: the Income-tax Act, 2025 replaced the Income-tax Act, 1961 from 1 April 2026. The rules below carried over, but the section numbers changed, so each old number is followed by its new one.*
+*A note on section numbers: the Income-tax Act, 2025 replaced the Income-tax Act, 1961 from 1 April 2026. The rules below carried over, but the section numbers changed. This article uses the new numbers and shows the old ones in brackets.*
 
 There is very little to decide anyway. For money you place today, **holding period doesn't change the tax** on a savings account, an FD or a liquid fund, so you never need to time a withdrawal.
 
-- **Savings account interest** is taxed at your slab rate as "Income from Other Sources". Under the old regime, Section 80TTA exempts the first ₹10,000 a year for anyone under 60, and Section 80TTB raises that to ₹50,000 for senior citizens and also covers FD interest (both now sit in Section 153 of the Income-tax Act, 2025). The new regime, now the default, allows neither. Banks don't deduct TDS on savings interest, but you still report it.
-- **FD and sweep-in FD interest** is taxed at your slab rate. The bank deducts 10% TDS only once your interest from that bank crosses ₹50,000 in a financial year (₹1,00,000 for senior citizens). Below that, no TDS is cut but the tax is still due, and it accrues every year, not only at maturity.
-- **Liquid funds:** for units bought on or after 1 April 2023, gains are taxed at your slab rate under Section 50AA (now Section 76 of the Income-tax Act, 2025), **however long you hold them.**
+- **Savings account interest** is taxed at your slab rate as "Income from Other Sources". Section 153 (formerly Sections 80TTA and 80TTB) lets an individual who is not a senior citizen deduct up to ₹10,000 of savings-account interest, and a senior citizen up to ₹50,000 of interest on any bank or post office deposit. You can use it only if you choose the old tax regime. The new regime, now the default under Section 202, does not allow it. Banks don't deduct TDS on savings-account interest, but you still report it.
+- **FD and sweep-in FD interest** is taxed at your slab rate. Under Section 393, the bank deducts 10% TDS only once your interest from that bank crosses ₹50,000 in a financial year (₹1,00,000 for senior citizens). Below that, no TDS is cut but the tax is still due, and it accrues every year, not only at maturity.
+- **Liquid funds:** for units bought on or after 1 April 2023, gains are taxed at your slab rate under Section 76 (formerly Section 50AA), **however long you hold them.**
 
 That is all there is to it: declare the income and pay what's due. If you're still worried about what the fund earns, or how to reduce the tax on it, the **Advanced Read** at the end has a worked ₹7,20,000 example and covers arbitrage funds for higher-slab earners. Most people can skip it.
 
@@ -124,8 +124,8 @@ Sequencing matters. An aggressive SIP with zero buffer is underinsured risk-taki
 
 None of these instruments behave like equity, but "low risk" is not "zero risk".
 
-- **Liquid funds** hold money-market instruments maturing within about 91 days, which keeps interest-rate risk minimal. They still carry **credit risk**: if a company whose paper the fund holds defaults or is downgraded, the NAV can take a sudden markdown. This has happened in India during the credit events of 2018–2020, when some debt schemes wrote down part of their NAV or side-pocketed exposure to a defaulting issuer. High-quality liquid funds from large fund houses that stick to top-rated paper reduce this risk but don't eliminate it. Read the portfolio holdings before parking a large sum.
-- **Bank deposits** carry the least market risk but do carry counterparty risk. The Deposit Insurance and Credit Guarantee Corporation (DICGC) covers only up to **₹5 lakh per depositor per bank**, principal and interest combined. Above that, the excess is at risk if the bank fails, which is rare, though India has had cooperative bank failures within the last decade. Splitting a large fund across two or three well-rated banks is sensible, not paranoid.
+- **Liquid funds** hold debt and money-market securities maturing within 91 days, which keeps interest-rate risk small. They still carry **credit risk**: if a company whose paper the fund holds defaults or is downgraded, the NAV can take a sudden markdown. SEBI's rules recognise this risk: since December 2018, a fund may separate ("side-pocket") a holding hit by a credit event from the rest of the scheme. High-quality liquid funds that stick to top-rated paper reduce the risk but don't remove it. Read the portfolio holdings before parking a large sum.
+- **Bank deposits** carry the least market risk but do carry counterparty risk. The Deposit Insurance and Credit Guarantee Corporation (DICGC) covers only up to **₹5 lakh per depositor per bank**, principal and interest combined. Above that, the excess may not be protected if the bank fails. Splitting a large fund across two or three well-rated banks is sensible, not paranoid.
 
 A plain savings account is closer to zero risk than a liquid fund or an arbitrage fund (covered below). That gap is the trade-off you accept for a somewhat better return, and it is acceptable as long as you don't stake the whole fund on a single scheme.
 
@@ -169,7 +169,7 @@ Take the ₹60,000/month household from the earlier table, on the new tax regime
 | 20% | ₹42,600 | ₹8,520 | ₹34,080 | 4.73% |
 | 30% | ₹42,600 | ₹12,780 | ₹29,820 | 4.14% |
 
-These figures use simple interest for one year on the full amount, with no compounding or withdrawals. They also leave out the 4% health and education cess, which raises each tax figure by 4% (at the 30% slab, ₹12,780 becomes ₹13,291). The table starts at 15% because, under the new regime, taxable income up to ₹12 lakh is effectively tax-free through the Section 87A rebate, so 15% is the lowest rate that realistically applies to this interest.
+These figures use simple interest for one year on the full amount, with no compounding or withdrawals. They also leave out the 4% health and education cess, which raises each tax figure by 4% (at the 30% slab, ₹12,780 becomes ₹13,291). The table starts at 15% because, under the new regime, taxable income up to ₹12 lakh is effectively tax-free through the rebate in Section 156 (formerly Section 87A), so 15% is the lowest rate that realistically applies to this interest.
 
 Since FDs and liquid funds are taxed the same way, choose between them on liquidity and convenience alone.
 
@@ -198,7 +198,7 @@ The catch is that the ₹1.25 lakh exemption is one pooled limit across **all** 
 
 At the 15% and 20% slabs, the gap between liquid and arbitrage funds is small (at most ₹4,320 on this amount), so tax shouldn't be the deciding factor. At 30%, arbitrage funds pull meaningfully ahead, which is why they're recommended to higher earners, not because the instrument is objectively better money.
 
-**Risk and friction.** The hedge can show brief mark-to-market mismatches in market stress. The documented case is the COVID crash of March 2020, when the hedge briefly produced mildly negative monthly returns before the spread normalised at futures expiry. Redemption also takes about a day (T+1) rather than being instant, and many arbitrage funds charge an exit load, often around 0.25%–0.5%, if redeemed within roughly the first 15–30 days. If an emergency hits within days of investing, that load is a real cost.
+**Risk and friction.** The hedge can show brief mark-to-market mismatches when markets are stressed, so returns are not guaranteed. Money also arrives in a few working days rather than instantly, and many arbitrage funds charge a small exit load if you redeem early. If an emergency hits soon after investing, that load is a real cost. The fund's Scheme Information Document states the exact redemption time and exit load.
 
 **The verdict.** Arbitrage funds are a legitimate tool for the higher-slab portion of an emergency fund, but they add moving parts (a hedge that can wobble, an exit-load window, and a shared LTCG exemption) for a tax advantage that mostly matters at 30%. If you won't track those, the simpler liquid-fund-and-FD setup isn't worse, only less tax-optimised.
 
@@ -206,38 +206,29 @@ At the 15% and 20% slabs, the gap between liquid and arbitrage funds is small (a
 
 ## Sources and Verification
 
-Tax rules, rates and thresholds in this article were checked against the sources below on 29 September 2026. Tax law changes often (the Income-tax Act, 2025 only took effect in April 2026), so confirm current figures before acting on them. This article is educational and is not personalised tax or investment advice. The interest rates and returns used in the worked examples are illustrative assumptions, not quotes.
+Rules, rates and thresholds in this article were checked on 2 October 2026, using only official government and regulator sources. Tax law changes often (the Income-tax Act, 2025 took effect in April 2026), so confirm current figures before acting on them. This article is educational and is not personalised tax or investment advice. The interest rates and returns in the worked examples are illustrative assumptions, and the arithmetic is our own.
 
-**Tax framework and section numbers**
+**Income-tax Act, 2025 (Income Tax Department, Ministry of Finance)**
 
-- Income-tax Act, 2025, in force from 1 April 2026: [Wikipedia, Income-tax Act, 2025](https://en.wikipedia.org/wiki/Income-tax_Act,_2025)
-- Sections 80TTA and 80TTB merged into Section 153: [LexVio, Section 80TTB under the Income-tax Act, 2025](https://www.lexvio.ai/tools/income-tax-section-mapper/80ttb)
-- Section 50AA now Section 76: [TaxTMI, Section 76 / (Old) Section 50AA](https://www.taxtmi.com/manuals?id=2595)
-- Section 50AA text and the definition of a specified mutual fund: [Income Tax Department, Section 50AA](https://www.incometaxindia.gov.in/w/section-50aa-3)
-- New regime slab rates and the 4% health and education cess: [ClearTax, Income tax slabs](https://cleartax.in/s/income-tax-slabs)
+- Commencement on 1 April 2026: [Section 1](https://www.incometaxindia.gov.in/w/section-1-269)
+- Deduction for interest on deposits, replacing Sections 80TTA and 80TTB: [Section 153](https://www.incometaxindia.gov.in/w/section-153-90)
+- New tax regime, slab rates, and the bar on Chapter VIII deductions: [Section 202](https://www.incometaxindia.gov.in/w/section-202-76)
+- Rebate for total income up to ₹12 lakh: [Section 156](https://www.incometaxindia.gov.in/w/section-156-88)
+- TDS on interest and its ₹50,000 and ₹1,00,000 thresholds: [Section 393](https://www.incometaxindia.gov.in/w/section-393-5)
+- Debt-fund (specified mutual fund) gains treated as short-term: [Section 76](https://www.incometaxindia.gov.in/w/section-76-106)
+- Equity-oriented fund gains: [Section 196](https://www.incometaxindia.gov.in/w/section-196-76) (short-term, 20%) and [Section 198](https://www.incometaxindia.gov.in/w/section-198-78) (long-term, 12.5% above ₹1.25 lakh)
+- Health and education cess of 4%: [Income Tax Department, Tax rates](https://incometaxindia.gov.in/Documents/Left%20Menu/TAX%20RATES_Indvl.htm)
 
-**Savings and FD interest**
+**Securities and Exchange Board of India (SEBI)**
 
-- 80TTA and 80TTB limits, old regime versus new regime: [TaxClue, Income tax on interest income](https://taxclue.in/income-tax-on-interest-income)
-- 10% TDS above ₹50,000 (₹1,00,000 for senior citizens): [ICICI Bank, Tax deduction on fixed deposits](https://www.icici.bank.in/personal-banking/blogs/deposits/fixed-deposits/tax-deduction-on-fixed-deposit)
-- No TDS on savings-account interest: [Motilal Oswal, Section 194A explained](https://www.motilaloswal.com/personal-finance/tax/section-194a-tds-on-interest-income-explained)
-
-**Liquid funds and credit risk**
-
-- Liquid funds invest in securities maturing within 91 days (SEBI categorisation circular of 6 October 2017): [HDFC Mutual Fund, SEBI-mandated fund classifications](https://www.hdfcfund.com/learn/blog/sebi-mandated-mutual-fund-classifications)
-- SEBI allowed side-pocketing of debt instruments after credit events (circular of 28 December 2018): [Regstreet Law Advisors](https://regstreetlaw.com/articles/sebi-allows-side-pocketing-in-mutual-funds-a-side-story/)
-- Example of a NAV markdown and side-pocketing: [Business Standard, Franklin Templeton MF side-pockets Vodafone Idea exposure (January 2020)](https://www.business-standard.com/amp/article/pti-stories/franklin-templeton-mf-sidepockets-exposure-to-vodafone-idea-120012600757_1.html)
-- Stress in liquid and arbitrage funds in March 2020: [Business Standard, Covid-19 and FII sell-off hit liquid funds hard (April 2020)](https://www.business-standard.com/article/economy-policy/covid-19-fii-sell-off-hit-liquid-funds-hard-rbi-s-ltro-may-calm-investors-120040301869_1.html)
+- Liquid funds invest only in securities maturing within 91 days, and arbitrage funds hold at least 65% in equity: [SEBI circular of 26 February 2026](https://www.sebi.gov.in/legal/circulars/feb-2026/categorization-and-rationalization-of-mutual-fund-schemes_99983.html)
+- Segregated portfolios (side-pockets) after a credit event: [SEBI circular of 28 December 2018](https://www.sebi.gov.in/sebi_data/attachdocs/dec-2018/1545995832816.pdf)
+- Exit loads and redemption times differ by fund, so read the fund's Scheme Information Document before investing.
 
 **Bank deposit insurance**
 
 - ₹5 lakh per depositor per bank, principal and interest combined, all branches aggregated: [DICGC, Frequently asked questions](https://www.dicgc.org.in/FAQs)
 
-**Arbitrage funds (Advanced Read)**
-
-- 20% short-term rate, and 12.5% long-term rate above the ₹1.25 lakh annual exemption after 12 months: [Bajaj AMC, Arbitrage fund taxation](https://www.bajajamc.com/knowledge-centre/arbitrage-fund-taxation) and [Tata Mutual Fund, Tax efficiency](https://www.tatamutualfund.com/blogs/tax-efficiency-125-advantage)
-- Exit loads and redemption timelines differ by scheme, so read the fund's Scheme Information Document before investing.
-
 **How many months to keep**
 
-- 3 to 6 months of essential expenses is a widely used planning rule of thumb, not a regulatory requirement: [Value Research, Emergency fund size in India](https://www.valueresearchonline.com/learn/personal-finance/emergency-fund-size-india-how-many-months/)
+- Safety and liquidity come first, with three to six months of expenses commonly suggested and more for uncertain incomes: [NISM (set up by SEBI), Save for Emergencies](https://www.nism.ac.in/investor-education/save-for-emergencies)
