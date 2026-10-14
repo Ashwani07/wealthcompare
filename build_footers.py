@@ -25,8 +25,16 @@ PAGES = {
         "This tool is for educational illustration only. Verify figures with your bank before making a decision.",
     "tools/loan-vs-sip/index.html":
         "This tool is for educational illustration only. It excludes stamp duty, registration, and brokerage — verify figures with your bank or advisor.",
+    "tools/loan-prepayment/index.html":
+        "This tool is for educational illustration only. It excludes prepayment charges, fees and tax benefits. Confirm the revised schedule with your lender.",
     "tools/sip-growth/index.html":
         "This tool is for educational illustration only. Actual returns will vary based on market conditions, fund choice, and tax rules.",
+    "insights/emergency-fund-before-investing/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "insights/what-a-sip-return-assumption-means/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "insights/reduce-emi-or-reduce-tenure-after-prepayment/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
     "about/index.html": None,
     "privacy-policy/index.html": None,
     "terms/index.html": None,

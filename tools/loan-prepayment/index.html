@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Free home-loan prepayment calculator for India. See how lump sums, monthly extra payments and a rate change affect your EMI, loan tenure and total interest.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/loan-prepayment/">
+<title>Loan Prepayment Calculator: See How Much Interest You Can Save | WealthCompare</title>
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="Loan Prepayment Calculator: See How Much Interest You Can Save">
+<meta property="og:description" content="Free home-loan prepayment calculator for India. See how lump sums, monthly extra payments and a rate change affect your EMI, loan tenure and total interest.">
+<meta property="og:url" content="https://wealthcompare.in/tools/loan-prepayment/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Auto Ads (Anchor + Vignette + In-page) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
+     crossorigin="anonymous"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="/assets/js/amount-words.js"></script>
+<script src="/assets/js/export-excel.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Loan Prepayment Calculator",
+  "url": "https://wealthcompare.in/tools/loan-prepayment/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "isPartOf": { "@type": "WebSite", "name": "WealthCompare", "url": "https://wealthcompare.in/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
+}
+.hero { padding: 30px 20px 40px; text-align: center; color: white; }
+.hero-inner {
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 20px 18px; border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+.hero ul { text-align: left; display: inline-block; margin: 6px 0 10px; font-size: 14px; }
+.container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
+.card {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 18px; margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.card-title {
+    background: linear-gradient(135deg,#4f46e5,#3b82f6); color: white;
+    padding: 10px; border-radius: 10px; margin: 0 0 6px; font-size: 20px;
+}
+.group-title { margin: 18px 0 2px; font-size: 15px; font-weight: 700; color: #3730a3; }
+.group-note { margin: 0 0 4px; font-size: 12px; color: var(--text-muted); }
+.inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
+.input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+.input-group input, .input-group select {
+    padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%;
+    font-family: inherit; background: #fff;
+}
+.input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.lump-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 20px; margin-top: 10px; }
+.check-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+.check-row input { width: 18px; height: 18px; }
+.rate-fields[hidden] { display: none; }
+button {
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5);
+    color: white; border: none; border-radius: 12px; font-size: 15px;
+    cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px; font-family: inherit;
+}
+button:disabled { opacity: 0.55; cursor: not-allowed; }
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
+
+/* Verdict card: the single headline answer; everything else is supporting detail. */
+.verdict-card {
+    background: linear-gradient(135deg, #eef2ff, #ecfeff);
+    border: 1px solid #c7d2fe; border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.verdict-card .verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0 0 8px; }
+.verdict-card .verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
+.verdict-card .verdict-headline.is-negative { color: #7c2d12; }
+.verdict-card .verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
+.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.verdict-bullets li { font-size: 13px; color: var(--text-primary); padding-left: 20px; position: relative; }
+.verdict-bullets li::before { content: "•"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; }
+.verdict-notes { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: #fffbeb; border: 1px solid #fde68a; font-size: 12px; color: #78350f; }
+.verdict-notes ul { margin: 4px 0 0; padding-left: 18px; }
+
+/* Collapsible sections */
+.breakdown-details { margin-top: 4px; }
+.breakdown-details > summary {
+    cursor: pointer; list-style: none; font-weight: 700; color: #3730a3;
+    padding: 12px 14px; border-radius: 10px; background: var(--surface-muted);
+    display: flex; align-items: center; gap: 8px; font-size: 14px;
+}
+.breakdown-details > summary::-webkit-details-marker { display: none; }
+.breakdown-details > summary::before { content: "▸"; transition: transform 0.15s ease; }
+.breakdown-details[open] > summary::before { transform: rotate(90deg); }
+.breakdown-details > summary:hover { background: #e0e7ff; }
+.breakdown-body { padding-top: 16px; }
+.nested-details { margin-top: 14px; }
+.nested-details > summary {
+    cursor: pointer; font-weight: 700; color: #3730a3; font-size: 14px; padding: 8px 0;
+}
+
+.result-section { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 14px; background: #fff; margin-bottom: 16px; }
+.result-section h3 { margin: 0 0 10px; color: #1f2937; font-size: 17px; }
+.metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.metric { padding: 10px 12px; border-radius: 10px; background: var(--surface-muted); }
+.metric-label { display: block; color: var(--text-muted); font-size: 11px; }
+.metric-value { display: block; margin-top: 3px; color: var(--text-primary); font-size: 14px; font-weight: 700; }
+.decision-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+.decision-table th, .decision-table td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #e0e7ff; }
+.decision-table th:first-child, .decision-table td:first-child { text-align: left; color: var(--text-secondary); }
+.decision-table th { color: #3730a3; font-weight: 700; }
+.decision-table td:not(:first-child) { font-weight: 600; color: var(--text-primary); }
+.decision-table tr.is-selected td { background: #eef2ff; }
+.table-scroll { overflow-x: auto; }
+.advanced-body p { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin: 0 0 10px; }
+.advanced-body h4 { margin: 14px 0 6px; font-size: 14px; color: #1f2937; }
+
+.chart-container {
+    background: rgba(255,255,255,0.95); padding: 16px; border-radius: 18px;
+    margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.chart-controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 8px; }
+.chart-controls label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+.chart-controls select { padding: 7px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 13px; font-family: inherit; }
+.chart-caption { font-size: 12px; color: var(--text-muted); margin: 0 0 10px; }
+.chart-canvas-wrap { position: relative; height: 300px; width: 100%; }
+@media (min-width: 640px) { .chart-canvas-wrap { height: 380px; } }
+.export-button { background: #167d83; margin-left: 8px; }
+@media (max-width: 600px) { .export-button { margin-left: 0; } }
+@media (max-width: 520px) { .lump-grid { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .metric-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <a class="brand" href="/" aria-label="WealthCompare home">
+        <img src="/assets/logo.svg" alt="">
+        <span class="brand-name">Wealth<span>Compare</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <div class="hero-inner">
+        <h1>Loan Prepayment Calculator</h1>
+        <p>See how paying a little extra, or a big lump sum, changes how long your loan lasts and how much interest you pay.</p>
+        <ul>
+            <li><b>Lump sums</b>: a bonus, a maturity amount, or savings you decide to put in.</li>
+            <li><b>Monthly extra</b>: a fixed amount added to every EMI.</li>
+            <li><b>Rate change</b>: what happens if your lender changes your interest rate.</li>
+        </ul>
+        <p>Everything is calculated in your browser. Amounts are actual rupees, not inflation-adjusted.</p>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- Inputs -->
+    <div class="card">
+        <h2 class="card-title">📥 Enter Your Details</h2>
+
+        <h3 class="group-title">Your loan today</h3>
+        <p class="group-note">Use what you still owe and the years left, not the original loan. The rates below are examples; use your own.</p>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="loanAmount">Outstanding loan (₹)</label>
+                <input id="loanAmount" type="number" inputmode="decimal" min="1" step="1000" value="10000000">
+                <span id="loanAmountWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="loanAmountError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="rate">Interest rate (% per year)</label>
+                <input id="rate" type="number" inputmode="decimal" min="0" max="30" step="0.01" value="7.5">
+                <span class="field-error" id="rateError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="tenure">Years left on the loan</label>
+                <input id="tenure" type="number" inputmode="numeric" min="1" max="40" step="1" value="20">
+                <span class="field-error" id="tenureError" role="alert"></span>
+            </div>
+        </div>
+
+        <h3 class="group-title">Lump-sum prepayments</h3>
+        <p class="group-note">Month 1 is your next EMI. Leave a row at 0 if you don't need it.</p>
+        <div class="lump-grid" id="lumpGrid"></div>
+
+        <h3 class="group-title">Monthly extra payment</h3>
+        <p class="group-note">A fixed amount paid on top of your EMI, between the start and end months.</p>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="extra">Extra each month (₹)</label>
+                <input id="extra" type="number" inputmode="decimal" min="0" step="500" value="0">
+                <span id="extraWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="extraError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="extraStart">Starts in month</label>
+                <input id="extraStart" type="number" inputmode="numeric" min="1" max="480" step="1" value="1">
+                <span class="field-error" id="extraStartError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="extraEnd">Ends in month</label>
+                <input id="extraEnd" type="number" inputmode="numeric" min="1" max="480" step="1" value="240">
+                <span class="input-help">240 months = 20 years</span>
+                <span class="field-error" id="extraEndError" role="alert"></span>
+            </div>
+        </div>
+
+        <h3 class="group-title">If your interest rate changes</h3>
+        <label class="check-row"><input id="rateOn" type="checkbox" checked> Include a rate change in the comparison</label>
+        <div class="inputs-grid rate-fields" id="rateFields">
+            <div class="input-group">
+                <label for="rateMonth">New rate starts in month</label>
+                <input id="rateMonth" type="number" inputmode="numeric" min="1" max="480" step="1" value="61">
+                <span class="field-error" id="rateMonthError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="newRate">New interest rate (% per year)</label>
+                <input id="newRate" type="number" inputmode="decimal" min="0" max="30" step="0.01" value="6.5">
+                <span class="field-error" id="newRateError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="treat">What your lender does</label>
+                <select id="treat">
+                    <option value="keep">Keep EMI, change tenure</option>
+                    <option value="recalc">Keep tenure, recalculate EMI</option>
+                </select>
+                <span class="input-help">Most lenders keep the EMI and let the loan end sooner or later. Ask yours.</span>
+            </div>
+        </div>
+
+        <h3 class="group-title">What you want a prepayment to do</h3>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="strategy">Prepayment goal</label>
+                <select id="strategy">
+                    <option value="Reduce EMI">Reduce EMI</option>
+                    <option value="Reduce Tenure">Reduce Tenure</option>
+                </select>
+                <span class="input-help">Reduce EMI: your instalment falls after each prepayment. Reduce Tenure: the EMI stays and the loan ends sooner.</span>
+            </div>
+        </div>
+
+        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+
+        <button type="button" onclick="calculate()">See my savings</button>
+        <button type="button" class="export-button" onclick="exportPrepayment()">Export to Excel</button>
+    </div>
+
+    <!-- Verdict: the headline answer, always visible -->
+    <div id="verdictCard" class="card verdict-card"></div>
+
+    <!-- Full breakdown: collapsed by default but still in the page content -->
+    <details class="card breakdown-details">
+        <summary>Show the full breakdown (all five scenarios, normal loan, how it works)</summary>
+        <div class="breakdown-body">
+            <div class="result-section" id="normalSummary"></div>
+            <div class="result-section">
+                <h3>⚖️ Five scenarios side by side</h3>
+                <p class="group-note">Each column changes one thing against your normal loan. "Combination" uses everything you entered.</p>
+                <div class="table-scroll" id="scenarioTable"></div>
+            </div>
+            <details class="nested-details">
+                <summary>Advanced Read: how these numbers are worked out</summary>
+                <div class="advanced-body">
+                    <h4>Month by month</h4>
+                    <p>Each month, interest is the balance at the start of the month multiplied by the yearly rate divided by 12. Your EMI is paid first. Any extra payment or lump sum due that month is then paid against the remaining balance. A prepayment can never be more than what is still owed.</p>
+                    <h4>Reduce EMI</h4>
+                    <p>After a month with a prepayment, the EMI is recalculated for the balance and the months still left on the original schedule. The loan ends close to the original date, but each instalment is smaller.</p>
+                    <h4>Reduce Tenure</h4>
+                    <p>The EMI stays where it is. Because the balance falls faster, the loan ends earlier. For the same money prepaid at the same time, this normally saves more interest than lowering the EMI.</p>
+                    <h4>Rate change</h4>
+                    <p><b>Keep EMI, change tenure:</b> the instalment stays the same, so a lower rate shortens the loan and a higher rate lengthens it. <b>Keep tenure, recalculate EMI:</b> the EMI is recalculated at the new rate for the months left. If a prepayment was made the month before the rate change and you chose Reduce EMI, the new EMI is first worked out at the old rate and then the new rate applies from the change month.</p>
+                    <h4>What is not included</h4>
+                    <p>Prepayment charges, processing fees, insurance, tax benefits, missed payments and any lender-specific day-count rules are not included. All amounts are actual rupees paid in the future; no inflation adjustment is applied. If a rate rise is large enough that the EMI no longer covers the interest, the page tells you the loan is not repaid within 40 years.</p>
+                </div>
+            </details>
+        </div>
+    </details>
+
+    <!-- Chart + yearly schedule -->
+    <div class="chart-container">
+        <div class="chart-controls">
+            <label for="scenarioSelect">Compare your normal loan with:</label>
+            <select id="scenarioSelect" onchange="renderScenarioView()">
+                <option value="combo">Combination of all</option>
+                <option value="lumps">Multiple lump sums</option>
+                <option value="extra">Monthly extra payment</option>
+                <option value="rate">Mid-term rate change</option>
+            </select>
+        </div>
+        <p id="chartCaption" class="chart-caption"></p>
+        <div class="chart-canvas-wrap">
+            <canvas id="balanceChart"></canvas>
+        </div>
+        <details class="nested-details">
+            <summary>Yearly schedule for the scenario selected above</summary>
+            <div class="table-container" id="scheduleTable"></div>
+        </details>
+    </div>
+
+</div>
+
+<script>
+const MAX_MONTHS = 480;
+const SCENARIOS = {
+    normal: "Normal loan",
+    lumps: "Multiple lump sums",
+    extra: "Monthly extra payment",
+    rate: "Mid-term rate change",
+    combo: "Combination of all"
+};
+const LUMP_ROWS = 5;
+const DEFAULT_LUMPS = [[12, 500000], [36, 500000], [60, 500000], [0, 0], [0, 0]];
+
+let chart = null;
+let lastResults = null;
+
+function formatINR(x) {
+    return Math.round(x).toLocaleString('en-IN');
+}
+
+function formatMonths(m) {
+    if (m === null || m === undefined) return "Not within 40 years";
+    const y = Math.floor(m / 12);
+    const rem = m % 12;
+    const parts = [];
+    if (y > 0) parts.push(y + (y === 1 ? " year" : " years"));
+    if (rem > 0 || y === 0) parts.push(rem + (rem === 1 ? " month" : " months"));
+    return parts.join(" ");
+}
+
+function pmt(ratePct, n, pv) {
+    const r = ratePct / 1200;
+    if (n <= 0) return NaN;
+    return r === 0 ? pv / n : pv * r / (1 - Math.pow(1 + r, -n));
+}
+
+/* ---------- Lump-sum rows ---------- */
+function buildLumpRows() {
+    const grid = document.getElementById("lumpGrid");
+    let html = "";
+    for (let i = 1; i <= LUMP_ROWS; i++) {
+        const d = DEFAULT_LUMPS[i - 1];
+        html += `
+        <div class="input-group">
+            <label for="lumpMonth${i}">Lump sum ${i}: month</label>
+            <input id="lumpMonth${i}" type="number" inputmode="numeric" min="0" max="480" step="1" value="${d[0]}">
+            <span class="field-error" id="lumpMonth${i}Error" role="alert"></span>
+        </div>
+        <div class="input-group">
+            <label for="lumpAmount${i}">Lump sum ${i}: amount (₹)</label>
+            <input id="lumpAmount${i}" type="number" inputmode="decimal" min="0" step="1000" value="${d[1]}">
+            <span id="lumpAmount${i}Words" class="amount-words" aria-live="polite"></span>
+            <span class="field-error" id="lumpAmount${i}Error" role="alert"></span>
+        </div>`;
+    }
+    grid.innerHTML = html;
+}
+
+/* ---------- Inline validation ---------- */
+function setFieldError(id, message) {
+    const input = document.getElementById(id);
+    const err = document.getElementById(id + "Error");
+    const group = input.closest(".input-group");
+    if (message) {
+        err.textContent = message;
+        group.classList.add("has-error");
+        input.setAttribute("aria-invalid", "true");
+        input.setAttribute("aria-describedby", id + "Error");
+    } else {
+        err.textContent = "";
+        group.classList.remove("has-error");
+        input.removeAttribute("aria-invalid");
+        input.removeAttribute("aria-describedby");
+    }
+}
+
+function clearAllErrors() {
+    const ids = ["loanAmount", "rate", "tenure", "extra", "extraStart", "extraEnd", "rateMonth", "newRate"];
+    for (let i = 1; i <= LUMP_ROWS; i++) { ids.push("lumpMonth" + i, "lumpAmount" + i); }
+    ids.forEach(id => setFieldError(id, ""));
+    document.getElementById("formError").textContent = "";
+}
+
+function num(id) {
+    const raw = document.getElementById(id).value;
+    return raw === "" ? NaN : +raw;
+}
+
+// Reads and validates every field. Returns a plain object, or null after
+// writing an inline message under every field that is wrong.
+function readInputs() {
+    clearAllErrors();
+    let ok = true;
+    const fail = (id, msg) => { setFieldError(id, msg); ok = false; };
+
+    const loan = num("loanAmount");
+    const rate = num("rate");
+    const tenureYears = num("tenure");
+    const extra = num("extra");
+    const extraStart = num("extraStart");
+    const extraEnd = num("extraEnd");
+    const rateOn = document.getElementById("rateOn").checked;
+    const rateMonth = num("rateMonth");
+    const newRate = num("newRate");
+
+    if (!Number.isFinite(loan) || loan <= 0) fail("loanAmount", "Enter an amount above zero.");
+    if (!Number.isFinite(rate) || rate < 0 || rate > 30) fail("rate", "Enter a rate between 0% and 30%.");
+    if (!Number.isInteger(tenureYears) || tenureYears < 1 || tenureYears > 40) fail("tenure", "Enter a whole number of years from 1 to 40.");
+    if (!Number.isFinite(extra) || extra < 0) fail("extra", "Extra payment can't be negative.");
+    if (!Number.isInteger(extraStart) || extraStart < 1 || extraStart > 480) fail("extraStart", "Enter a whole month from 1 to 480.");
+    if (!Number.isInteger(extraEnd) || extraEnd < 1 || extraEnd > 480) fail("extraEnd", "Enter a whole month from 1 to 480.");
+    else if (Number.isInteger(extraStart) && extraEnd < extraStart) fail("extraEnd", "End month must be the same as or after the start month.");
+
+    const lumps = [];
+    for (let i = 1; i <= LUMP_ROWS; i++) {
+        const month = num("lumpMonth" + i);
+        const amount = num("lumpAmount" + i);
+        let rowOk = true;
+        if (!Number.isInteger(month) || month < 0 || month > 480) { fail("lumpMonth" + i, "Enter a whole month from 0 to 480."); rowOk = false; }
+        if (!Number.isFinite(amount) || amount < 0) { fail("lumpAmount" + i, "Amount can't be negative."); rowOk = false; }
+        if (rowOk && amount > 0 && month === 0) { fail("lumpMonth" + i, "Enter the month (1 or later) for this amount."); rowOk = false; }
+        if (rowOk) lumps.push({ month, amount });
+    }
+
+    if (rateOn) {
+        if (!Number.isInteger(rateMonth) || rateMonth < 1 || rateMonth > 480) fail("rateMonth", "Enter a whole month from 1 to 480.");
+        if (!Number.isFinite(newRate) || newRate < 0 || newRate > 30) fail("newRate", "Enter a rate between 0% and 30%.");
+    }
+
+    if (!ok) {
+        document.getElementById("formError").textContent = "Please fix the highlighted fields.";
+        return null;
+    }
+
+    return {
+        loan, rate, tenureYears, extra, extraStart, extraEnd, lumps,
+        rateChangeOn: rateOn, rateMonth: rateOn ? rateMonth : 0, newRate: rateOn ? newRate : rate,
+        treat: document.getElementById("treat").value,
+        strategy: document.getElementById("strategy").value
+    };
+}
+
+/* ---------- Calculation engine ----------
+   One month-by-month simulation per scenario. This follows the WealthCompare
+   Excel model's Prepayment Engine formula for formula, so the page and the
+   workbook give the same numbers. */
+function simulate(kind, inp) {
+    const N = inp.tenureYears * 12;
+    const useLump = kind === 'lumps' || kind === 'combo';
+    const useExtra = kind === 'extra' || kind === 'combo';
+    const useRate = (kind === 'rate' || kind === 'combo') && inp.rateChangeOn;
+    const ns = inp.rateMonth;
+    const lumpByMonth = {};
+    inp.lumps.forEach(l => { if (l.month > 0 && l.amount > 0) lumpByMonth[l.month] = (lumpByMonth[l.month] || 0) + l.amount; });
+    const baseEmi = pmt(inp.rate, N, inp.loan);
+
+    const rows = [];
+    let closing = inp.loan, prevEmi = 0, prevPre = 0, prevRate = inp.rate;
+    let interestTotal = 0, prepayTotal = 0, payoff = null;
+
+    for (let m = 1; m <= MAX_MONTHS; m++) {
+        const opening = closing;
+        const rate = (useRate && m >= ns) ? inp.newRate : inp.rate;
+
+        if (opening <= 0) {
+            rows.push({ m, opening: 0, rate, emi: 0, interest: 0, principal: 0, prepay: 0, closing: 0 });
+            closing = 0; prevEmi = 0; prevPre = 0; prevRate = rate;
+            continue;
+        }
+
+        const remaining = Math.max(1, N - m + 1);
+        const reduceEmiNow = inp.strategy === 'Reduce EMI' && prevPre > 0;
+        let emi;
+        if (kind === 'normal') {
+            emi = baseEmi;
+        } else if (m === 1) {
+            emi = pmt(rate, N, opening);
+        } else if (kind === 'lumps' || kind === 'extra') {
+            emi = reduceEmiNow ? pmt(rate, remaining, opening) : prevEmi;
+        } else if (kind === 'rate') {
+            emi = (useRate && m === ns && inp.treat === 'recalc') ? pmt(rate, remaining, opening) : prevEmi;
+        } else { // combination
+            if (useRate && m === ns) {
+                if (inp.treat === 'recalc') emi = pmt(rate, remaining, opening);
+                else emi = reduceEmiNow ? pmt(prevRate, remaining, opening) : prevEmi;
+            } else {
+                emi = reduceEmiNow ? pmt(rate, remaining, opening) : prevEmi;
+            }
+        }
+
+        const interest = opening * rate / 1200;
+        const sched = Math.min(emi, opening + interest);
+        const principal = Math.max(0, sched - interest);
+        let want = 0;
+        if (useLump) want += lumpByMonth[m] || 0;
+        if (useExtra && m >= inp.extraStart && m <= inp.extraEnd) want += inp.extra;
+        const prepay = Math.min(Math.max(0, opening - principal), want);
+        closing = Math.max(0, opening - principal - prepay);
+
+        rows.push({ m, opening, rate, emi: sched, interest, principal, prepay, closing });
+        interestTotal += interest;
+        prepayTotal += prepay;
+        if (payoff === null && closing <= 0.01) payoff = m;
+        prevEmi = sched; prevPre = prepay; prevRate = rate;
+    }
+
+    const emiAfterRate = (useRate && ns >= 1 && ns <= MAX_MONTHS) ? rows[ns - 1].emi : null;
+    return { kind, rows, interest: interestTotal, prepaid: prepayTotal, payoff, emiInitial: rows[0].emi, emiAfterRate };
+}
+
+function computeAll(inp) {
+    const res = {};
+    Object.keys(SCENARIOS).forEach(k => { res[k] = simulate(k, inp); });
+    return res;
+}
+
+function yearlySchedule(result, tenureYears) {
+    const out = [];
+    const lastMonth = result.payoff === null ? MAX_MONTHS : result.payoff;
+    const years = Math.min(40, Math.ceil(lastMonth / 12));
+    for (let y = 1; y <= years; y++) {
+        const slice = result.rows.slice((y - 1) * 12, y * 12);
+        out.push({
+            year: y,
+            opening: slice[0].opening,
+            endRate: slice[slice.length - 1].rate,
+            emi: slice.reduce((a, r) => a + r.emi, 0),
+            interest: slice.reduce((a, r) => a + r.interest, 0),
+            principal: slice.reduce((a, r) => a + r.principal, 0),
+            prepay: slice.reduce((a, r) => a + r.prepay, 0),
+            closing: slice[slice.length - 1].closing
+        });
+    }
+    return out;
+}
+
+/* ---------- Rendering ---------- */
+function calculate() {
+    const inp = readInputs();
+    if (!inp) return;
+    const res = computeAll(inp);
+    lastResults = { inp, res };
+    window.lastResults = lastResults;
+    renderVerdict(inp, res);
+    renderBreakdown(inp, res);
+    renderScenarioView();
+}
+
+function renderVerdict(inp, res) {
+    const normal = res.normal, plan = res.combo;
+    const saved = normal.interest - plan.interest;
+    const N = inp.tenureYears * 12;
+    const hasAny = inp.lumps.some(l => l.month > 0 && l.amount > 0) || inp.extra > 0 || inp.rateChangeOn;
+    let headline, negative = false, sub;
+
+    if (plan.payoff === null) {
+        negative = true;
+        headline = "With these inputs the loan is not repaid within 40 years.";
+        sub = "After the rate change the EMI no longer covers the interest. Try a higher EMI, a prepayment, or the 'recalculate EMI' option.";
+    } else if (!hasAny) {
+        headline = "Add a lump sum, a monthly extra payment or a rate change to see the effect.";
+        sub = "Your normal loan: " + formatMonths(normal.payoff) + ", total interest ₹" + formatINR(normal.interest) + ".";
+    } else if (Math.abs(saved) < 0.5 && plan.payoff === normal.payoff) {
+        headline = "These inputs don't change your loan.";
+        sub = "Your normal loan: " + formatMonths(normal.payoff) + ", total interest ₹" + formatINR(normal.interest) + ".";
+    } else if (saved >= 0) {
+        headline = "Your plan saves about ₹" + formatINR(saved) + " in interest";
+        const monthsEarlier = normal.payoff - plan.payoff;
+        headline += monthsEarlier > 0 ? " and ends the loan " + formatMonths(monthsEarlier) + " early." : ".";
+        const endText = plan.payoff === normal.payoff
+            ? "Loan still ends in " + formatMonths(plan.payoff) + ", but with smaller EMIs."
+            : "Loan ends in " + formatMonths(plan.payoff) + " instead of " + formatMonths(normal.payoff) + ".";
+        sub = endText + " Total interest ₹" + formatINR(plan.interest) + " instead of ₹" + formatINR(normal.interest) + ".";
+    } else {
+        negative = true;
+        headline = "Your plan costs about ₹" + formatINR(-saved) + " more in interest.";
+        sub = "Loan ends in " + formatMonths(plan.payoff) + " instead of " + formatMonths(normal.payoff) + ". This usually happens when the new rate is higher than your current rate.";
+    }
+
+    const bullets = [];
+    const lumpTotal = inp.lumps.reduce((a, l) => a + (l.month > 0 ? l.amount : 0), 0);
+    if (lumpTotal > 0) {
+        const s = normal.interest - res.lumps.interest;
+        bullets.push("Lump sums alone (₹" + formatINR(lumpTotal) + " in total): " + (s >= 0 ? "save ₹" + formatINR(s) : "cost ₹" + formatINR(-s) + " more") + " in interest; loan ends in " + formatMonths(res.lumps.payoff) + ".");
+    }
+    if (inp.extra > 0) {
+        const s = normal.interest - res.extra.interest;
+        bullets.push("Monthly extra of ₹" + formatINR(inp.extra) + " alone: " + (s >= 0 ? "saves ₹" + formatINR(s) : "costs ₹" + formatINR(-s) + " more") + " in interest; loan ends in " + formatMonths(res.extra.payoff) + ".");
+    }
+    if (inp.rateChangeOn) {
+        const s = normal.interest - res.rate.interest;
+        bullets.push("A move to " + inp.newRate + "% from month " + inp.rateMonth + " alone: " + (s >= 0 ? "saves ₹" + formatINR(s) : "costs ₹" + formatINR(-s) + " more") + " in interest. That depends on your lender, not on you.");
+    }
+    if (plan.payoff !== null && inp.strategy === 'Reduce EMI' && (lumpTotal > 0 || inp.extra > 0)) {
+        const lastEmi = plan.rows[Math.max(0, plan.payoff - 2)].emi;
+        if (Math.abs(lastEmi - plan.emiInitial) > 1) {
+            bullets.push("With Reduce EMI, your EMI starts at ₹" + formatINR(plan.emiInitial) + " and falls to about ₹" + formatINR(lastEmi) + " near the end. Choosing Reduce Tenure keeps the EMI and usually saves more interest.");
+        }
+    } else if (inp.strategy === 'Reduce Tenure' && (lumpTotal > 0 || inp.extra > 0)) {
+        bullets.push("With Reduce Tenure, your EMI stays at about ₹" + formatINR(plan.emiInitial) + " and the loan simply ends sooner.");
+    }
+    bullets.push("This is an educational illustration, not advice. Check any prepayment charges and the revised schedule with your lender.");
+
+    // Notes about inputs that don't do anything
+    const notes = [];
+    const lumpEntered = inp.lumps.filter(l => l.month > 0 && l.amount > 0);
+    const lumpEnteredTotal = lumpEntered.reduce((a, l) => a + l.amount, 0);
+    if (lumpEntered.length > 0 && res.lumps.prepaid < lumpEnteredTotal - 1) {
+        notes.push("₹" + formatINR(lumpEnteredTotal - res.lumps.prepaid) + " of your lump sums isn't used in the 'lump sums alone' case, because the loan is already repaid, or the balance is smaller, by the time it is due.");
+    }
+    if (inp.rateChangeOn && inp.rateMonth > N) {
+        notes.push("The rate change starts in month " + inp.rateMonth + ", after your original " + N + "-month term, so it only matters if the loan is still running then.");
+    }
+    if (inp.extra > 0 && inp.extraStart > N) {
+        notes.push("The monthly extra starts in month " + inp.extraStart + ", after your original " + N + "-month term, so it has no effect.");
+    }
+    const notesHtml = notes.length ? `<div class="verdict-notes"><b>Worth knowing</b><ul>${notes.map(n => `<li>${n}</li>`).join("")}</ul></div>` : "";
+
+    document.getElementById("verdictCard").innerHTML = `
+        <p class="verdict-eyebrow">Your result, using everything you entered</p>
+        <p class="verdict-headline${negative ? " is-negative" : ""}">${headline}</p>
+        <p class="verdict-sub">${sub}</p>
+        <ul class="verdict-bullets">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+        ${notesHtml}
+    `;
+}
+
+function renderBreakdown(inp, res) {
+    const n = res.normal;
+    document.getElementById("normalSummary").innerHTML = `
+        <h3>🏠 Your normal loan (no prepayment)</h3>
+        <div class="metric-grid">
+            <div class="metric"><span class="metric-label">Monthly EMI</span><span class="metric-value">₹${formatINR(n.emiInitial)}</span></div>
+            <div class="metric"><span class="metric-label">Total interest</span><span class="metric-value">₹${formatINR(n.interest)}</span></div>
+            <div class="metric"><span class="metric-label">Total you repay</span><span class="metric-value">₹${formatINR(inp.loan + n.interest)}</span></div>
+            <div class="metric"><span class="metric-label">Loan ends in</span><span class="metric-value">${formatMonths(n.payoff)}</span></div>
+        </div>`;
+
+    const keys = ["normal", "lumps", "extra", "rate", "combo"];
+    let rows = "";
+    keys.forEach(k => {
+        const r = res[k];
+        const saving = n.interest - r.interest;
+        rows += `<tr>
+            <td>${SCENARIOS[k]}</td>
+            <td>₹${formatINR(r.emiInitial)}</td>
+            <td>${r.emiAfterRate === null ? "—" : "₹" + formatINR(r.emiAfterRate)}</td>
+            <td>${formatMonths(r.payoff)}</td>
+            <td>₹${formatINR(r.interest)}</td>
+            <td>${k === "normal" ? "—" : (saving >= 0 ? "₹" + formatINR(saving) : "−₹" + formatINR(-saving))}</td>
+            <td>₹${formatINR(r.prepaid)}</td>
+        </tr>`;
+    });
+    document.getElementById("scenarioTable").innerHTML = `
+        <table class="decision-table">
+            <thead><tr><th>Scenario</th><th>Starting EMI</th><th>EMI at rate change</th><th>Loan ends in</th><th>Total interest</th><th>Interest saved</th><th>Prepaid</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table>`;
+}
+
+function renderScenarioView() {
+    if (!lastResults) return;
+    const { inp, res } = lastResults;
+    const key = document.getElementById("scenarioSelect").value;
+    const chosen = res[key];
+    const normal = res.normal;
+
+    // Yearly schedule
+    const sched = yearlySchedule(chosen, inp.tenureYears);
+    let rows = "";
+    sched.forEach(r => {
+        rows += `<tr><td>${r.year}</td><td>₹${formatINR(r.opening)}</td><td>${(Math.round(r.endRate * 100) / 100)}%</td><td>₹${formatINR(r.emi)}</td><td>₹${formatINR(r.interest)}</td><td>₹${formatINR(r.principal)}</td><td>₹${formatINR(r.prepay)}</td><td>₹${formatINR(r.closing)}</td></tr>`;
+    });
+    document.getElementById("scheduleTable").innerHTML = `
+        <table>
+            <thead><tr><th>Year</th><th>Opening balance</th><th>Rate at year end</th><th>EMI paid</th><th>Interest</th><th>Principal</th><th>Prepayment</th><th>Closing balance</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table>`;
+
+    // Chart: balance at the end of each year
+    const lastYear = Math.min(40, Math.ceil(Math.max(normal.payoff === null ? MAX_MONTHS : normal.payoff, chosen.payoff === null ? MAX_MONTHS : chosen.payoff) / 12));
+    const labels = ["Today"];
+    const normalData = [inp.loan];
+    const chosenData = [inp.loan];
+    for (let y = 1; y <= lastYear; y++) {
+        labels.push("Year " + y);
+        normalData.push(normal.rows[y * 12 - 1].closing);
+        chosenData.push(chosen.rows[y * 12 - 1].closing);
+    }
+    document.getElementById("chartCaption").textContent =
+        "Money you still owe at the end of each year. The gap between the lines is the effect of your prepayments and rate change.";
+
+    if (chart) chart.destroy();
+    chart = new Chart(document.getElementById("balanceChart"), {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                { label: "Normal loan", data: normalData, borderColor: "#4f46e5", backgroundColor: "rgba(79,70,229,0.08)", borderWidth: 3, tension: 0.2, pointRadius: 2 },
+                { label: SCENARIOS[key], data: chosenData, borderColor: "#10b981", backgroundColor: "rgba(16,185,129,0.08)", borderWidth: 3, tension: 0.2, pointRadius: 2 }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                title: { display: true, text: "Outstanding loan balance over time", font: { size: 13, weight: '600' }, padding: { bottom: 8 } },
+                legend: { position: 'top', labels: { boxWidth: 14, font: { size: 11 } } },
+                tooltip: { callbacks: { label: function (ctx) { return ctx.dataset.label + ": ₹" + Math.round(ctx.parsed.y).toLocaleString('en-IN'); } } }
+            },
+            scales: {
+                x: { ticks: { autoSkip: true, maxTicksLimit: 8, maxRotation: 0, minRotation: 0 } },
+                y: { ticks: { callback: function (v) { return '₹' + Number(v).toLocaleString('en-IN'); } } }
+            }
+        }
+    });
+}
+
+function exportPrepayment() {
+    const inp = readInputs();
+    if (!inp) return;
+    const res = computeAll(inp);
+    const key = document.getElementById("scenarioSelect").value;
+    const normal = res.normal;
+    const inputsSheet = [["Loan Prepayment Inputs"], ["Input", "Value"],
+        ["Outstanding loan (₹)", inp.loan], ["Interest rate (% per year)", inp.rate], ["Years left", inp.tenureYears],
+        ["Monthly extra (₹)", inp.extra], ["Extra starts in month", inp.extraStart], ["Extra ends in month", inp.extraEnd]];
+    inp.lumps.forEach((l, i) => { inputsSheet.push(["Lump sum " + (i + 1) + " month", l.month], ["Lump sum " + (i + 1) + " amount (₹)", l.amount]); });
+    inputsSheet.push(["Rate change included", inp.rateChangeOn ? "Yes" : "No"]);
+    if (inp.rateChangeOn) inputsSheet.push(["New rate starts in month", inp.rateMonth], ["New rate (% per year)", inp.newRate],
+        ["Lender treatment", inp.treat === 'recalc' ? "Keep tenure, recalculate EMI" : "Keep EMI, change tenure"]);
+    inputsSheet.push(["Prepayment goal", inp.strategy]);
+
+    const scenarioSheet = [["Five-scenario comparison"], ["Scenario", "Starting EMI", "EMI at rate change", "Loan ends (months)", "Total interest", "Interest saved", "Total prepaid"]];
+    ["normal", "lumps", "extra", "rate", "combo"].forEach(k => {
+        const r = res[k];
+        scenarioSheet.push([SCENARIOS[k], r.emiInitial, r.emiAfterRate === null ? "—" : r.emiAfterRate,
+            r.payoff === null ? "Not within 40 years" : r.payoff, r.interest, normal.interest - r.interest, r.prepaid]);
+    });
+
+    const scheduleSheet = [["Yearly schedule: " + SCENARIOS[key]], ["Year", "Opening balance", "Rate at year end (%)", "EMI paid", "Interest", "Principal", "Prepayment", "Closing balance"]];
+    yearlySchedule(res[key], inp.tenureYears).forEach(r => scheduleSheet.push([r.year, r.opening, r.endRate, r.emi, r.interest, r.principal, r.prepay, r.closing]));
+
+    exportWorkbook("loan-prepayment.xlsx", { Inputs: inputsSheet, Scenarios: scenarioSheet, Schedule: scheduleSheet });
+}
+
+function updateRateFields() {
+    document.getElementById("rateFields").hidden = !document.getElementById("rateOn").checked;
+}
+
+/* ---------- Start-up ---------- */
+buildLumpRows();
+document.getElementById("rateOn").addEventListener("change", updateRateFields);
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && e.target && e.target.tagName === "INPUT" && e.target.type !== "checkbox") calculate();
+});
+document.querySelectorAll(".input-group input").forEach(function (el) {
+    el.addEventListener("input", function () { if (el.id) setFieldError(el.id, ""); });
+});
+updateRateFields();
+calculate();
+bindAmountInWords("loanAmount", "loanAmountWords");
+bindAmountInWords("extra", "extraWords");
+for (let i = 1; i <= LUMP_ROWS; i++) bindAmountInWords("lumpAmount" + i, "lumpAmount" + i + "Words");
+</script>
+
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. It excludes prepayment charges, fees and tax benefits. Confirm the revised schedule with your lender.
+    </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
+
+</body>
+</html>
