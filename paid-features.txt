@@ -1,211 +1,201 @@
-WEALTHCOMPARE PREMIUM ROADMAP
-=============================
+WEALTHCOMPARE: MONETIZATION STATUS AND PREMIUM IDEAS
+====================================================
 
-Purpose
--------
-Premium features should help users model realistic assumptions, compare scenarios,
-and export decisions they can discuss with a lender or adviser. Keep the free tools
-useful; premium should add depth, saved work, and convenience rather than hide the
-basic calculation.
+Last updated: 12 October 2026
 
-Monetization roadmap: sequencing, not just features
------------------------------------------------------
-AdSense and paid features are not either/or — they monetize different things
-(attention vs. commitment) and most sites in this category run both at once.
-The real constraint right now is traffic, not model choice. Do not build
-payment infrastructure before Phase 2's trigger is met below.
+OWNER DECISION (12 October 2026): for now there will be NO user accounts, NO
+email capture and NO payment or payment-information collection on the site.
+Display ads (option A below) are the only active option. Options B, C and E
+are paused until that decision changes, and D is not in the plan.
 
-Phase 0 - Pre-launch (now)
-  - Ship free tools + AdSense as-is. No payment code yet.
+IMPORTANT: Anything beyond that is UNDECIDED. Nothing in this file is a commitment.
+It records what is true today, the options on the table, and what would have
+to be true before any option is built. The earlier version of this file
+contained two overlapping feature lists and a fixed phase plan. Both have been
+merged and the plan is now marked as a draft.
 
-Phase 1 - Months 0-3, traffic acquisition
-  - All effort on SEO/content/discoverability. Keep AdSense running.
-  - Track: organic sessions/month, and repeat-visit rate (signals real
-    utility, not just a one-off search click).
 
-Phase 2 - Trigger: ~3,000-5,000 monthly sessions, or clear repeat usage
-  - Ship exactly ONE paid feature as an experiment: a one-time ₹99-149
-    unlock for "save & export this scenario as PDF" via a Razorpay payment
-    link. No accounts, no login, no subscription.
-  - Keep AdSense live for everyone, paid or not, at this stage.
-
-Phase 3 - Trigger: Phase 2 shows real conversions
-  - Only now consider lightweight accounts. Expand into the P1 backlog below
-    (multi-scenario comparison, custom curves). This is also the point where
-    "ad-free for paying users" becomes viable, since accounts exist to gate it.
-
-Phase 4 - Scale
-  - Reassess the ads-vs-paid revenue split with actual data. Reduce ad
-    density if paid revenue justifies it. Don't fully remove ads unless paid
-    clearly outperforms — ads are a hedge, not a phase to graduate out of by
-    decree.
-
-Free-tier baseline (as of this update)
----------------------------------------
-Premium features build on top of this corrected baseline — read before scoping
-P0 items below, since some of them previously assumed the old (flawed) baseline:
-
-- LTCG is modeled at 12.5% above a ₹1,25,000 annual exemption, applied once at
-  redemption, on BOTH Loan vs SIP and SIP Growth (previously only Loan vs SIP
-  taxed the SIP leg, and used a stale ₹1,00,000 exemption).
-- Loan vs SIP nets real (inflation-adjusted) property value against interest and
-  maintenance that are amortized year-by-year and discounted to today's rupees —
-  not against raw nominal totals.
-- Loan vs SIP invests the down payment as a day-one lump sum in the SIP scenario,
-  in addition to the monthly SIP equal to the EMI, so both paths commit the same
-  total cash.
-- All three calculators validate inputs (amount > 0, tenure 1–40 years, rate caps)
-  and show an inline error instead of rendering NaN/Infinity.
-- Currency is displayed as whole rupees; CDN scripts (chart.js, xlsx) are pinned
-  to exact versions, not `@latest`.
-- Colors are pulled from shared CSS variables in `/assets/css/site.css`, not
-  hardcoded per page — see `calculator-ui-notes.md`.
-
-Audience
---------
-Indian home buyers, borrowers, SIP investors, and financially curious households.
-Currency: INR. Use plain language, clear assumptions, and an educational disclaimer.
-
-Prioritised feature backlog
----------------------------
-P0 - Advanced Tax Engine
-  - Change LTCG tax rate and exemption away from the free-tier default (12.5% /
-    ₹1,25,000), add STCG logic, indexation, and slab-based simulation
-  - LTCG harvesting calculator: the ₹1,25,000 annual exemption doesn't carry
-    forward — booking ~₹1.25L of gains every year (sell + immediately rebuy)
-    resets cost basis higher and reduces tax on the eventual real exit. Show
-    cumulative tax saved over the holding period vs. not harvesting, as a
-    concrete number, not just an explanation. Good standalone premium teaser:
-    show the mechanism free, gate the personalized savings calculation.
-
-P0 - Year-by-Year Wealth Table
-  - Property and SIP value, inflation-adjusted values, and Excel/PDF download
-  - Extend the existing year-by-year interest/maintenance discounting already
-    used internally by Loan vs SIP into a user-facing table, rather than
-    re-deriving it separately
-
-P0 - Loan Prepayment Simulator
-  - Part/full prepayment events and EMI reduction versus tenure reduction
-
-P0 - Rent vs Buy Calculator
-  - Rent savings, rental yield, and opportunity cost of the down payment
-  - Note: the free Loan vs SIP tool now already treats the down payment as an
-    opportunity cost (invested on the SIP side) — reuse that logic rather than
-    inventing a second down-payment treatment here
-
-P1 - Multi-Scenario Comparison
-  - Compare 3-5 scenarios side by side and save scenarios for later
-
-P1 - Custom Inflation Curve
-  - Different inflation rates for each year
-
-P1 - Custom SIP Return Curve
-  - Different annual returns with bear and bull market simulations
-
-P1 - Property Expense Engine
-  - Society charges, repairs, insurance, and property tax
-  - Also add stamp duty, registration, and brokerage as one-time acquisition
-    costs — the free tool currently excludes these entirely, which understates
-    total property cost; flag this to users until the paid engine covers it
-
-P1 - Export Reports
-  - PDF export, shareable link, and email report
-
-P2 - Priority Support
-  - Faster updates and custom tool requests
-
-Suggested release order
------------------------
-This backlog is Phase 3+ work (see Monetization roadmap above) — do not start
-on it until Phase 2's one-feature experiment has shown real conversions.
-1. Tax engine and year-by-year table: highest value for transparency and trust.
-2. Prepayment and rent-vs-buy: strongest decision workflows for home buyers.
-3. Scenario saving, custom curves, and property expenses: deeper modelling.
-4. Export reports and support: convenience and retention layer.
-
-Product rules
--------------
-- Show every assumption beside the result and provide a reset-to-default action.
-- Never present projections as guaranteed returns or personalised financial advice.
-- Validate numeric ranges and explain invalid inputs inline (now implemented on
-  the free tier — see calculator-ui-notes.md; premium inputs must follow the
-  same pattern rather than reintroducing unvalidated fields).
-- Keep calculations reproducible: record inputs, formula version, and tax year.
-- Avoid collecting sensitive financial information unless strictly necessary.
-- Give users a clear upgrade value before payment; do not interrupt calculation flow.
-
-SEO and content notes
+1. WHERE THINGS STAND
 ---------------------
-- Use one descriptive H1 per tool and a unique title/meta description.
-- Link related tools contextually: EMI -> Loan vs SIP -> Prepayment.
-- Publish educational pages around EMI, SIP, inflation, tax, and rent vs buy.
-- Add a visible last-updated date when tax rules or assumptions change.
-- Every page should carry Open Graph/Twitter meta tags and a `WebApplication`
-  JSON-LD block (now added to all four live pages) — carry this forward for
-  every new tool page.
+- AdSense: not approved. Status seen on 8 September 2026: "Needs attention,
+  Low value content". The ads.txt check also said "not found" on that date.
+  Check the Sites page in AdSense again, then look at Policy Center for the
+  exact reason before requesting a review.
+- ads.txt is in place with the line:
+  google.com, pub-4357149194740826, DIRECT, f08c47fec0942fa0
+- The AdSense Auto Ads script is in the head of every page.
+- Manual ad units with placeholder slot IDs remain on the homepage
+  (300000001 to 300000003) and on the EMI Calculator page (200000001 to
+  200000004). Replace them with real IDs or remove them. The reworked tool
+  pages and the articles have no manual units.
+- Content added since the rejection: reworked Loan vs SIP and SIP Growth,
+  new Loan Prepayment and Step-Up SIP Goal tools, and two new articles.
+  More articles are planned before a review is requested.
+- Homepage "coming soon" and "planned" tiles and article cards were removed
+  because they make a site look unfinished. Add a tile only when its page
+  is live.
+- There is no payment code, no user accounts, no email capture and no
+  referral or affiliate link anywhere on the site.
 
-Implementation notes
---------------------
-- Current site is static HTML, hosted on Cloudflare Pages at wealthcompare.in.
-- Premium can begin as client-side export/scenario functionality, then move to a
-  backend only when accounts, payments, or saved links are required.
-- Replace placeholder AdSense publisher and slot IDs before production launch.
-- Ad containers use the shared `.ad-slot` class (reserves height to avoid
-  layout shift) — keep using it for any new ad placement rather than a bare
-  `<div style="margin:...">` wrapper.
-- Pin third-party CDN script versions (chart.js, xlsx) explicitly; don't
-  reintroduce an unpinned `@latest`-style URL.
 
-PAID FEATURES – WEALTHCOMPARE PREMIUM
+2. THE OPTIONS (NONE CHOSEN)
+----------------------------
+A. Display ads (AdSense). Already set up. Depends on approval, which depends
+   on the amount and quality of original content.
+B. [PAUSED] A small one-off paid extra. Earlier idea: a one-time unlock of roughly
+   ₹99 to 149 to save and export a scenario as PDF, through a payment link,
+   with no accounts or login. This is an idea, not a decision. The price has
+   not been tested.
+C. [PAUSED] Premium features (section 5), which would need accounts at some point.
+D. Referral or affiliate links (for example a balance transfer or a demat
+   account). NOT in the plan. They sit close to product recommendations,
+   which the site's educational-only rule forbids. Get advice from a
+   SEBI-aware lawyer or compliance professional before considering any.
+E. [PAUSED] Email capture or lead generation. NOT in the plan. It brings consent and
+   notice duties under India's data protection law. Take legal advice first.
 
-1. Advanced Tax Engine
-   - Change LTCG tax rate and exemption from the free-tier default
-   - Add STCG logic
-   - Add indexation benefits
-   - Add slab-based tax simulation
+Ads and paid features do not exclude each other, but they affect the same
+visitors. Decide which one comes first and do not build payment code in
+advance of a decision.
 
-2. Year-by-Year Wealth Table
-   - Property value each year
-   - SIP value each year
-   - Inflation-adjusted values
-   - Download as Excel/PDF
 
-3. Prepayment Simulator
-   - Add part-prepayment events
-   - Add full-prepayment scenarios
-   - Compare EMI reduction vs tenure reduction
+3. DRAFT SEQUENCING (A STARTING POINT, NOT A PLAN)
+--------------------------------------------------
+Phase 0: finish the free tools and articles. Fix the AdSense issues above.
+Phase 1: grow search traffic. Keep ads running if approved. Track organic
+         sessions per month and how many visitors come back.
+Phase 2: only when there is steady use (the earlier figure was roughly
+         3,000 to 5,000 monthly sessions, which is a guess), try exactly one
+         small paid extra such as option B, with no accounts.
+Phase 3: only if that shows real demand, consider light accounts and the
+         features in section 5. Ad-free for paying users becomes possible
+         at that point.
+Phase 4: review the mix of ads and paid income using real numbers.
 
-4. Rent vs Buy Calculator
-   - Add rent savings
-   - Add rental yield
-   - Add opportunity cost of down payment (reuse the free tool's existing
-     down-payment-as-lump-sum logic)
+Phases 2 to 4 are on hold while accounts, email capture and payments are off.
+Phase 0 and 1 (free tools, articles, AdSense) are the whole plan for now.
 
-5. Multi-Scenario Comparison
-   - Compare 3–5 scenarios side-by-side
-   - Save scenarios for later
+Decisions still open: when, if ever, to revisit paid options, and whether any
+legal advice is wanted before options D and E.
 
-6. Custom Inflation Curve
-   - Different inflation rates per year
-   - Realistic long-term modeling
 
-7. Custom SIP Return Curve
-   - Different returns per year
-   - Bear/bull market simulation
+4. WHAT THE FREE TOOLS ALREADY DO
+---------------------------------
+Premium ideas must build on this, not hide it.
+- Five tools: EMI Calculator, Loan vs SIP, SIP Growth, Loan Prepayment and
+  Step-Up SIP Goal. The first is on the older layout.
+- Each reworked tool shows the verdict first, has a collapsed full breakdown
+  and an Advanced Read, validates inputs inline, and exports to Excel.
+- Results are shown in today's rupees as well as future rupees, with real and
+  nominal kept consistent on both sides.
+- SIP gains use 12.5% above ₹1,25,000, applied once at redemption
+  (Section 198, Income-tax Act 2025). Units held 12 months or less would be
+  taxed at 20% (Section 196); the free tools state this but do not model it.
+- Loan vs SIP includes selling cost and tax on the property's sale gain as
+  inputs, a loan-to-value warning against the RBI limits, and the assumption
+  that the visitor already owns a home to live in.
+- Year-by-year tables are free on SIP Growth, Step-Up SIP Goal and Loan
+  Prepayment.
+- Loan Prepayment (lump sums, monthly extra, rate change, reduce EMI versus
+  reduce tenure) is free.
+- Colours come from shared CSS variables, CDN scripts are pinned, and no
+  tool shows NaN or Infinity.
 
-8. Property Expense Engine
-   - Society charges
-   - Repairs
-   - Insurance
-   - Property tax
-   - Stamp duty, registration, and brokerage (one-time, currently excluded
-     from the free calculator entirely)
 
-9. Export Reports
-   - PDF export
-   - Shareable link
-   - Email report
+5. FEATURE BACKLOG (ONE LIST, WITH STATE)
+-----------------------------------------
+Whether each item ends up free or paid is NOT decided.
 
-10. Priority Support
-    - Faster updates
-    - Custom tool requests
+Advanced tax engine (partly done)
+  Done in the free tools: LTCG at 12.5% above ₹1,25,000, property sale gain
+  tax as an input, selling cost.
+  Not done: modelling short-term gains by holding period, indexation choice,
+  slab-based simulation, tax-year selector.
+  Idea, handle with care: an annual gain-harvesting calculator. Describe the
+  mechanism only, and check the current rules on an official source before
+  building. Do not present it as advice.
+
+Year-by-year wealth table (mostly done)
+  Done free on SIP Growth, Step-Up and Loan Prepayment.
+  Not done: a table on Loan vs SIP (it has a chart only), and PDF download.
+  Excel export already exists and is free.
+
+Loan prepayment simulator (done, free)
+
+Rent vs Buy (not built for the web)
+  The workbook has sheets for it and a sensitivity sheet, but they need a
+  full re-derivation before conversion. Reuse the down-payment-as-lump-sum
+  logic already used in Loan vs SIP.
+
+Calculators that exist in the workbook but not on the site
+  Prepay vs Invest, Retirement SWP, Emergency Fund, Net Worth and Cash Flow,
+  Term Insurance, Asset Allocation, Goal Dashboard, Expense Ratio Impact.
+  Each is a candidate for a free page. Decide free versus paid for each.
+
+Multi-scenario comparison (not started)
+  Compare three to five scenarios side by side and save them.
+
+Custom inflation curve (not started)
+  A different inflation rate for each year.
+
+Custom SIP return curve (not started)
+  Different returns each year, with bear and bull cases.
+
+Property expense engine (partly done)
+  Done: upkeep and selling cost.
+  Not done: society charges, repairs, insurance, property tax, and
+  stamp duty, registration and brokerage as one-time buying costs. The free
+  tool leaves these out; keep saying so on the page.
+
+Export reports (partly done)
+  Excel done and free. PDF, shareable link and emailed report not started.
+  A shareable link needs no personal data if it only encodes the inputs.
+
+Priority support (not started)
+  Faster updates and custom tool requests.
+
+
+6. PRODUCT RULES
+----------------
+- Show every assumption beside the result and offer a reset to defaults.
+- Never present a projection as a guaranteed return or as personal advice.
+- Never recommend a specific fund, stock, lender, broker or product.
+- Validate numeric inputs and explain errors inline. Premium inputs follow the
+  same pattern as the free ones.
+- Keep calculations reproducible: record inputs, formula version and tax year.
+- Collect no sensitive financial information unless it is strictly needed.
+  Before adding payments, accounts, email capture or referral links, check the
+  legal duties (data protection, consumer rules, SEBI) with a qualified
+  person.
+- Give clear value before asking for payment, and never interrupt the
+  calculation flow.
+
+
+7. SEO AND CONTENT NOTES
+------------------------
+- One descriptive H1 per page and a unique title and meta description.
+- Every tool page has Open Graph and Twitter tags and a WebApplication
+  JSON-LD block. Articles use an Article block.
+- Link related pages in both directions: EMI, Loan Prepayment, Loan vs SIP,
+  SIP Growth, Step-Up, and the articles that explain them.
+- Show a visible published or last-updated date on articles, and update it
+  when a tax rule or assumption changes.
+- Do not publish many near-identical pages. Fewer, better pages with their own
+  analysis suit search engines and AdSense reviewers better.
+- Write articles as worked examples with a stated assumption table, results
+  in today's rupees and future rupees, and a "what changes the answer"
+  section. Every number comes from a calculator or a script.
+
+
+8. IMPLEMENTATION NOTES
+-----------------------
+- The site is static HTML on Cloudflare Pages at wealthcompare.in.
+- Premium can start as client-side export and scenario features. Move to a
+  backend only when accounts, payments or saved links truly need one.
+- Replace placeholder AdSense slot IDs before relying on manual units, or
+  remove them and keep Auto Ads.
+- Pin third-party CDN scripts to exact versions (Chart.js 4.4.4, SheetJS
+  0.18.5).
+- Use the shared ad-slot class for any manual unit so layout does not jump.
+- See calculator-ui-notes.md for the page pattern, tax rules and validation,
+  and README.md for the folder layout and checklists.

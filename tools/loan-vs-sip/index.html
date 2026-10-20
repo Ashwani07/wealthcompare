@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Compare buying a property with a home loan against investing the same EMI in a SIP, using nominal and inflation-adjusted wealth.">
+<meta name="description" content="Free loan vs SIP calculator for India. If you already own a home, compare buying another property with a loan against investing the same down payment and EMI in a SIP, in today's rupees.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://wealthcompare.in/tools/loan-vs-sip/">
 <title>Loan vs SIP Calculator: Compare Real Wealth | WealthCompare</title>
@@ -16,12 +16,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="WealthCompare">
 <meta property="og:title" content="Loan vs SIP Calculator: Compare Real Wealth">
-<meta property="og:description" content="Compare buying a property with a home loan against investing the same EMI in a SIP, using nominal and inflation-adjusted wealth.">
+<meta property="og:description" content="Free loan vs SIP calculator for India. If you already own a home, compare buying another property with a loan against investing the same down payment and EMI in a SIP, in today's rupees.">
 <meta property="og:url" content="https://wealthcompare.in/tools/loan-vs-sip/">
 <meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 
-<!-- Auto Ads (Anchor + Vignette + In‑page) -->
+<!-- Auto Ads (Anchor + Vignette + In-page) -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
      crossorigin="anonymous"></script>
 
@@ -36,7 +36,7 @@
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Loan vs SIP Calculator",
+  "name": "Loan vs SIP Wealth Comparison",
   "url": "https://wealthcompare.in/tools/loan-vs-sip/",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "Any",
@@ -57,116 +57,98 @@ body {
 .hero-inner {
     max-width: 900px; margin: 0 auto;
     background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
-    padding: 20px 18px; border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    padding: 20px 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
 .container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
 .card {
     background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
-    padding: 20px; border-radius: 18px; margin-bottom: 20px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    padding: 20px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
-.card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.card-title { background: linear-gradient(135deg,#4f46e5,#3b82f6); color: white; padding: 10px; border-radius: 10px; margin: 0 0 6px; font-size: 20px; }
 .inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
 .input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
 .input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; font-weight: 600; }
-.input-group input { padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; }
-.amount-words { min-height: 28px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.input-group input, .input-group select { padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; font-family: inherit; }
+.input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
 button {
-    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5);
-    color: white; border: none; border-radius: 12px; font-size: 15px;
-    cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px;
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5); color: white; border: none;
+    border-radius: 12px; font-size: 15px; cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px; font-family: inherit;
 }
-button:disabled { opacity: 0.55; cursor: not-allowed; }
-.results-layout { display: flex; flex-wrap: wrap; gap: 16px; }
-.results-column { flex: 1 1 280px; }
-.results-column h3 { margin: 0 0 14px; color: #1f2937; font-size: 18px; }
-.result-section { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 14px; background: #fff; }
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
+.export-button { background: #167d83; margin-left: 8px; }
+@media (max-width: 600px) { .export-button { margin-left: 0; } }
+
+.verdict-card {
+    background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.verdict-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0; }
+.mode-toggle { display: inline-flex; border: 1px solid #c7d2fe; border-radius: 999px; overflow: hidden; background: #fff; }
+.mode-toggle button {
+    margin: 0; width: auto; max-width: none; padding: 7px 14px; font-size: 12px; font-weight: 700;
+    background: transparent; color: #3730a3; border-radius: 0;
+}
+.mode-toggle button[aria-pressed="true"] { background: #4f46e5; color: #fff; }
+.verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
+.verdict-headline.is-negative { color: #7c2d12; }
+.verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
+.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.verdict-bullets li { font-size: 13px; color: var(--text-primary); padding-left: 20px; position: relative; }
+.verdict-bullets li::before { content: "•"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; }
+.verdict-notes { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: #fffbeb; border: 1px solid #fde68a; font-size: 12px; color: #78350f; }
+.verdict-notes ul { margin: 4px 0 0; padding-left: 18px; }
+
+.breakdown-details > summary, .nested-details > summary {
+    cursor: pointer; list-style: none; font-weight: 700; color: #3730a3; display: flex; align-items: center; gap: 8px;
+}
+.breakdown-details > summary { padding: 12px 14px; border-radius: 10px; background: var(--surface-muted); font-size: 14px; }
+.breakdown-details > summary::-webkit-details-marker, .nested-details > summary::-webkit-details-marker { display: none; }
+.breakdown-details > summary::before, .nested-details > summary::before { content: "▸"; transition: transform 0.15s ease; }
+.breakdown-details[open] > summary::before, .nested-details[open] > summary::before { transform: rotate(90deg); }
+.breakdown-details > summary:hover { background: #e0e7ff; }
+.breakdown-body { padding-top: 16px; }
+.nested-details { margin-top: 14px; }
+.nested-details > summary { font-size: 14px; padding: 8px 0; }
+.result-section { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 14px; background: #fff; margin-bottom: 16px; }
+.result-section h3 { margin: 0 0 10px; color: #1f2937; font-size: 17px; }
+.group-note { margin: 0 0 8px; font-size: 12px; color: var(--text-muted); }
 .metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .metric { padding: 10px 12px; border-radius: 10px; background: var(--surface-muted); }
 .metric-label { display: block; color: var(--text-muted); font-size: 11px; }
 .metric-value { display: block; margin-top: 3px; color: var(--text-primary); font-size: 14px; font-weight: 700; }
-.final-result { margin: 14px 0; padding: 14px; border-left: 4px solid var(--positive-border); border-radius: 10px; background: var(--positive-bg); }
-.final-result .metric-value { color: var(--positive); font-size: 22px; }
-.comparison-result { margin-top: 14px; padding: 18px; border-radius: 14px; background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; }
-.comparison-result .metric-value { color: #3730a3; font-size: 24px; }
 .decision-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
 .decision-table th, .decision-table td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #e0e7ff; }
 .decision-table th:first-child, .decision-table td:first-child { text-align: left; color: var(--text-secondary); }
 .decision-table th { color: #3730a3; font-weight: 700; }
-.decision-table td:not(:first-child) { font-weight: 600; color: var(--text-primary); }
-.analysis-panel { padding: 16px; border-radius: 14px; background: var(--surface-muted); border: 1px solid var(--border-subtle); }
-.analysis-panel { overflow-x: hidden; }
-.chart-container {
-    background: rgba(255,255,255,0.95); padding: 16px; border-radius: 18px;
-    margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-}
-.chart-canvas-wrap {
-    position: relative;
-    height: 300px;
-    width: 100%;
-}
-@media (min-width: 640px) {
-    .chart-canvas-wrap { height: 380px; }
-}
-.hero h1 { margin: 0 0 10px; font-size: 26px; }
-.hero p { margin: 0 0 8px; font-size: 14px; }
-.unit-toggle { display: flex; gap: 6px; margin: 4px 0 8px; }
-.unit-toggle label { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 500; }
-.input-help { min-height: 18px; color: var(--text-muted); font-size: 11px; }
-.export-button { background: #167d83; margin-left: 8px; }
-.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
-@media (max-width: 600px) { .export-button { margin-left: 0; } }
+.decision-table td:not(:first-child) { font-weight: 600; }
+.decision-table tr.is-selected td { background: #eef2ff; }
+.table-scroll { overflow-x: auto; }
+.advanced-body h4 { margin: 14px 0 6px; font-size: 14px; color: #1f2937; }
+.advanced-body p { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin: 0 0 10px; }
+.chart-container { background: rgba(255,255,255,0.95); padding: 16px; border-radius: 18px; margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.chart-caption { font-size: 12px; color: var(--text-muted); margin: 0 0 10px; }
+.chart-canvas-wrap { position: relative; height: 300px; width: 100%; }
+@media (min-width: 640px) { .chart-canvas-wrap { height: 380px; } }
+@media (max-width: 420px) { .metric-grid { grid-template-columns: 1fr; } }
 
-/* Verdict card — the single, headline answer. Everything else on the page
-   is supporting detail for this one statement. */
-.verdict-card {
-    background: linear-gradient(135deg, #eef2ff, #ecfeff);
-    border: 1px solid #c7d2fe;
-    border-radius: 18px;
-    padding: 22px 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-}
-.verdict-card .verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0 0 8px; }
-.verdict-card .verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
-.verdict-card .verdict-headline.is-negative { color: #7c2d12; }
-.verdict-card .verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
-.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-.verdict-bullets li { font-size: 13px; color: var(--text-primary); padding-left: 20px; position: relative; }
-.verdict-bullets li::before { content: "•"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; }
-
-/* Collapsible full breakdown — the metric grids and decision table stay in
-   the DOM (so they're still crawlable/indexable content), just not the
-   first thing a visitor has to scroll past to get the answer. */
-.breakdown-details { margin-top: 4px; }
-.breakdown-details > summary {
-    cursor: pointer; list-style: none; font-weight: 700; color: #3730a3;
-    padding: 12px 14px; border-radius: 10px; background: var(--surface-muted);
-    display: flex; align-items: center; gap: 8px; font-size: 14px;
-}
-.breakdown-details > summary::-webkit-details-marker { display: none; }
-.breakdown-details > summary::before { content: "▸"; transition: transform 0.15s ease; }
-.breakdown-details[open] > summary::before { transform: rotate(90deg); }
-.breakdown-details > summary:hover { background: #e0e7ff; }
-.breakdown-body { padding-top: 16px; }
-
-/* Chart mode toggle */
+.unit-toggle { display: flex; gap: 14px; margin-bottom: 6px; font-size: 12px; }
+.unit-toggle label { display: inline-flex; align-items: center; gap: 4px; margin: 0; font-weight: 600; color: var(--text-secondary); }
+.unit-toggle input { width: auto; padding: 0; }
+.group-title { margin: 18px 0 2px; font-size: 15px; font-weight: 700; color: #3730a3; }
 .chart-mode-toggle { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
 .chart-mode-toggle span.chart-mode-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); }
-.chart-mode-toggle button {
-    width: auto; margin: 0; padding: 6px 14px; font-size: 12px; font-weight: 600;
-    background: var(--surface-muted); color: var(--text-secondary); border: 1px solid var(--border-subtle);
-}
+.chart-mode-toggle button { width: auto; margin: 0; padding: 6px 14px; font-size: 12px; font-weight: 600; background: var(--surface-muted); color: var(--text-secondary); border: 1px solid var(--border-subtle); }
 .chart-mode-toggle button.active { background: linear-gradient(135deg, #3b82f6, #4f46e5); color: white; border-color: transparent; }
-.chart-caption { font-size: 12px; color: var(--text-muted); margin: 0 0 10px; }
-
-@media (max-width: 420px) {
-    .metric-grid { grid-template-columns: 1fr; }
-}
-
+.hero ul { text-align: left; display: inline-block; margin: 6px 0 10px; font-size: 14px; }
+.section-note { margin: 0 0 8px; font-size: 12px; color: var(--text-muted); }
+.final-result { margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: var(--positive-bg); border: 1px solid var(--positive-border); border-left: 5px solid var(--positive-border); }
+.final-result .metric-value { font-size: 20px; color: var(--positive); }
 </style>
+
 </head>
 
 <body>
@@ -185,585 +167,436 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 <div class="hero">
     <div class="hero-inner">
         <h1>Loan vs SIP Wealth Comparison</h1>
-        <p>This calculator compares two long-term wealth paths:</p>
+        <p>You already own a home to live in. Now you wonder about a second property. Is it better to buy it with a loan, or to invest the same down payment and the same EMI in a SIP?</p>
         <ul>
-            <li><b>Buying a property</b> using a home loan (with part payment).</li>
-            <li><b>Investing the same down payment and EMI</b> into a lump sum plus monthly SIP.</li>
+            <li><b>Path 1:</b> buy the property with a home loan.</li>
+            <li><b>Path 2:</b> invest the down payment as a lump sum, plus a monthly SIP equal to the EMI.</li>
         </ul>
-        <p>We show both nominal values and inflation-adjusted values.</p>
+        <p>Results are in today's rupees, after loan interest, upkeep, selling costs and tax. This is not a rent-vs-buy comparison for the home you live in.</p>
     </div>
 </div>
 
 <div class="container">
-    <!-- Input Card -->
-    <div class="card">
-        <h2 style="background:linear-gradient(135deg,#4f46e5,#3b82f6);color:white;padding:10px;border-radius:10px;">
-            📥 Enter Your Details
-        </h2>
 
+    <div class="card">
+        <h2 class="card-title">📥 Enter Your Details</h2>
+
+        <h3 class="group-title">The property and the loan</h3>
         <div class="inputs-grid">
             <div class="input-group">
-                <label for="propertyPrice">Property Price (₹)</label>
-                <input id="propertyPrice" type="number" min="1" step="1000" value="10000000" oninput="updateMaintenanceUnit()">
+                <label for="propertyPrice">Property price (₹)</label>
+                <input id="propertyPrice" type="number" inputmode="decimal" min="1" step="1000" value="10000000" oninput="updateMaintenanceUnit()">
                 <span id="propertyPriceWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="propertyPriceError" role="alert"></span>
             </div>
             <div class="input-group">
-                <label for="loanAmount">Loan Amount (₹)</label>
-                <input id="loanAmount" type="number" min="0" step="1000" value="8000000">
+                <label for="loanAmount">Loan amount (₹)</label>
+                <input id="loanAmount" type="number" inputmode="decimal" min="0" step="1000" value="7500000">
                 <span id="loanAmountWords" class="amount-words" aria-live="polite"></span>
+                <span class="input-help" id="ltvHelp"></span>
+                <span class="field-error" id="loanAmountError" role="alert"></span>
             </div>
             <div class="input-group">
-                <label for="interest">Loan Interest (% per year)</label>
-                <input id="interest" type="number" min="0" max="50" step="0.01" value="8">
+                <label for="interest">Loan interest (% per year)</label>
+                <input id="interest" type="number" inputmode="decimal" min="0" max="50" step="0.01" value="7.5">
+                <span class="field-error" id="interestError" role="alert"></span>
             </div>
             <div class="input-group">
-                <label for="tenure">Tenure (years)</label>
-                <input id="tenure" type="number" min="1" max="40" step="1" value="20">
+                <label for="tenure">Loan tenure (years)</label>
+                <input id="tenure" type="number" inputmode="numeric" min="1" max="40" step="1" value="20">
+                <span class="field-error" id="tenureError" role="alert"></span>
             </div>
+        </div>
+
+        <h3 class="group-title">What the property costs and earns</h3>
+        <div class="inputs-grid">
             <div class="input-group">
-                <label id="maintLabel" for="maint">Maintenance (% per year)</label>
-                <div class="unit-toggle" role="radiogroup" aria-label="Maintenance unit">
+                <label id="maintLabel" for="maint">Upkeep (% of price per year)</label>
+                <div class="unit-toggle" role="radiogroup" aria-label="Upkeep unit">
                     <label><input type="radio" name="maintenanceUnit" value="percent" checked onchange="updateMaintenanceUnit()"> %</label>
                     <label><input type="radio" name="maintenanceUnit" value="rupees" onchange="updateMaintenanceUnit()"> ₹</label>
                 </div>
-                <input id="maint" type="number" min="0" step="0.01" value="1" oninput="updateMaintenanceUnit()">
-                <span id="maintenanceHelp" class="input-help">₹10,000 per year based on the property price</span>
+                <input id="maint" type="number" inputmode="decimal" min="0" step="0.01" value="1" oninput="updateMaintenanceUnit()">
+                <span id="maintenanceHelp" class="input-help"></span>
+                <span class="field-error" id="maintError" role="alert"></span>
             </div>
             <div class="input-group">
-                <label for="app">Property Appreciation (% per year)</label>
-                <input id="app" type="number" min="-10" max="30" step="0.01" value="10">
+                <label for="app">Property price growth (% per year)</label>
+                <input id="app" type="number" inputmode="decimal" min="-10" max="30" step="0.01" value="10">
+                <span class="input-help">An assumption, not a forecast.</span>
+                <span class="field-error" id="appError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="saleTax">Tax on the property's sale gain (%)</label>
+                <input id="saleTax" type="number" inputmode="decimal" min="0" max="50" step="0.01" value="12.5">
+                <span class="input-help">12.5% is the long-term rate for property bought on or after 23 July 2024. Set 0 to ignore it.</span>
+                <span class="field-error" id="saleTaxError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="sellCost">Selling cost (% of sale price)</label>
+                <input id="sellCost" type="number" inputmode="decimal" min="0" max="20" step="0.01" value="0">
+                <span class="input-help">Brokerage and other costs when you sell.</span>
+                <span class="field-error" id="sellCostError" role="alert"></span>
+            </div>
+        </div>
+
+        <h3 class="group-title">The SIP and inflation</h3>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="sip">SIP return (% per year)</label>
+                <input id="sip" type="number" inputmode="decimal" min="0" max="30" step="0.01" value="12">
+                <span class="input-help">An assumption, not a forecast.</span>
+                <span class="field-error" id="sipError" role="alert"></span>
             </div>
             <div class="input-group">
                 <label for="infl">Inflation (% per year)</label>
-                <input id="infl" type="number" min="0" max="30" step="0.01" value="6">
-            </div>
-            <div class="input-group">
-                <label for="sip">SIP Return (% per year)</label>
-                <input id="sip" type="number" min="0" max="30" step="0.01" value="12">
+                <input id="infl" type="number" inputmode="decimal" min="0" max="30" step="0.01" value="6">
+                <span class="input-help">Used to show everything in today's rupees.</span>
+                <span class="field-error" id="inflError" role="alert"></span>
             </div>
         </div>
 
         <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
 
-        <button type="button" onclick="calculate()">Compare wealth</button>
+        <button type="button" onclick="calculate()">Compare the two paths</button>
         <button type="button" class="export-button" onclick="exportLoanVsSip()">Export to Excel</button>
-
-        <!-- ⭐ Placement 1: Below Calculate Button -->
-        <div class="ad-slot">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-4357149194740826"
-                 data-ad-slot="100000001"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-        </div>
-
     </div>
 
-    <!-- Verdict — the headline answer, always visible, nothing to expand -->
     <div id="verdictCard" class="card verdict-card"></div>
 
-    <!-- Full breakdown — collapsed by default so the verdict isn't buried,
-         but the content stays in the DOM (not re-fetched), so it's still
-         indexable and still one click away. -->
     <details class="card breakdown-details">
-        <summary>Show the full breakdown (property summary, SIP summary, decision table)</summary>
-        <div class="breakdown-body analysis-panel">
-            <div class="results-layout">
-                <div id="results" class="results-column"></div>
-                <div id="analysis" class="results-column"></div>
-            </div>
+        <summary>Show the full breakdown (property, SIP, decision table, how it works)</summary>
+        <div class="breakdown-body">
+            <div class="result-section" id="propertySection"></div>
+            <div class="result-section" id="sipSection"></div>
+            <div class="result-section" id="decisionSection"></div>
+            <div class="result-section" id="sensitivitySection"></div>
+            <details class="nested-details">
+                <summary>Advanced Read: how these numbers are worked out</summary>
+                <div class="advanced-body">
+                    <h4>The question this answers</h4>
+                    <p>This compares two ways of using the same money when you already have a home to live in: buy a second property with a loan, or invest the same down payment and the same monthly EMI in a SIP. It does not compare renting with buying your own home. If you don't own a home yet, the answer can be very different, because a home you live in also saves you rent.</p>
+                    <h4>Today's rupees, on both sides</h4>
+                    <p>Every amount that is paid later is brought back to today's value by dividing by (1 + inflation) for each year that passes. That is done for the EMIs, the upkeep and the SIP instalments alike. If one side is discounted and the other isn't, the comparison tilts unfairly. The down payment is paid today, so it is not discounted.</p>
+                    <h4>The property path</h4>
+                    <p>The property grows at your assumed rate. When you sell, selling costs come off first. Tax is then charged on what is left above the price you paid. What remains is brought back to today's money. From that we subtract the down payment, the EMIs and the upkeep, also in today's money. Upkeep stays at the first year's rupee amount and does not rise.</p>
+                    <h4>The SIP path</h4>
+                    <p>The down payment is invested on day one. A monthly SIP equal to the EMI follows for the whole tenure, with each instalment at the end of its month. Both grow at the yearly return divided by 12, compounded monthly. Tax is worked out once, at the end: 12.5% of the gain above ₹1,25,000 (Section 198 of the Income-tax Act, 2025, which was Section 112A of the 1961 Act). This treats every rupee of gain as long-term.</p>
+                    <h4>Property tax</h4>
+                    <p>The Income Tax Department states long-term gains on land and buildings are taxed at 12.5% without indexation. Resident individuals who bought before 23 July 2024 can choose 20% with indexation instead. Exemptions such as reinvesting the gain, cess, surcharge and the holding period needed for a gain to count as long-term are not modelled. Check the <a href="https://www.incometaxindia.gov.in/w/capital-gain">Income Tax Department's capital gains page</a> for your case.</p>
+                    <h4>Loan-to-value limit</h4>
+                    <p>RBI's housing finance rules limit how much a bank can lend against a property: up to 90% of the property value for loans up to ₹30 lakh, 80% for loans above ₹30 lakh and up to ₹75 lakh, and 75% for loans above ₹75 lakh. The page warns you if your numbers go above the limit for that loan size. Lenders may set stricter limits. Source: <a href="https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12243">RBI Master Circular, Housing Finance</a>.</p>
+                    <h4>What is not included</h4>
+                    <p>Rent you would pay or collect, tax benefits on the loan, stamp duty, registration, brokerage when buying, fund running costs, exit loads, and changes in the loan rate. Real results will differ. It is normal for either gain to come out negative.</p>
+                </div>
+            </details>
         </div>
     </details>
 
-    <!-- Chart -->
     <div class="chart-container">
-        <div class="chart-mode-toggle" role="radiogroup" aria-label="Chart value basis">
+        <div class="chart-mode-toggle" role="group" aria-label="Chart value basis">
             <span class="chart-mode-label">Show:</span>
-            <button type="button" id="chartModeReal" class="active" onclick="setChartMode('real')">Real (inflation-adjusted)</button>
-            <button type="button" id="chartModeNominal" onclick="setChartMode('nominal')">Nominal (actual rupees)</button>
+            <button type="button" id="chartModeReal" class="active" onclick="setChartMode('real')">Today's rupees</button>
+            <button type="button" id="chartModeNominal" onclick="setChartMode('nominal')">Future rupees</button>
         </div>
         <p id="chartCaption" class="chart-caption"></p>
-        <div class="chart-canvas-wrap">
-            <canvas id="wealthChart"></canvas>
-        </div>
-    </div>
-
-    <!-- ⭐ Placement 4: Below Chart -->
-    <div class="ad-slot">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-4357149194740826"
-             data-ad-slot="100000004"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
+        <div class="chart-canvas-wrap"><canvas id="wealthChart"></canvas></div>
     </div>
 
 </div>
 
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. It excludes stamp duty, registration and brokerage. Verify figures with your bank or advisor.
+    </div>
+</footer>
+
 <script>
-let chart;
-let lastChartData = null;
-let chartMode = 'real'; // matches the verdict's basis by default
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Long-term gains on equity-oriented fund units: 12.5% above ₹1,25,000, applied once
+// at the end (Section 198, Income-tax Act, 2025; Section 112A of the 1961 Act).
+const LTCG_EXEMPTION = 125000;
+const LTCG_RATE = 0.125;
+
+// RBI housing finance loan-to-value limits for individual housing loans.
+// Source: RBI Master Circular, Housing Finance. Lenders may be stricter.
+function maxLtvPercent(loan) {
+    if (loan <= 3000000) return 90;
+    if (loan <= 7500000) return 80;
+    return 75;
+}
+
+let chart = null, lastData = null, lastChartData = null, chartMode = 'real';
+
+function formatINR(x) { return Math.round(x).toLocaleString('en-IN'); }
+
+/* ---------- Inline validation ---------- */
+const FIELD_IDS = ["propertyPrice", "loanAmount", "interest", "tenure", "maint", "app", "saleTax", "sellCost", "sip", "infl"];
+function setFieldError(id, message) {
+    const input = document.getElementById(id), err = document.getElementById(id + "Error"), group = input.closest(".input-group");
+    if (message) { err.textContent = message; group.classList.add("has-error"); input.setAttribute("aria-invalid", "true"); input.setAttribute("aria-describedby", id + "Error"); }
+    else { err.textContent = ""; group.classList.remove("has-error"); input.removeAttribute("aria-invalid"); input.removeAttribute("aria-describedby"); }
+}
+function num(id) { const raw = document.getElementById(id).value; return raw === "" ? NaN : +raw; }
+function maintenanceIsRupees() { return document.querySelector('input[name="maintenanceUnit"]:checked').value === "rupees"; }
+
+function updateMaintenanceUnit() {
+    const isRupees = maintenanceIsRupees();
+    document.getElementById("maintLabel").textContent = isRupees ? "Upkeep (₹ per year)" : "Upkeep (% of price per year)";
+    const price = +document.getElementById("propertyPrice").value || 0;
+    const v = +document.getElementById("maint").value || 0;
+    document.getElementById("maintenanceHelp").textContent = "₹" + formatINR(isRupees ? v : price * v / 100) + " in the first year, and the same amount every year after";
+}
+
+function readInputs() {
+    FIELD_IDS.forEach(id => setFieldError(id, ""));
+    document.getElementById("formError").textContent = "";
+    let ok = true;
+    const fail = (id, m) => { setFieldError(id, m); ok = false; };
+    const price = num("propertyPrice"), loan = num("loanAmount"), rate = num("interest"), years = num("tenure"), maintIn = num("maint"),
+          app = num("app"), saleTax = num("saleTax"), sellCost = num("sellCost"), sipRate = num("sip"), infl = num("infl");
+    if (!Number.isFinite(price) || price <= 0) fail("propertyPrice", "Enter a price above zero.");
+    if (!Number.isFinite(loan) || loan < 0) fail("loanAmount", "Enter 0 or more.");
+    else if (Number.isFinite(price) && loan > price) fail("loanAmount", "The loan can't be more than the property price.");
+    if (!Number.isFinite(rate) || rate < 0 || rate > 50) fail("interest", "Enter a rate between 0% and 50%.");
+    if (!Number.isInteger(years) || years < 1 || years > 40) fail("tenure", "Enter a whole number of years from 1 to 40.");
+    if (!Number.isFinite(maintIn) || maintIn < 0) fail("maint", "Upkeep can't be negative.");
+    if (!Number.isFinite(app) || app < -10 || app > 30) fail("app", "Enter growth between -10% and 30%.");
+    if (!Number.isFinite(saleTax) || saleTax < 0 || saleTax > 50) fail("saleTax", "Enter a rate between 0% and 50%.");
+    if (!Number.isFinite(sellCost) || sellCost < 0 || sellCost > 20) fail("sellCost", "Enter a cost between 0% and 20%.");
+    if (!Number.isFinite(sipRate) || sipRate < 0 || sipRate > 30) fail("sip", "Enter a return between 0% and 30%.");
+    if (!Number.isFinite(infl) || infl < 0 || infl > 30) fail("infl", "Enter inflation between 0% and 30%.");
+    if (!ok) { document.getElementById("formError").textContent = "Please fix the highlighted fields."; return null; }
+    const annualMaintenance = maintenanceIsRupees() ? maintIn : price * maintIn / 100;
+    return { price, loan, rate, years, annualMaintenance, app, saleTax, sellCost, sipRate, infl };
+}
+
+/* ---------- Calculation (follows the WealthCompare Excel "Home Loan Analysis" sheet) ---------- */
+function annuityFactor(inflPct, years) {            // sum of 1/(1+i)^y for y = 1..years
+    const g = inflPct / 100;
+    return g === 0 ? years : (1 - Math.pow(1 + g, -years)) / g;
+}
+
+function computeLoanVsSip(inp) {
+    const { price, loan, rate, years, annualMaintenance, app, saleTax, sellCost, sipRate, infl } = inp;
+    const months = years * 12, mr = rate / 1200, g = infl / 100, sr = sipRate / 1200;
+    const down = price - loan;
+    const emi = mr === 0 ? loan / months : loan * mr * Math.pow(1 + mr, months) / (Math.pow(1 + mr, months) - 1);
+    const totalEmi = emi * months, totalInterest = totalEmi - loan;
+    const maintenance = annualMaintenance * years;
+    const deflator = Math.pow(1 + g, years);
+
+    // Property sale: selling cost first, then tax on what is left above the price paid.
+    const futureValue = price * Math.pow(1 + app / 100, years);
+    const sellingCost = futureValue * sellCost / 100;
+    const saleGain = Math.max(0, futureValue - price - sellingCost);
+    const saleTaxAmt = saleGain * saleTax / 100;
+    const netProceeds = futureValue - sellingCost - saleTaxAmt;
+    const realProperty = futureValue / deflator;
+    const nominalPropertyGain = futureValue - price - maintenance - totalInterest - sellingCost - saleTaxAmt;
+    const pvEmi = emi * 12 * annuityFactor(infl, years);
+    const pvMaint = annualMaintenance * annuityFactor(infl, years);
+    const realPropertyGain = netProceeds / deflator - down - pvEmi - pvMaint;
+
+    // SIP: down payment as a lump sum on day one, plus a monthly SIP equal to the EMI.
+    const lumpFV = down * Math.pow(1 + sr, months);
+    const sipFV = sr === 0 ? emi * months : emi * ((Math.pow(1 + sr, months) - 1) / sr);
+    const fv = lumpFV + sipFV;
+    const invested = down + emi * months;
+    const gainNominal = fv - invested;
+    const tax = Math.max(0, gainNominal - LTCG_EXEMPTION) * LTCG_RATE;
+    const fvAfterTax = fv - tax;
+    const realSip = fvAfterTax / deflator;
+    const pvInvested = down + emi * 12 * annuityFactor(infl, years);
+    const sipGainNominal = fvAfterTax - invested;
+    const sipGainReal = realSip - pvInvested;
+
+    const houseAdvantage = realPropertyGain - sipGainReal;
+    const ltv = loan / price, ltvLimit = maxLtvPercent(loan);
+    return {
+        down, emi, totalEmi, totalInterest, maintenance, futureValue, sellingCost, saleTaxAmt, netProceeds, realProperty,
+        nominalPropertyGain, realPropertyGain, pvEmi, pvMaint,
+        lumpFV, sipFV, fv, invested, gainNominal, tax, fvAfterTax, realSip, pvInvested, sipGainNominal, sipGainReal,
+        houseAdvantage, ltv, ltvLimit, ltvOver: ltv * 100 > ltvLimit + 1e-9,
+        houseCashOutlay: down + totalEmi + maintenance, inflAdjSipPreTax: fv / deflator
+    };
+}
+
+/* ---------- Rendering ---------- */
+function shortINR(x) {
+    const a = Math.abs(x), s = x < 0 ? "−" : "";
+    if (a >= 1e7) return s + "₹" + (a / 1e7).toFixed(2) + " crore";
+    if (a >= 1e5) return s + "₹" + (a / 1e5).toFixed(2) + " lakh";
+    return s + "₹" + formatINR(a);
+}
+
+function calculate() {
+    const inp = readInputs();
+    if (!inp) return;
+    const r = computeLoanVsSip(inp);
+    lastData = { inp, r };
+    window.lastData = lastData;
+    renderVerdict(inp, r);
+    renderBreakdown(inp, r);
+    buildChartData(inp, r);
+    renderChart(chartMode);
+}
+
+function renderVerdict(inp, r) {
+    const buyingWins = r.houseAdvantage >= 0, amount = Math.abs(r.houseAdvantage);
+    const near = amount < 1;
+    const headline = near ? "The two paths come out about even, in today's rupees."
+        : (buyingWins ? "Buying the property" : "Investing in a SIP instead") + " comes out ahead by about " + shortINR(amount) + " in today's rupees.";
+    const bullets = [
+        "Both paths use the same money: " + shortINR(r.down) + " now, and " + "₹" + formatINR(r.emi) + " every month for " + inp.years + " years.",
+        "The SIP grows to " + shortINR(r.fv) + " before tax, against the property's " + shortINR(r.futureValue) + ". Size alone isn't the comparison. The verdict nets out interest, upkeep, selling costs and tax.",
+        "The property path needs " + (r.houseCashOutlay >= r.invested ? shortINR(r.houseCashOutlay - r.invested) + " more" : shortINR(r.invested - r.houseCashOutlay) + " less") + " cash in total, because upkeep is not invested in the SIP path.",
+        "This assumes you already own a home to live in. It is an educational illustration, not advice."
+    ];
+    const notes = [];
+    if (r.ltvOver) notes.push("Your loan is " + (r.ltv * 100).toFixed(0) + "% of the property price. RBI's limit for a loan of this size is " + r.ltvLimit + "%, so a bank may not lend this much. Check with your lender.");
+    if (r.realPropertyGain < 0) notes.push("The property's real gain is negative on these assumptions: after interest, upkeep, costs and tax, you would end with less buying power than you put in.");
+    if (r.sipGainReal < 0) notes.push("The SIP's real gain is negative on these assumptions. That usually means the return is below inflation.");
+    const notesHtml = notes.length ? `<div class="verdict-notes"><b>Worth knowing</b><ul>${notes.map(n => `<li>${n}</li>`).join("")}</ul></div>` : "";
+    document.getElementById("verdictCard").innerHTML = `
+        <p class="verdict-eyebrow">Verdict, over ${inp.years} ${inp.years === 1 ? "year" : "years"}</p>
+        <p class="verdict-headline${buyingWins || near ? "" : " is-negative"}">${headline}</p>
+        <p class="verdict-sub">Property real gain: ${shortINR(r.realPropertyGain)} &nbsp;·&nbsp; SIP real gain: ${shortINR(r.sipGainReal)} &nbsp;·&nbsp; both after costs and tax, in today's rupees.</p>
+        <ul class="verdict-bullets">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+        ${notesHtml}`;
+    const help = document.getElementById("ltvHelp");
+    help.textContent = "Loan is " + (r.ltv * 100).toFixed(0) + "% of the price" + (r.ltvOver ? ". Above RBI's " + r.ltvLimit + "% limit for this loan size." : ". Within RBI's " + r.ltvLimit + "% limit for this loan size.");
+}
+
+function renderBreakdown(inp, r) {
+    const m = (l, v) => `<div class="metric"><span class="metric-label">${l}</span><span class="metric-value">${v}</span></div>`;
+    document.getElementById("propertySection").innerHTML = `
+        <h3>🏠 The property path</h3>
+        <p class="section-note">The loan and the property, after interest, upkeep, selling cost and tax.</p>
+        <div class="metric-grid">
+            ${m("Property price", "₹" + formatINR(inp.price))}${m("Loan", "₹" + formatINR(inp.loan))}
+            ${m("Down payment", "₹" + formatINR(r.down))}${m("Loan as % of price", (r.ltv * 100).toFixed(0) + "%")}
+            ${m("Monthly EMI", "₹" + formatINR(r.emi))}${m("Interest over the loan", "₹" + formatINR(r.totalInterest))}
+            ${m("Upkeep over " + inp.years + " years", "₹" + formatINR(r.maintenance))}${m("Property value then (future rupees)", "₹" + formatINR(r.futureValue))}
+            ${m("Property value then (today's rupees)", "₹" + formatINR(r.realProperty))}${m("Selling cost", "₹" + formatINR(r.sellingCost))}
+            ${m("Tax on the sale gain", "₹" + formatINR(r.saleTaxAmt))}${m("Gain after costs and tax (future rupees)", "₹" + formatINR(r.nominalPropertyGain))}
+        </div>
+        <div class="final-result${r.realPropertyGain < 0 ? " is-negative" : ""}"><span class="metric-label">Real gain from the property, in today's rupees</span><span class="metric-value">₹${formatINR(r.realPropertyGain)}</span></div>`;
+    document.getElementById("sipSection").innerHTML = `
+        <h3>📈 The SIP path</h3>
+        <p class="section-note">The down payment invested on day one, plus a monthly SIP equal to the EMI.</p>
+        <div class="metric-grid">
+            ${m("Lump sum (the down payment)", "₹" + formatINR(r.down))}${m("Monthly SIP", "₹" + formatINR(r.emi))}
+            ${m("Total you invest", "₹" + formatINR(r.invested))}${m("Value then, before tax (future rupees)", "₹" + formatINR(r.fv))}
+            ${m("Value then, before tax (today's rupees)", "₹" + formatINR(r.inflAdjSipPreTax))}${m("Gain before tax (future rupees)", "₹" + formatINR(r.gainNominal))}
+            ${m("Tax when you sell", "₹" + formatINR(r.tax))}${m("Gain after tax (future rupees)", "₹" + formatINR(r.sipGainNominal))}
+            ${m("What you invest, in today's rupees", "₹" + formatINR(r.pvInvested))}${m("Value after tax (today's rupees)", "₹" + formatINR(r.realSip))}
+        </div>
+        <div class="final-result${r.sipGainReal < 0 ? " is-negative" : ""}"><span class="metric-label">Real gain from the SIP, in today's rupees</span><span class="metric-value">₹${formatINR(r.sipGainReal)}</span></div>`;
+    document.getElementById("decisionSection").innerHTML = `
+        <h3>⚖️ Side by side</h3>
+        <p class="section-note">Same assumptions, same ${inp.years}-year period.</p>
+        <div class="table-scroll"><table class="decision-table">
+            <thead><tr><th>Measure</th><th>Property</th><th>SIP</th></tr></thead>
+            <tbody>
+                <tr><td>Cash you put in (future rupees)</td><td>₹${formatINR(r.houseCashOutlay)}</td><td>₹${formatINR(r.invested)}</td></tr>
+                <tr><td>Value at the end, after costs and tax (future rupees)</td><td>₹${formatINR(r.netProceeds)}</td><td>₹${formatINR(r.fvAfterTax)}</td></tr>
+                <tr><td>Value at the end, after costs and tax (today's rupees)</td><td>₹${formatINR(r.netProceeds / Math.pow(1 + inp.infl / 100, inp.years))}</td><td>₹${formatINR(r.realSip)}</td></tr>
+                <tr><td>Real gain (today's rupees)</td><td>₹${formatINR(r.realPropertyGain)}</td><td>₹${formatINR(r.sipGainReal)}</td></tr>
+            </tbody></table></div>
+        <p class="section-note" style="margin-top:8px;">The property's upkeep is not invested in the SIP path, so the property path puts in more cash overall. The real-gain row is what the verdict uses.</p>`;
+    // How the verdict changes
+    const lead = x => { const a = x.houseAdvantage; return a >= 0 ? "Property by " + shortINR(a) : "SIP by " + shortINR(-a); };
+    const variants = [
+        ["Property grows " + (inp.app - 2) + "% a year", { ...inp, app: inp.app - 2 }],
+        ["Property grows " + inp.app + "% a year (yours)", inp],
+        ["Property grows " + (inp.app + 2) + "% a year", { ...inp, app: inp.app + 2 }],
+        ["SIP returns " + Math.max(0, inp.sipRate - 2) + "% a year", { ...inp, sipRate: Math.max(0, inp.sipRate - 2) }],
+        ["SIP returns " + Math.min(30, inp.sipRate + 2) + "% a year", { ...inp, sipRate: Math.min(30, inp.sipRate + 2) }]
+    ];
+    document.getElementById("sensitivitySection").innerHTML = `
+        <h3>🔀 How the verdict changes</h3>
+        <p class="group-note">One assumption moved by 2 points, the rest unchanged. Small changes in a guess can flip the answer.</p>
+        <div class="table-scroll"><table class="decision-table">
+            <thead><tr><th>If</th><th>Ahead</th></tr></thead>
+            <tbody>${variants.map(([label, v], i) => `<tr class="${i === 1 ? "is-selected" : ""}"><td>${label}</td><td>${lead(computeLoanVsSip(v))}</td></tr>`).join("")}</tbody></table></div>`;
+}
+
+/* ---------- Chart ---------- */
+function buildChartData(inp, r) {
+    const years = [], pN = [], sN = [], pR = [], sR = [];
+    const sr = inp.sipRate / 1200;
+    for (let y = 1; y <= inp.years; y++) {
+        years.push("Year " + y);
+        const pv = inp.price * Math.pow(1 + inp.app / 100, y);
+        pN.push(pv); pR.push(pv / Math.pow(1 + inp.infl / 100, y));
+        const months = y * 12;
+        const v = r.down * Math.pow(1 + sr, months) + (sr === 0 ? r.emi * months : r.emi * ((Math.pow(1 + sr, months) - 1) / sr));
+        sN.push(v); sR.push(v / Math.pow(1 + inp.infl / 100, y));
+    }
+    lastChartData = { years, propertyNominal: pN, sipNominal: sN, propertyReal: pR, sipReal: sR };
+}
+
+function setChartMode(mode) { renderChart(mode); }
 
 function renderChart(mode) {
     if (!lastChartData) return;
     chartMode = mode;
     document.getElementById("chartModeReal").classList.toggle("active", mode === 'real');
     document.getElementById("chartModeNominal").classList.toggle("active", mode === 'nominal');
-
     const isReal = mode === 'real';
-    const propertyData = isReal ? lastChartData.propertyReal : lastChartData.propertyNominal;
-    const sipData = isReal ? lastChartData.sipReal : lastChartData.sipNominal;
-    const basisLabel = isReal ? "Real, inflation-adjusted — today's rupees" : "Nominal — actual future rupees";
-
-    document.getElementById("chartCaption").textContent =
-        `Showing ${basisLabel}. This is the raw asset/portfolio value trend, before the financing cost, maintenance, and tax netted out in the verdict above — so it's normal for this chart's ordering to differ from the verdict.`;
-
+    document.getElementById("chartCaption").textContent = (isReal ? "In today's rupees. " : "In future rupees. ") +
+        "These lines show the plain value of the property and of the SIP over time, before interest, upkeep, selling cost and tax. That is why the order of the lines can differ from the verdict above.";
     if (chart) chart.destroy();
-
     chart = new Chart(document.getElementById("wealthChart"), {
         type: 'line',
         data: {
             labels: lastChartData.years,
             datasets: [
-                {
-                    label: `Property Value (${isReal ? "Real" : "Nominal"})`,
-                    data: propertyData,
-                    borderColor: "#4f46e5",
-                    backgroundColor: "rgba(79,70,229,0.08)",
-                    borderWidth: 3,
-                    tension: 0.3,
-                    pointRadius: 2
-                },
-                {
-                    label: `SIP Value incl. Down Payment (${isReal ? "Real" : "Nominal"})`,
-                    data: sipData,
-                    borderColor: "#10b981",
-                    backgroundColor: "rgba(16,185,129,0.08)",
-                    borderWidth: 3,
-                    tension: 0.3,
-                    pointRadius: 2
-                }
+                { label: "Property value", data: isReal ? lastChartData.propertyReal : lastChartData.propertyNominal, borderColor: "#4f46e5", backgroundColor: "rgba(79,70,229,0.08)", borderWidth: 3, tension: 0.3, pointRadius: 2 },
+                { label: "SIP value (before tax)", data: isReal ? lastChartData.sipReal : lastChartData.sipNominal, borderColor: "#10b981", backgroundColor: "rgba(16,185,129,0.08)", borderWidth: 3, tension: 0.3, pointRadius: 2 }
             ]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
+            responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
             plugins: {
-                title: {
-                    display: true,
-                    text: isReal ? "Value over time — real (inflation-adjusted)" : "Value over time — nominal (actual rupees)",
-                    font: { size: 13, weight: '600' },
-                    padding: { bottom: 8 }
-                },
-                legend: {
-                    position: 'top',
-                    labels: { boxWidth: 14, font: { size: 11 } }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (ctx) {
-                            return ctx.dataset.label + ": ₹" + Math.round(ctx.parsed.y).toLocaleString('en-IN');
-                        }
-                    }
-                }
+                title: { display: true, text: "Property value and SIP value over time", font: { size: 13, weight: '600' }, padding: { bottom: 8 } },
+                legend: { position: 'top', labels: { boxWidth: 14, font: { size: 11 } } },
+                tooltip: { callbacks: { label: ctx => ctx.dataset.label + ": ₹" + Math.round(ctx.parsed.y).toLocaleString('en-IN') } }
             },
             scales: {
-                x: {
-                    ticks: { autoSkip: true, maxTicksLimit: 6, maxRotation: 0, minRotation: 0 }
-                },
-                y: {
-                    ticks: {
-                        callback: function (v) { return '₹' + Number(v).toLocaleString('en-IN'); }
-                    }
-                }
+                x: { ticks: { autoSkip: true, maxTicksLimit: 6, maxRotation: 0, minRotation: 0 } },
+                y: { ticks: { callback: v => '₹' + Number(v).toLocaleString('en-IN') } }
             }
         }
     });
 }
 
-function setChartMode(mode) {
-    renderChart(mode);
-}
-
-// LTCG exemption on equity gains, per current (post–Budget 2024) rules.
-const LTCG_EXEMPTION = 125000;
-const LTCG_RATE = 0.125;
-
-
-function formatINR(x) {
-    // Whole rupees only — paise-level precision on 20-year projections is
-    // false precision, and the old toFixed(2)+Number round-trip produced
-    // inconsistent decimal places (₹1,23,456.7 vs ₹1,23,456.70).
-    return Math.round(x).toLocaleString('en-IN');
-}
-
-function maintenanceIsRupees() {
-    return document.querySelector('input[name="maintenanceUnit"]:checked').value === "rupees";
-}
-
-function updateMaintenanceUnit() {
-    const input = document.getElementById("maint");
-    const isRupees = maintenanceIsRupees();
-    document.getElementById("maintLabel").textContent = isRupees ? "Maintenance (₹ per year)" : "Maintenance (% per year)";
-    const propertyPrice = +document.getElementById("propertyPrice").value || 0;
-    const annualMaintenance = isRupees ? +input.value : (propertyPrice * +input.value / 100);
-    document.getElementById("maintenanceHelp").textContent = `₹${formatINR(annualMaintenance)} per year`;
-}
-
-// Reads and validates every field. Returns a plain object of numeric inputs,
-// or null (after writing an inline error) if anything is missing, negative
-// where it shouldn't be, or would blow up the EMI formula (tenure = 0).
-function readInputs() {
-    const errorEl = document.getElementById("formError");
-    errorEl.textContent = "";
-
-    const propertyPrice = +document.getElementById("propertyPrice").value;
-    const loanAmount = +document.getElementById("loanAmount").value;
-    const interestRate = +document.getElementById("interest").value;
-    const tenureYears = +document.getElementById("tenure").value;
-    const maintInput = +document.getElementById("maint").value;
-    const appRate = +document.getElementById("app").value;
-    const inflRate = +document.getElementById("infl").value;
-    const sipRate = +document.getElementById("sip").value;
-
-    if (!Number.isFinite(propertyPrice) || propertyPrice <= 0) {
-        errorEl.textContent = "Enter a property price greater than zero.";
-        return null;
-    }
-    if (!Number.isFinite(loanAmount) || loanAmount < 0 || loanAmount > propertyPrice) {
-        errorEl.textContent = "Loan amount must be between 0 and the property price.";
-        return null;
-    }
-    if (!Number.isFinite(interestRate) || interestRate < 0 || interestRate > 50) {
-        errorEl.textContent = "Enter a loan interest rate between 0% and 50%.";
-        return null;
-    }
-    if (!Number.isFinite(tenureYears) || tenureYears < 1 || tenureYears > 40) {
-        errorEl.textContent = "Enter a tenure between 1 and 40 years.";
-        return null;
-    }
-    if (!Number.isFinite(maintInput) || maintInput < 0) {
-        errorEl.textContent = "Maintenance can't be negative.";
-        return null;
-    }
-    if (!Number.isFinite(inflRate) || inflRate < 0 || inflRate > 30) {
-        errorEl.textContent = "Enter an inflation rate between 0% and 30%.";
-        return null;
-    }
-    if (!Number.isFinite(sipRate) || sipRate < 0 || sipRate > 30) {
-        errorEl.textContent = "Enter a SIP return between 0% and 30%.";
-        return null;
-    }
-    if (!Number.isFinite(appRate) || appRate < -10 || appRate > 30) {
-        errorEl.textContent = "Enter a property appreciation rate between -10% and 30%.";
-        return null;
-    }
-
-    const annualMaintenance = maintenanceIsRupees() ? maintInput : propertyPrice * maintInput / 100;
-
-    return { propertyPrice, loanAmount, interestRate, tenureYears, annualMaintenance, appRate, inflRate, sipRate };
-}
-
-// Single source of truth for every number on this page — used by both the
-// on-screen results and the Excel export, so the two can no longer drift
-// apart the way the old calculate()/exportLoanVsSip() duplicate logic could.
-function computeLoanVsSip(inputs) {
-    const { propertyPrice, loanAmount, interestRate, tenureYears, annualMaintenance, appRate, inflRate, sipRate } = inputs;
-
-    const monthlyRate = interestRate / 1200;
-    const months = tenureYears * 12;
-    const infl = inflRate / 100;
-    const monthlySip = sipRate / 1200;
-    const downPayment = propertyPrice - loanAmount;
-
-    // EMI + full amortization, so interest can be attributed to the year it
-    // was actually paid in (needed to discount it correctly below).
-    const emi = monthlyRate === 0
-        ? loanAmount / months
-        : loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
-
-    let balance = loanAmount;
-    const interestByYear = new Array(tenureYears).fill(0);
-    for (let m = 0; m < months; m++) {
-        const interestPortion = balance * monthlyRate;
-        const principalPortion = emi - interestPortion;
-        balance -= principalPortion;
-        interestByYear[Math.floor(m / 12)] += interestPortion;
-    }
-    const totalInterest = interestByYear.reduce((a, b) => a + b, 0);
-
-    // Discount each year's interest and maintenance outflow back to today's
-    // rupees before netting against the real (inflation-adjusted) future
-    // property value — the previous version subtracted nominal costs from a
-    // real value, which understated the true cost of financing.
-    let realTotalInterest = 0;
-    let realMaintenance = 0;
-    for (let y = 1; y <= tenureYears; y++) {
-        const discount = Math.pow(1 + infl, y);
-        realTotalInterest += interestByYear[y - 1] / discount;
-        realMaintenance += annualMaintenance / discount;
-    }
-
-    const futureValue = propertyPrice * Math.pow(1 + appRate / 100, tenureYears);
-    const realProperty = futureValue / Math.pow(1 + infl, tenureYears);
-
-    // Property gain, matching the Excel model: value less price paid, less
-    // maintenance, less loan interest — nominal and real (discounted) versions.
-    const nominalPropertyGain = futureValue - propertyPrice - (annualMaintenance * tenureYears) - totalInterest;
-    const realPropertyGain = realProperty - propertyPrice - realMaintenance - realTotalInterest;
-
-    // SIP scenario now invests the down payment as a day-one lump sum, on
-    // top of the monthly EMI-equivalent SIP — otherwise the property buyer's
-    // upfront cash was being compared against an investor who never put any
-    // upfront cash in at all.
-    // Lump sum (down payment) compounds ANNUALLY at the SIP rate, matching
-    // the Excel model's =B24*(1+B8/100)^B4 — only the monthly SIP
-    // contributions compound monthly. Using monthly compounding for the
-    // lump sum too (the previous version) overstates its growth relative
-    // to the Excel model, since monthly compounding at the same nominal
-    // rate always outpaces annual compounding over multi-year horizons.
-    const lumpSumFV = downPayment * Math.pow(1 + sipRate / 100, tenureYears);
-    const monthlySipFV = monthlySip === 0 ? emi * months : emi * ((Math.pow(1 + monthlySip, months) - 1) / monthlySip);
-    const fv = lumpSumFV + monthlySipFV;
-    const sipInvested = downPayment + emi * months;
-    const inflAdjSIPValuePreTax = fv / Math.pow(1 + infl, tenureYears);
-
-    const investmentGainNominal = fv - sipInvested;
-    const taxBase = investmentGainNominal - LTCG_EXEMPTION;
-    const tax = taxBase > 0 ? LTCG_RATE * taxBase : 0;
-
-    const fvAfterTax = fv - tax;
-    const realSIP = fvAfterTax / Math.pow(1 + infl, tenureYears);
-
-    // Present value of SIP contributions, discounting each month's EMI-equivalent
-    // outflow back to today's rupees the same way realTotalInterest/realMaintenance
-    // discount the house side's costs above. The lump sum (down payment) is already
-    // paid today, so it needs no discounting.
-    // Matches the fix applied to the Excel model's Home Loan Analysis sheet: comparing
-    // a real (inflation-adjusted) terminal value against the raw, undiscounted nominal
-    // sum of contributions mixes real and nominal terms and understates the SIP's real
-    // gain, since future contributions are worth less in today's rupees than their face
-    // value.
-    let pvContributions = downPayment;
-    for (let m = 1; m <= months; m++) {
-        const year = Math.ceil(m / 12);
-        pvContributions += emi / Math.pow(1 + infl, year);
-    }
-
-    const sipGainNominal = fvAfterTax - sipInvested;      // Gain After LTCG (nominal, post-tax) — unchanged, nominal terms throughout
-    const sipGainReal = realSIP - pvContributions;        // Real Gain After LTCG & Inflation — now consistent with the house side's PV discounting
-
-    // House advantage / (SIP advantage): positive means the house's real
-    // gain is bigger; the on-screen "difference" flips the sign so a
-    // positive number always means SIP is ahead, matching the wording used
-    // throughout the rest of this page.
-    const houseAdvantage = realPropertyGain - sipGainReal;
-    const diffRealWealth = -houseAdvantage;
-
-    // Loan-to-value and a like-for-like "total cash committed" figure for
-    // each path, used in the decision summary table below.
-    const ltv = loanAmount / propertyPrice;
-    const houseCashOutlay = downPayment + emi * months + annualMaintenance * tenureYears;
-
-    return {
-        emi, totalInterest, annualMaintenance, maintenance: annualMaintenance * tenureYears,
-        futureValue, realProperty, nominalPropertyGain, realPropertyGain, downPayment, ltv, houseCashOutlay,
-        lumpSumFV, monthlySipFV, fv, sipInvested, pvContributions, inflAdjSIPValuePreTax, investmentGainNominal,
-        tax, fvAfterTax, realSIP, sipGainNominal, sipGainReal, houseAdvantage, diffRealWealth
-    };
-}
-
-function applySentiment(el, value) {
-    el.classList.toggle("is-negative", value < 0);
-}
-
-function calculate() {
-    const inputs = readInputs();
-    if (!inputs) return;
-    const { propertyPrice, loanAmount, tenureYears } = inputs;
-    const r = computeLoanVsSip(inputs);
-
-    // VERDICT — the single headline answer, stated once, at the top.
-    // Everything below this is supporting detail for this one statement.
-    const buyingWins = r.houseAdvantage >= 0;
-    const verdictAmount = buyingWins ? r.houseAdvantage : -r.houseAdvantage;
-    document.getElementById("verdictCard").innerHTML = `
-        <p class="verdict-eyebrow">Verdict, over ${tenureYears} years</p>
-        <p class="verdict-headline${buyingWins ? "" : " is-negative"}">
-            ${buyingWins ? "Buying the house" : "Investing in a SIP instead"} comes out ahead by ₹${formatINR(verdictAmount)}
-            in today's rupees, under the assumptions below.
-        </p>
-        <p class="verdict-sub">House real gain: ₹${formatINR(r.realPropertyGain)} &nbsp;·&nbsp; SIP real gain: ₹${formatINR(r.sipGainReal)} &nbsp;·&nbsp; both after modeled costs and tax.</p>
-        <ul class="verdict-bullets">
-            <li>Portfolio size alone isn't the comparison: the SIP path reaches ₹${formatINR(r.fv)} nominally versus the property's ₹${formatINR(r.futureValue)} — the verdict above nets out financing cost, maintenance, and tax on both sides first.</li>
-            <li>Cash commitment: the house path requires ${r.houseCashOutlay >= r.sipInvested ? "₹" + formatINR(r.houseCashOutlay - r.sipInvested) + " more" : "₹" + formatINR(r.sipInvested - r.houseCashOutlay) + " less"} modeled cash outlay, mainly because maintenance isn't an investable amount in the SIP scenario.</li>
-            <li>This is a modeled illustration, not advice — see "Decision caveat" below for what's excluded (rent, tax benefits, expense ratios, stamp duty, and more).</li>
-        </ul>
-    `;
-
-    // RESULTS SECTION
-    document.getElementById("results").innerHTML = `
-          <div class="result-section">
-                <h3>🏠 Property Summary</h3>
-                <p class="section-note">The property path after loan interest and maintenance — matches the WealthCompare Excel model.</p>
-                <div class="metric-grid">
-                     <div class="metric"><span class="metric-label">Property price</span><span class="metric-value">₹${formatINR(propertyPrice)}</span></div>
-                     <div class="metric"><span class="metric-label">Loan amount</span><span class="metric-value">₹${formatINR(loanAmount)}</span></div>
-                     <div class="metric"><span class="metric-label">Down payment</span><span class="metric-value">₹${formatINR(r.downPayment)}</span></div>
-                     <div class="metric"><span class="metric-label">Loan-to-value ratio</span><span class="metric-value">${(r.ltv * 100).toFixed(0)}%</span></div>
-                     <div class="metric"><span class="metric-label">Net interest paid</span><span class="metric-value">₹${formatINR(r.totalInterest)}</span></div>
-                     <div class="metric"><span class="metric-label">Total maintenance</span><span class="metric-value">₹${formatINR(r.maintenance)}</span></div>
-                     <div class="metric"><span class="metric-label">Future value, gross nominal</span><span class="metric-value">₹${formatINR(r.futureValue)}</span></div>
-                     <div class="metric"><span class="metric-label">Future value, gross real</span><span class="metric-value">₹${formatINR(r.realProperty)}</span></div>
-                     <div class="metric"><span class="metric-label">Net property gain, nominal</span><span class="metric-value">₹${formatINR(r.nominalPropertyGain)}</span></div>
-                </div>
-                <p class="section-note">Down payment is invested as a lump sum in the SIP scenario below, for a fair comparison.</p>
-                <div class="final-result" id="netPropertyResult"><span class="metric-label">Real property gain, after maintenance &amp; interest, after ${tenureYears} years</span><span class="metric-value">₹${formatINR(r.realPropertyGain)}</span></div>
-          </div>
-
-        <!-- ⭐ Placement 2: Between Property & SIP Summary -->
-        <div class="ad-slot">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-4357149194740826"
-                 data-ad-slot="100000002"
-                 data-ad-format="fluid"
-                 data-ad-layout="in-article"
-                 data-full-width-responsive="true"></ins>
-        </div>
-
-        <hr>
-
-          <div class="result-section">
-                <h3>📈 SIP Summary</h3>
-                <p class="section-note">The alternative path: down payment invested as a lump sum, plus a monthly SIP equal to the EMI.</p>
-                <div class="metric-grid">
-                     <div class="metric"><span class="metric-label">Lump sum invested (down payment)</span><span class="metric-value">₹${formatINR(r.downPayment)}</span></div>
-                     <div class="metric"><span class="metric-label">Monthly SIP invested (total)</span><span class="metric-value">₹${formatINR(r.sipInvested - r.downPayment)}</span></div>
-                     <div class="metric"><span class="metric-label">Total amount invested</span><span class="metric-value">₹${formatINR(r.sipInvested)}</span></div>
-                     <div class="metric"><span class="metric-label">Future value, nominal</span><span class="metric-value">₹${formatINR(r.fv)}</span></div>
-                     <div class="metric"><span class="metric-label">Inflation-adjusted value, pre-tax</span><span class="metric-value">₹${formatINR(r.inflAdjSIPValuePreTax)}</span></div>
-                     <div class="metric"><span class="metric-label">Investment gain, nominal</span><span class="metric-value">₹${formatINR(r.investmentGainNominal)}</span></div>
-                     <div class="metric"><span class="metric-label">LTCG tax</span><span class="metric-value">₹${formatINR(r.tax)}</span></div>
-                     <div class="metric"><span class="metric-label">Gain after LTCG, nominal</span><span class="metric-value">₹${formatINR(r.sipGainNominal)}</span></div>
-                </div>
-                <div class="final-result" id="realSipResult"><span class="metric-label">Real gain after LTCG &amp; inflation, after ${tenureYears} years</span><span class="metric-value">₹${formatINR(r.sipGainReal)}</span></div>
-          </div>
-    `;
-
-    applySentiment(document.getElementById("netPropertyResult"), r.realPropertyGain);
-    applySentiment(document.getElementById("realSipResult"), r.sipGainReal);
-
-    // ANALYSIS SECTION — decision table only; the headline verdict now lives
-    // in the verdict card above, so this is purely the supporting detail for
-    // someone who wants to audit the numbers.
-    document.getElementById("analysis").innerHTML = `
-        <div class="comparison-result">
-            <h3>⚖️ House vs SIP — Decision Table</h3>
-            <p class="section-note">Same assumptions above, over the same ${tenureYears}-year horizon — matches the WealthCompare Excel model.</p>
-            <table class="decision-table">
-                <thead><tr><th>Metric</th><th>House</th><th>SIP</th></tr></thead>
-                <tbody>
-                    <tr><td>Total modeled cash outlay</td><td>₹${formatINR(r.houseCashOutlay)}</td><td>₹${formatINR(r.sipInvested)}</td></tr>
-                    <tr><td>Nominal future value</td><td>₹${formatINR(r.futureValue)}</td><td>₹${formatINR(r.fv)}</td></tr>
-                    <tr><td>Inflation-adjusted future value</td><td>₹${formatINR(r.realProperty)}</td><td>₹${formatINR(r.inflAdjSIPValuePreTax)}</td></tr>
-                    <tr><td>House real gain / SIP real gain</td><td>₹${formatINR(r.realPropertyGain)}</td><td>₹${formatINR(r.sipGainReal)}</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- ⭐ Placement 3: Inside Real Wealth Comparison -->
-        <div class="ad-slot">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-4357149194740826"
-                 data-ad-slot="100000003"
-                 data-ad-format="fluid"
-                 data-ad-layout="in-article"
-                 data-full-width-responsive="true"></ins>
-        </div>
-
-        <h3>💡 Understanding Your Results</h3>
-        <p><b>Nominal values</b> are actual rupee amounts in the future.</p>
-        <p><b>Real values</b> are inflation-adjusted, showing what that future money is worth in today's purchasing power. Interest and maintenance are also discounted year by year before being netted against the property's real value, so early and late costs aren't treated as equally expensive.</p>
-        <p><b>Real Property Gain</b> is the property's inflation-adjusted future value, minus the price paid, minus the present value of loan interest and maintenance — this is the number compared against SIP below.</p>
-        <p><b>Real Gain After LTCG &amp; Inflation</b> compares your total SIP corpus (after tax and inflation) against the present value of what you invested — the down payment plus each month's SIP, discounted back to today's rupees the same way the house side's interest and maintenance are discounted above. This keeps both sides of the comparison in consistent real terms; it is the SIP-side number compared against the property above.</p>
-        <p><b>LTCG tax</b> is modeled at 12.5% on equity-SIP gains above the current ₹1,25,000 annual exemption, applied once at redemption. Actual tax depends on the fund, holding period, exemptions, and tax rules in force at the time.</p>
-        <p><b>House advantage / (SIP advantage)</b> is the real property gain minus the real SIP gain — a positive number favors buying, a negative number favors SIP. This mirrors the decision-analysis logic in the WealthCompare Excel model.</p>
-        <p>This tool doesn't include stamp duty, registration, or brokerage on the property side, or expense ratios on the SIP side — real outcomes will differ. It is normal for either gain figure to be negative if inflation or costs are high.</p>
-        <p><b>Decision caveat:</b> this model assumes the SIP is an equity-oriented investment eligible for Section 112A and is redeemed once at the end of the horizon. It excludes rent (in the SIP scenario you still need somewhere to live, and renting has its own cost and increases over time), moving costs, property taxes, insurance, selling costs, home-loan tax benefits, SIP expense ratios, surcharge/cess, liquidity, and differences in risk between the two paths. Weigh these before making a final personal decision.</p>
-    `;
-
-    applySentiment(document.getElementById("netPropertyResult"), r.realPropertyGain);
-    applySentiment(document.getElementById("realSipResult"), r.sipGainReal);
-
-    // CHART DATA — both nominal and real (inflation-adjusted) series are
-    // computed up front so the toggle can switch instantly with no recalculation.
-    // Note: this is the raw asset/portfolio VALUE trend, not the "real gain"
-    // used in the verdict above — the verdict additionally nets out financing
-    // cost, maintenance, and tax, which a per-year value curve does not. The
-    // caption under the toggle makes this distinction explicit so the chart
-    // can't be read as contradicting the verdict.
-    let years = [];
-    let propertyNominal = [];
-    let sipNominal = [];
-    let propertyReal = [];
-    let sipReal = [];
-    const monthlySip = inputs.sipRate / 1200;
-    const infl = inputs.inflRate / 100;
-
-    for (let y = 1; y <= tenureYears; y++) {
-        years.push("Year " + y);
-        const propVal = inputs.propertyPrice * Math.pow(1 + inputs.appRate / 100, y);
-        propertyNominal.push(propVal);
-        propertyReal.push(propVal / Math.pow(1 + infl, y));
-
-        const months = y * 12;
-        const lumpAtY = r.downPayment * Math.pow(1 + inputs.sipRate / 100, y);
-        const sipAtY = monthlySip === 0 ? r.emi * months : r.emi * ((Math.pow(1 + monthlySip, months) - 1) / monthlySip);
-        const sipVal = lumpAtY + sipAtY;
-        sipNominal.push(sipVal);
-        sipReal.push(sipVal / Math.pow(1 + infl, y));
-    }
-
-    lastChartData = { years, propertyNominal, sipNominal, propertyReal, sipReal };
-    renderChart(chartMode);
-}
-
 function exportLoanVsSip() {
-    const inputs = readInputs();
-    if (!inputs) return;
-    const { propertyPrice, loanAmount, interestRate, tenureYears } = inputs;
-    const r = computeLoanVsSip(inputs);
-    const maintenanceUnit = maintenanceIsRupees() ? "₹ per year" : "% per year";
-    const maintInput = +document.getElementById("maint").value;
-
+    const inp = readInputs();
+    if (!inp) return;
+    const r = computeLoanVsSip(inp);
     exportWorkbook("loan-vs-sip-comparison.xlsx", {
-        Inputs: [["Loan vs SIP Inputs"], ["Input", "Value"], ["Property price", propertyPrice], ["Loan amount", loanAmount], ["Interest rate", interestRate + "% per year"], ["Tenure", tenureYears + " years"], ["Maintenance", maintInput], ["Maintenance unit", maintenanceUnit], ["Annual maintenance", r.annualMaintenance], ["Property appreciation", inputs.appRate + "% per year"], ["Inflation", inputs.inflRate + "% per year"], ["SIP return", inputs.sipRate + "% per year"]],
-        Results: [["Loan vs SIP Results"], ["Metric", "Value"], ["Monthly EMI", r.emi], ["Down payment", r.downPayment], ["Loan-to-value ratio", r.ltv], ["Net interest paid (nominal)", r.totalInterest], ["Total maintenance (nominal)", r.maintenance], ["Property future value, gross nominal", r.futureValue], ["Property future value, gross real", r.realProperty], ["Net property gain, nominal", r.nominalPropertyGain], ["Real property gain, after maintenance & interest", r.realPropertyGain], ["SIP lump sum invested (down payment)", r.downPayment], ["SIP monthly total invested", r.sipInvested - r.downPayment], ["SIP total amount invested", r.sipInvested], ["SIP present value of contributions", r.pvContributions], ["SIP future value, nominal", r.fv], ["SIP inflation-adjusted value, pre-tax", r.inflAdjSIPValuePreTax], ["Investment gain, nominal (pre-tax)", r.investmentGainNominal], ["LTCG tax", r.tax], ["Gain after LTCG, nominal", r.sipGainNominal], ["Real gain after LTCG & inflation", r.sipGainReal], ["LTCG tax rate", "12.5% on gains above ₹1,25,000"], ["Total cash committed, House", r.houseCashOutlay], ["Total cash committed, SIP", r.sipInvested], ["House advantage / (SIP advantage)", r.houseAdvantage]],
-        Analysis: [["Understanding Your Results"], ["Nominal values", "Actual rupee amounts in the future."], ["Real values", "Inflation-adjusted values expressed in today's purchasing power. Interest and maintenance are discounted year by year before being netted, rather than subtracted as nominal totals."], ["Real Property Gain", "Property's inflation-adjusted future value, minus price paid, minus present value of loan interest and maintenance."], ["Real Gain After LTCG & Inflation", "Total SIP corpus (after tax and inflation) compared with the present value of contributions — the down payment plus each month's SIP discounted to today's rupees, consistent with how the house side's interest and maintenance are discounted."], ["LTCG tax", "Modeled at 12.5% on equity-SIP gains above the current ₹1,25,000 annual exemption, applied once at redemption. Actual tax depends on the fund, holding period, exemptions, and tax rules in force at the time."], ["House advantage / (SIP advantage)", "Real property gain minus real SIP gain; a positive value favors buying, a negative value favors SIP."], ["Conclusion", r.houseAdvantage >= 0 ? `Buying the house is better under the current assumptions by ₹${Math.round(r.houseAdvantage).toLocaleString('en-IN')} of real gain.` : `SIP investing is better under the current assumptions by ₹${Math.round(-r.houseAdvantage).toLocaleString('en-IN')} of real gain.`], ["Important", "This tool is for educational illustration. It excludes stamp duty, registration, and brokerage on the property side, expense ratios on the SIP side, and rent in the SIP/renting scenario (with its own cost and increases). Actual returns, costs, and tax outcomes vary."]]
+        Inputs: [["Loan vs SIP Inputs"], ["Input", "Value"], ["Property price", inp.price], ["Loan amount", inp.loan], ["Loan interest (% per year)", inp.rate], ["Tenure (years)", inp.years],
+                 ["Upkeep per year (₹, first year)", inp.annualMaintenance], ["Property growth (% per year)", inp.app], ["Tax on sale gain (%)", inp.saleTax], ["Selling cost (%)", inp.sellCost],
+                 ["SIP return (% per year)", inp.sipRate], ["Inflation (% per year)", inp.infl]],
+        Results: [["Loan vs SIP Results"], ["Metric", "Value"], ["Monthly EMI", r.emi], ["Down payment", r.down], ["Loan as % of price", r.ltv], ["RBI limit for this loan size (%)", r.ltvLimit],
+                  ["Interest over the loan", r.totalInterest], ["Upkeep over the period", r.maintenance], ["Property value then (future rupees)", r.futureValue], ["Selling cost", r.sellingCost],
+                  ["Tax on sale gain", r.saleTaxAmt], ["Property gain after costs and tax (future rupees)", r.nominalPropertyGain], ["Property real gain (today's rupees)", r.realPropertyGain],
+                  ["SIP value before tax (future rupees)", r.fv], ["SIP tax", r.tax], ["SIP gain after tax (future rupees)", r.sipGainNominal], ["SIP real gain (today's rupees)", r.sipGainReal],
+                  ["Property advantage / (SIP advantage), today's rupees", r.houseAdvantage]]
     });
 }
 
-calculate();
+FIELD_IDS.forEach(id => document.getElementById(id).addEventListener("input", () => setFieldError(id, "")));
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target && e.target.tagName === "INPUT" && e.target.type !== "radio") calculate(); });
 updateMaintenanceUnit();
+calculate();
 bindAmountInWords("propertyPrice", "propertyPriceWords");
 bindAmountInWords("loanAmount", "loanAmountWords");
-</script>
-
-<footer class="footer">
-    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
-    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
-    <div style="margin-top:6px;">
-        This tool is for educational illustration only. It excludes stamp duty, registration, and brokerage — verify figures with your bank or advisor.
-    </div>
-</footer>
-
-<script>
-document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 
 <script src="/assets/js/ad-slot-collapse.js"></script>

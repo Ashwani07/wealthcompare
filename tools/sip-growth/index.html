@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Project SIP returns in India with monthly investment, expected return, tenure, and inflation-adjusted purchasing power.">
+<meta name="description" content="Free SIP calculator for India. Enter a monthly amount and a return you assume to see the after-tax value, in future rupees and in today's money.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://wealthcompare.in/tools/sip-growth/">
 <title>SIP Calculator India: Growth and Inflation-Adjusted Value | WealthCompare</title>
@@ -16,12 +16,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="WealthCompare">
 <meta property="og:title" content="SIP Calculator India: Growth and Inflation-Adjusted Value">
-<meta property="og:description" content="Project SIP returns in India with monthly investment, expected return, tenure, and inflation-adjusted purchasing power.">
+<meta property="og:description" content="Free SIP calculator for India. Enter a monthly amount and a return you assume to see the after-tax value, in future rupees and in today's money.">
 <meta property="og:url" content="https://wealthcompare.in/tools/sip-growth/">
 <meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 
-<!-- AdSense Auto Ads -->
+<!-- Auto Ads (Anchor + Vignette + In-page) -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
      crossorigin="anonymous"></script>
 
@@ -53,114 +53,87 @@ body {
     background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
     color: var(--text-primary);
 }
-a { text-decoration: none; color: inherit; }
-
-.hero {
-    padding: 30px 20px 10px;
-    text-align: center;
-    color: white;
-}
+.hero { padding: 30px 20px 40px; text-align: center; color: white; }
 .hero-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    background: linear-gradient(135deg, rgba(79,70,229,0.95), rgba(59,130,246,0.95));
-    padding: 24px 18px;
-    border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 20px 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 .hero h1 { margin: 0 0 10px; font-size: 26px; }
 .hero p { margin: 0 0 8px; font-size: 14px; }
-
-.container {
-    max-width: 1100px;
-    margin: 20px auto 40px;
-    padding: 0 16px;
-}
+.container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
 .card {
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 18px;
-    margin-bottom: 20px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
-.inputs-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px 20px;
-    margin-top: 10px;
-}
-.input-group {
-    flex: 1 1 220px;
-    display: flex;
-    flex-direction: column;
-}
-.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; }
-.input-group small { color: var(--text-muted); font-size: 11px; }
-.input-group input {
-    padding: 9px 10px;
-    border-radius: 10px;
-    border: 1px solid #d1d5db;
-    font-size: 14px;
-    width: 100%;
-}
-.amount-words { min-height: 28px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.card-title { background: linear-gradient(135deg,#4f46e5,#3b82f6); color: white; padding: 10px; border-radius: 10px; margin: 0 0 6px; font-size: 20px; }
+.inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
+.input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+.input-group input { padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; font-family: inherit; }
+.input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
 button {
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #3b82f6, #4f46e5);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 15px;
-    cursor: pointer;
-    margin-top: 16px;
-    width: 100%;
-    max-width: 240px;
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5); color: white; border: none;
+    border-radius: 12px; font-size: 15px; cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px; font-family: inherit;
 }
-button:disabled { opacity: 0.55; cursor: not-allowed; }
-.results-layout {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
+.export-button { background: #167d83; margin-left: 8px; }
+@media (max-width: 600px) { .export-button { margin-left: 0; } }
+
+.verdict-card {
+    background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
-.results-column {
-    flex: 1 1 280px;
+.verdict-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0; }
+.mode-toggle { display: inline-flex; border: 1px solid #c7d2fe; border-radius: 999px; overflow: hidden; background: #fff; }
+.mode-toggle button {
+    margin: 0; width: auto; max-width: none; padding: 7px 14px; font-size: 12px; font-weight: 700;
+    background: transparent; color: #3730a3; border-radius: 0;
 }
-.result-number {
-    font-size: 20px;
-    font-weight: 700;
-    color: #4f46e5;
+.mode-toggle button[aria-pressed="true"] { background: #4f46e5; color: #fff; }
+.verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
+.verdict-headline.is-negative { color: #7c2d12; }
+.verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
+.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.verdict-bullets li { font-size: 13px; color: var(--text-primary); padding-left: 20px; position: relative; }
+.verdict-bullets li::before { content: "•"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; }
+.verdict-notes { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: #fffbeb; border: 1px solid #fde68a; font-size: 12px; color: #78350f; }
+.verdict-notes ul { margin: 4px 0 0; padding-left: 18px; }
+
+.breakdown-details > summary, .nested-details > summary {
+    cursor: pointer; list-style: none; font-weight: 700; color: #3730a3; display: flex; align-items: center; gap: 8px;
 }
-.result-section { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 14px; background: #fff; }
+.breakdown-details > summary { padding: 12px 14px; border-radius: 10px; background: var(--surface-muted); font-size: 14px; }
+.breakdown-details > summary::-webkit-details-marker, .nested-details > summary::-webkit-details-marker { display: none; }
+.breakdown-details > summary::before, .nested-details > summary::before { content: "▸"; transition: transform 0.15s ease; }
+.breakdown-details[open] > summary::before, .nested-details[open] > summary::before { transform: rotate(90deg); }
+.breakdown-details > summary:hover { background: #e0e7ff; }
+.breakdown-body { padding-top: 16px; }
+.nested-details { margin-top: 14px; }
+.nested-details > summary { font-size: 14px; padding: 8px 0; }
+.result-section { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 14px; background: #fff; margin-bottom: 16px; }
+.result-section h3 { margin: 0 0 10px; color: #1f2937; font-size: 17px; }
+.group-note { margin: 0 0 8px; font-size: 12px; color: var(--text-muted); }
 .metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .metric { padding: 10px 12px; border-radius: 10px; background: var(--surface-muted); }
 .metric-label { display: block; color: var(--text-muted); font-size: 11px; }
 .metric-value { display: block; margin-top: 3px; color: var(--text-primary); font-size: 14px; font-weight: 700; }
-.final-result { margin: 14px 0; padding: 14px; border-left: 4px solid var(--positive-border); border-radius: 10px; background: var(--positive-bg); }
-.final-result .metric-value { color: var(--positive); font-size: 22px; }
-.analysis-panel { padding: 16px; border-radius: 14px; background: var(--surface-muted); border: 1px solid var(--border-subtle); }
-.chart-container {
-    background: rgba(255,255,255,0.95);
-    padding: 16px;
-    border-radius: 18px;
-    margin-top: 10px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-}
-.chart-canvas-wrap {
-    position: relative;
-    height: 300px;
-    width: 100%;
-}
-@media (min-width: 640px) {
-    .chart-canvas-wrap { height: 380px; }
-}
-.form-error { color: var(--negative); font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
-@media (max-width: 767px) {
-    .hero-inner { padding: 18px 14px; border-radius: 20px; }
-    .hero h1 { font-size: 22px; }
-    .hero p { font-size: 13px; }
-    .card { padding: 16px; }
-}
+.decision-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+.decision-table th, .decision-table td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #e0e7ff; }
+.decision-table th:first-child, .decision-table td:first-child { text-align: left; color: var(--text-secondary); }
+.decision-table th { color: #3730a3; font-weight: 700; }
+.decision-table td:not(:first-child) { font-weight: 600; }
+.decision-table tr.is-selected td { background: #eef2ff; }
+.table-scroll { overflow-x: auto; }
+.advanced-body h4 { margin: 14px 0 6px; font-size: 14px; color: #1f2937; }
+.advanced-body p { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin: 0 0 10px; }
+.chart-container { background: rgba(255,255,255,0.95); padding: 16px; border-radius: 18px; margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.chart-caption { font-size: 12px; color: var(--text-muted); margin: 0 0 10px; }
+.chart-canvas-wrap { position: relative; height: 300px; width: 100%; }
+@media (min-width: 640px) { .chart-canvas-wrap { height: 380px; } }
+@media (max-width: 420px) { .metric-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 
@@ -177,97 +150,86 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
     </nav>
 </header>
 
-<section class="hero">
+<div class="hero">
     <div class="hero-inner">
-        <h1>SIP Growth Projection Tool</h1>
-        <p>See how your monthly SIP can grow over time — in both nominal rupees and inflation-adjusted real wealth.</p>
-        <p>Understand the true purchasing power of your future SIP corpus, after modeled LTCG tax.</p>
+        <h1>SIP Growth Calculator</h1>
+        <p>Enter a monthly amount and a return you assume. See what the money could grow to, and what that is worth in today's rupees.</p>
+        <p>Tax when you sell is included. Everything is calculated in your browser.</p>
     </div>
-</section>
+</div>
 
 <div class="container">
 
-    <!-- AdSense: Below Hero -->
-    <div class="ad-slot">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-4357149194740826"
-             data-ad-slot="400000001"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-    </div>
-
-    <!-- Input Card -->
     <div class="card">
-        <h2 style="background:linear-gradient(135deg,#4f46e5,#3b82f6);color:white;padding:10px;border-radius:10px;">
-            📥 Enter SIP Details
-        </h2>
-
+        <h2 class="card-title">📥 Enter Your SIP</h2>
         <div class="inputs-grid">
             <div class="input-group">
-                <label for="sipAmount">Monthly SIP Amount (₹)</label>
-                <small>Amount you invest every month.</small>
-                <input id="sipAmount" type="number" min="1" step="500" value="20000">
+                <label for="sipAmount">Monthly SIP (₹)</label>
+                <input id="sipAmount" type="number" inputmode="decimal" min="0" step="500" value="20000">
                 <span id="sipAmountWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="sipAmountError" role="alert"></span>
             </div>
             <div class="input-group">
-                <label for="returnRate">Expected Return (% per year)</label>
-                <small>Annualized return (e.g., 12 for equity SIP).</small>
-                <input id="returnRate" type="number" min="0" max="30" step="0.01" value="12">
+                <label for="lumpSum">Lump sum at the start (₹)</label>
+                <input id="lumpSum" type="number" inputmode="decimal" min="0" step="1000" value="0">
+                <span id="lumpSumWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="lumpSumError" role="alert"></span>
             </div>
             <div class="input-group">
-                <label for="tenureYears">Tenure (years)</label>
-                <small>How long you will invest.</small>
-                <input id="tenureYears" type="number" min="1" max="40" step="1" value="20">
+                <label for="returnRate">Return you assume (% per year)</label>
+                <input id="returnRate" type="number" inputmode="decimal" min="0" max="30" step="0.01" value="12">
+                <span class="input-help">An assumption, not a forecast. Try a few.</span>
+                <span class="field-error" id="returnRateError" role="alert"></span>
             </div>
             <div class="input-group">
-                <label for="inflationRate">Inflation (% per year)</label>
-                <small>Average inflation over the period.</small>
-                <input id="inflationRate" type="number" min="0" max="30" step="0.01" value="6">
+                <label for="tenureYears">Years you invest</label>
+                <input id="tenureYears" type="number" inputmode="numeric" min="1" max="40" step="1" value="20">
+                <span class="field-error" id="tenureYearsError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="inflationRate">Inflation you assume (% per year)</label>
+                <input id="inflationRate" type="number" inputmode="decimal" min="0" max="30" step="0.01" value="6">
+                <span class="input-help">Used to show values in today's rupees.</span>
+                <span class="field-error" id="inflationRateError" role="alert"></span>
             </div>
         </div>
 
         <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
 
-        <button type="button" onclick="calculateSIP()">Project SIP growth</button>
+        <button type="button" onclick="calculateSIP()">Show my SIP</button>
         <button type="button" class="export-button" onclick="exportSIP()">Export to Excel</button>
-
-        <!-- Placement 1: Below Calculate Button -->
-        <div class="ad-slot">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-4357149194740826"
-                 data-ad-slot="400000002"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-        </div>
     </div>
 
-    <!-- Results + Analysis -->
-    <div class="card analysis-panel">
-        <div class="results-layout">
-            <div id="results" class="results-column"></div>
-            <div id="analysis" class="results-column"></div>
+    <div id="verdictCard" class="card verdict-card"></div>
+
+    <details class="card breakdown-details">
+        <summary>Show the full breakdown (all figures, other return rates, how it works)</summary>
+        <div class="breakdown-body">
+            <div class="result-section" id="summarySection"></div>
+            <div class="result-section" id="sensitivitySection"></div>
+            <details class="nested-details">
+                <summary>Advanced Read: how these numbers are worked out</summary>
+                <div class="advanced-body">
+                    <h4>The growth</h4>
+                    <p>Your yearly return is divided by 12 and applied to the balance every month. Each instalment goes in at the end of its month. A lump sum at the start grows at the same monthly rate for the whole period. The same rate applies in every month, which no real market does. See how that changes things in our article on <a href="/insights/what-a-sip-return-assumption-means/">what a SIP return assumption really means</a>.</p>
+                    <h4>Today's rupees</h4>
+                    <p>A future amount is divided by (1 + inflation) for each year that passes. Instalments paid later are in cheaper rupees, so the money you paid in is also brought back to today's value, year by year, before it is compared with the final amount. That is why the "real gain" here is measured against what you paid in, in today's money, not against the plain total.</p>
+                    <h4>Tax</h4>
+                    <p>Tax is worked out once, at the end, as if you sold everything. It is 12.5% of the gain above ₹1,25,000 (Section 198 of the Income-tax Act, 2025). This treats every rupee of gain as long-term. In practice, units held for 12 months or less are taxed at 20% (Section 196), so a very short SIP will pay more than shown. Cess, surcharge, exit loads and fund costs are not included. Check the Income Tax Department's pages for current rules.</p>
+                    <h4>What is not included</h4>
+                    <p>Missed or changed instalments, a rising SIP amount, and market ups and downs are not modelled. Real results will differ.</p>
+                </div>
+            </details>
         </div>
+    </details>
 
-        <div class="table-container" id="projectionTable"></div>
-    </div>
-
-    <!-- Chart -->
     <div class="chart-container">
-        <div class="chart-canvas-wrap">
-            <canvas id="sipChart"></canvas>
-        </div>
-    </div>
-
-    <!-- Placement 4: Below Chart -->
-    <div class="ad-slot">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-4357149194740826"
-             data-ad-slot="400000003"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
+        <p id="chartCaption" class="chart-caption"></p>
+        <div class="chart-canvas-wrap"><canvas id="sipChart"></canvas></div>
+        <details class="nested-details">
+            <summary>Year-by-year table</summary>
+            <div class="table-container" id="projectionTable"></div>
+        </details>
     </div>
 
 </div>
@@ -281,268 +243,263 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 </footer>
 
 <script>
-let chart;
-
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// Same LTCG assumption used on the Loan vs SIP page, so the two tools don't
-// quietly disagree about what an equity SIP is actually worth after tax.
+// Long-term capital gains on equity-oriented fund units: 12.5% on gains above
+// ₹1,25,000 a year (Section 198, Income-tax Act, 2025). Applied once, at the end.
 const LTCG_EXEMPTION = 125000;
 const LTCG_RATE = 0.125;
 
-function formatINR(x) {
-    // Whole rupees only — matches the other calculators; paise precision on
-    // a 20-year projection is false precision.
-    return Math.round(x).toLocaleString('en-IN');
+let chart = null;
+let viewMode = "real";   // "real" = today's rupees, "nominal" = future rupees
+let lastSip = null;
+
+function formatINR(x) { return Math.round(x).toLocaleString('en-IN'); }
+
+function shortINR(x) {
+    const a = Math.abs(x), sign = x < 0 ? "−" : "";
+    if (a >= 1e7) return sign + "₹" + (a / 1e7).toFixed(2) + " crore";
+    if (a >= 1e5) return sign + "₹" + (a / 1e5).toFixed(2) + " lakh";
+    return sign + "₹" + formatINR(a);
 }
+
+/* ---------- Inline validation ---------- */
+function setFieldError(id, message) {
+    const input = document.getElementById(id);
+    const err = document.getElementById(id + "Error");
+    const group = input.closest(".input-group");
+    if (message) {
+        err.textContent = message; group.classList.add("has-error");
+        input.setAttribute("aria-invalid", "true"); input.setAttribute("aria-describedby", id + "Error");
+    } else {
+        err.textContent = ""; group.classList.remove("has-error");
+        input.removeAttribute("aria-invalid"); input.removeAttribute("aria-describedby");
+    }
+}
+
+function num(id) { const raw = document.getElementById(id).value; return raw === "" ? NaN : +raw; }
 
 function readInputs() {
-    const errorEl = document.getElementById("formError");
-    errorEl.textContent = "";
+    ["sipAmount", "lumpSum", "returnRate", "tenureYears", "inflationRate"].forEach(id => setFieldError(id, ""));
+    document.getElementById("formError").textContent = "";
+    let ok = true;
+    const fail = (id, msg) => { setFieldError(id, msg); ok = false; };
 
-    const sipAmount = +document.getElementById("sipAmount").value;
-    const returnRate = +document.getElementById("returnRate").value;
-    const tenureYears = +document.getElementById("tenureYears").value;
-    const inflationRate = +document.getElementById("inflationRate").value;
+    const sip = num("sipAmount"), lump = num("lumpSum"), ret = num("returnRate"), years = num("tenureYears"), infl = num("inflationRate");
 
-    if (!Number.isFinite(sipAmount) || sipAmount <= 0) {
-        errorEl.textContent = "Enter a monthly SIP amount greater than zero.";
-        return null;
-    }
-    if (!Number.isFinite(returnRate) || returnRate < 0 || returnRate > 30) {
-        errorEl.textContent = "Enter an expected return between 0% and 30%.";
-        return null;
-    }
-    if (!Number.isFinite(tenureYears) || tenureYears < 1 || tenureYears > 40) {
-        errorEl.textContent = "Enter a tenure between 1 and 40 years.";
-        return null;
-    }
-    if (!Number.isFinite(inflationRate) || inflationRate < 0 || inflationRate > 30) {
-        errorEl.textContent = "Enter an inflation rate between 0% and 30%.";
-        return null;
-    }
+    if (!Number.isFinite(sip) || sip < 0) fail("sipAmount", "Enter 0 or more.");
+    if (!Number.isFinite(lump) || lump < 0) fail("lumpSum", "Enter 0 or more.");
+    if (Number.isFinite(sip) && Number.isFinite(lump) && sip === 0 && lump === 0) fail("sipAmount", "Enter a monthly SIP or a lump sum above zero.");
+    if (!Number.isFinite(ret) || ret < 0 || ret > 30) fail("returnRate", "Enter a return between 0% and 30%.");
+    if (!Number.isInteger(years) || years < 1 || years > 40) fail("tenureYears", "Enter a whole number of years from 1 to 40.");
+    if (!Number.isFinite(infl) || infl < 0 || infl > 30) fail("inflationRate", "Enter inflation between 0% and 30%.");
 
-    return { sipAmount, returnRate, tenureYears, inflationRate };
+    if (!ok) { document.getElementById("formError").textContent = "Please fix the highlighted fields."; return null; }
+    return { sip, lump, ret, years, infl };
 }
 
-// Single source of truth for the year-by-year series — used by the on-screen
-// table/chart and by the Excel export, so they can't drift apart.
-//
-// This is deliberately PRE-TAX. LTCG tax is only triggered by an actual sale
-// — showing it deducted in every row would imply you're taxed annually just
-// for holding, which isn't how it works. Inflation, on the other hand,
-// genuinely erodes purchasing power every year whether you've sold or not,
-// so the real (inflation-adjusted) column is legitimate to show per year.
-function computeSIPSeries({ sipAmount, returnRate, tenureYears, inflationRate }) {
-    const monthlyReturn = returnRate / 1200;
+/* ---------- Calculation (matches the WealthCompare Excel model) ---------- */
+function computeSIP(inp) {
+    const r = inp.ret / 1200;
+    const deflator = y => Math.pow(1 + inp.infl / 100, y);
     const rows = [];
-
-    for (let year = 1; year <= tenureYears; year++) {
+    for (let year = 1; year <= inp.years; year++) {
         const months = year * 12;
-        const nominal = monthlyReturn === 0
-            ? sipAmount * months
-            : sipAmount * ((Math.pow(1 + monthlyReturn, months) - 1) / monthlyReturn);
-        const invested = sipAmount * months;
-        const real = nominal / Math.pow(1 + inflationRate / 100, year);
+        const lumpFV = inp.lump * Math.pow(1 + r, months);
+        const annuity = r === 0 ? inp.sip * months : inp.sip * ((Math.pow(1 + r, months) - 1) / r);
+        const nominal = lumpFV + annuity;
+        const invested = inp.lump + inp.sip * months;
+        const tax = Math.max(0, nominal - invested - LTCG_EXEMPTION) * LTCG_RATE;
+        const afterTax = nominal - tax;
+        rows.push({ year, invested, nominal, real: nominal / deflator(year), tax, afterTax, realAfterTax: afterTax / deflator(year) });
+    }
+    const final = rows[rows.length - 1];
+    // Money paid in, brought to today's rupees: each year's twelve instalments are deflated for that year.
+    let pvPaidIn = inp.lump;
+    for (let y = 1; y <= inp.years; y++) pvPaidIn += (inp.sip * 12) / deflator(y);
+    return {
+        rows, final, pvPaidIn,
+        gainNominal: final.afterTax - final.invested,
+        gainReal: final.realAfterTax - pvPaidIn
+    };
+}
 
-        rows.push({ year, invested, nominal, real });
+/* ---------- Rendering ---------- */
+function calculateSIP() {
+    const inp = readInputs();
+    if (!inp) return;
+    lastSip = { inp, res: computeSIP(inp) };
+    window.lastSip = lastSip;
+    renderAll();
+}
+
+function setMode(mode) {
+    viewMode = mode;
+    document.getElementById("modeReal") && document.getElementById("modeReal").setAttribute("aria-pressed", mode === "real");
+    document.getElementById("modeNominal") && document.getElementById("modeNominal").setAttribute("aria-pressed", mode === "nominal");
+    if (lastSip) renderAll();
+}
+
+function renderAll() {
+    renderVerdict();
+    renderBreakdown();
+    renderChartAndTable();
+}
+
+function sensitivityRates(ret) {
+    const set = [Math.max(0, ret - 2), ret, Math.min(30, ret + 2)];
+    return set.filter((v, i) => set.indexOf(v) === i);
+}
+
+function renderVerdict() {
+    const { inp, res } = lastSip, f = res.final;
+    const real = viewMode === "real";
+    const negative = real && res.gainReal < 0;
+    let headline, sub;
+    if (real) {
+        headline = "After " + inp.years + (inp.years === 1 ? " year" : " years") + ", your SIP could be worth about " + shortINR(f.realAfterTax) + " in today's money, after tax.";
+        if (negative) headline += " That is less than you paid in.";
+        sub = "In future rupees that is " + shortINR(f.afterTax) + ". You would pay in " + shortINR(f.invested) + " over the period, which is " + shortINR(res.pvPaidIn) + " in today's money.";
+    } else {
+        headline = "After " + inp.years + (inp.years === 1 ? " year" : " years") + ", your SIP could grow to about " + shortINR(f.afterTax) + ", after tax.";
+        sub = "In today's money that is about " + shortINR(f.realAfterTax) + ", with inflation at " + inp.infl + "% a year. You would pay in " + shortINR(f.invested) + " over the period.";
     }
 
-    return rows;
-}
+    const bullets = [];
+    if (real) {
+        bullets.push("In today's money, you pay in " + shortINR(res.pvPaidIn) + " and end with " + shortINR(f.realAfterTax) + ": a " + (res.gainReal >= 0 ? "gain" : "loss") + " of " + shortINR(Math.abs(res.gainReal)) + ".");
+    } else {
+        bullets.push("Gain after tax: " + shortINR(res.gainNominal) + " on " + shortINR(f.invested) + " paid in. Before tax the gain is " + shortINR(f.nominal - f.invested) + ".");
+    }
+    bullets.push("Tax when you sell: about " + shortINR(f.tax) + " (12.5% on gains above ₹1.25 lakh). It is already taken off the figures above.");
+    const rates = sensitivityRates(inp.ret);
+    if (rates.length > 1) {
+        const parts = rates.map(rt => {
+            const x = computeSIP({ ...inp, ret: rt }).final;
+            return rt + "%: " + shortINR(real ? x.realAfterTax : x.afterTax);
+        });
+        bullets.push("The return is your assumption, not a forecast. Same SIP at other rates (after tax" + (real ? ", today's money" : "") + "): " + parts.join(", ") + ".");
+    }
+    bullets.push("This is an educational illustration, not advice.");
 
-// Tax is computed exactly once, from the final year's row — modeling a
-// single redemption at the end of the tenure, not an annual tax event.
-function computeSIPFinal(rows, inflationRate) {
-    const final = rows[rows.length - 1];
-    const taxBase = final.nominal - final.invested - LTCG_EXEMPTION;
-    const tax = taxBase > 0 ? LTCG_RATE * taxBase : 0;
-    const afterTax = final.nominal - tax;
-    const realAfterTax = afterTax / Math.pow(1 + inflationRate / 100, final.year);
+    const notes = [];
+    if (inp.ret < inp.infl) notes.push("Your return (" + inp.ret + "%) is below inflation (" + inp.infl + "%), so the money loses buying power over time.");
+    if (inp.years === 1) notes.push("Tax here treats all gains as long-term. After one year, most instalments would count as short-term and be taxed at a higher rate.");
+    const notesHtml = notes.length ? `<div class="verdict-notes"><b>Worth knowing</b><ul>${notes.map(n => `<li>${n}</li>`).join("")}</ul></div>` : "";
 
-    return { ...final, tax, afterTax, realAfterTax };
-}
-
-function calculateSIP() {
-    const inputs = readInputs();
-    if (!inputs) return;
-    const { sipAmount, returnRate, tenureYears, inflationRate } = inputs;
-
-    const rows = computeSIPSeries(inputs);
-    const final = computeSIPFinal(rows, inflationRate);
-
-    const gainNominal = final.afterTax - final.invested;
-    const gainReal = final.realAfterTax - final.invested;
-
-    document.getElementById("results").innerHTML = `
-        <div class="result-section">
-            <h3>📊 SIP Summary</h3>
-            <div class="metric-grid">
-                <div class="metric"><span class="metric-label">Total invested</span><span class="metric-value">₹${formatINR(final.invested)}</span></div>
-                <div class="metric"><span class="metric-label">Future value, nominal</span><span class="metric-value">₹${formatINR(final.nominal)}</span></div>
-                <div class="metric"><span class="metric-label">LTCG tax (at redemption)</span><span class="metric-value">₹${formatINR(final.tax)}</span></div>
-                <div class="metric"><span class="metric-label">Value after tax</span><span class="metric-value">₹${formatINR(final.afterTax)}</span></div>
-                <div class="metric"><span class="metric-label">Nominal gain, after tax</span><span class="metric-value">₹${formatINR(gainNominal)}</span></div>
-                <div class="metric"><span class="metric-label">Real gain, after tax</span><span class="metric-value">₹${formatINR(gainReal)}</span></div>
-            </div>
-            <div class="final-result"><span class="metric-label">Inflation-adjusted value after ${tenureYears} years, after tax, today's purchasing power</span><span class="metric-value">₹${formatINR(final.realAfterTax)}</span></div>
-        </div>
-
-        <!-- Placement 2: Between summary & extra info -->
-        <div class="ad-slot">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-4357149194740826"
-                 data-ad-slot="400000004"
-                 data-ad-format="fluid"
-                 data-ad-layout="in-article"
-                 data-full-width-responsive="true"></ins>
-        </div>
-
-        <hr>
-
-        <div class="result-section">
-            <h3>📌 SIP Inputs</h3>
-            <div class="metric-grid">
-                <div class="metric"><span class="metric-label">Monthly SIP</span><span class="metric-value">₹${formatINR(sipAmount)}</span></div>
-                <div class="metric"><span class="metric-label">Expected return</span><span class="metric-value">${returnRate.toFixed(2)}% per year</span></div>
-                <div class="metric"><span class="metric-label">Tenure</span><span class="metric-value">${tenureYears} years</span></div>
-                <div class="metric"><span class="metric-label">Inflation</span><span class="metric-value">${inflationRate.toFixed(2)}% per year</span></div>
+    document.getElementById("verdictCard").innerHTML = `
+        <div class="verdict-top">
+            <p class="verdict-eyebrow">Your result</p>
+            <div class="mode-toggle" role="group" aria-label="Show amounts in">
+                <button type="button" id="modeReal" aria-pressed="${real}" onclick="setMode('real')">Today's rupees</button>
+                <button type="button" id="modeNominal" aria-pressed="${!real}" onclick="setMode('nominal')">Future rupees</button>
             </div>
         </div>
-    `;
+        <p class="verdict-headline${negative ? " is-negative" : ""}">${headline}</p>
+        <p class="verdict-sub">${sub}</p>
+        <ul class="verdict-bullets">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+        ${notesHtml}`;
+}
 
-    document.getElementById("analysis").innerHTML = `
-        <h3>💡 Understanding Your SIP Growth</h3>
-        <p><b>Nominal value</b> is the actual rupee amount your SIP is worth at any point, before tax.</p>
-        <p><b>Real value (in the table below)</b> adjusts that nominal value for inflation every year — inflation erodes purchasing power continuously, whether or not you've sold. It does <b>not</b> include tax, since tax only applies when you actually redeem.</p>
-        <p><b>LTCG tax</b>, shown only in the summary above, is modeled at 12.5% on gains above the current ₹1,25,000 annual exemption, applied once — at redemption, not annually. Actual tax depends on the fund, holding period, exemptions, and tax rules in force at the time.</p>
-        <p><b>Real gain</b> (in the summary above) is inflation-adjusted, after-tax value minus total invested — the most honest measure of wealth actually created if you exit after ${tenureYears} years.</p>
+function renderBreakdown() {
+    const { inp, res } = lastSip, f = res.final, real = viewMode === "real";
+    const m = (label, value) => `<div class="metric"><span class="metric-label">${label}</span><span class="metric-value">${value}</span></div>`;
+    document.getElementById("summarySection").innerHTML = `
+        <h3>📊 The full picture</h3>
+        <div class="metric-grid">
+            ${m("Total you pay in (future rupees)", "₹" + formatINR(f.invested))}
+            ${m("Total you pay in (today's rupees)", "₹" + formatINR(res.pvPaidIn))}
+            ${m("Value before tax (future rupees)", "₹" + formatINR(f.nominal))}
+            ${m("Gain before tax (future rupees)", "₹" + formatINR(f.nominal - f.invested))}
+            ${m("Tax when you sell", "₹" + formatINR(f.tax))}
+            ${m("Value after tax (future rupees)", "₹" + formatINR(f.afterTax))}
+            ${m("Value after tax (today's rupees)", "₹" + formatINR(f.realAfterTax))}
+            ${m("Gain after tax (future rupees)", "₹" + formatINR(res.gainNominal))}
+            ${m("Gain after tax (today's rupees)", "₹" + formatINR(res.gainReal))}
+        </div>`;
 
-        <!-- Placement 3: Inside explanation -->
-        <div class="ad-slot">
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-4357149194740826"
-                 data-ad-slot="400000005"
-                 data-ad-format="fluid"
-                 data-ad-layout="in-article"
-                 data-full-width-responsive="true"></ins>
-        </div>
+    const rates = sensitivityRates(inp.ret);
+    let rows = "";
+    rates.forEach(rt => {
+        const x = computeSIP({ ...inp, ret: rt });
+        rows += `<tr class="${rt === inp.ret ? "is-selected" : ""}"><td>${rt}%${rt === inp.ret ? " (yours)" : ""}</td><td>₹${formatINR(x.final.afterTax)}</td><td>₹${formatINR(x.final.realAfterTax)}</td><td>₹${formatINR(x.gainReal)}</td></tr>`;
+    });
+    document.getElementById("sensitivitySection").innerHTML = `
+        <h3>🔀 If the return is lower or higher</h3>
+        <p class="group-note">Same SIP, return changed by 2 points either way. One digit moves the answer a lot.</p>
+        <div class="table-scroll"><table class="decision-table">
+            <thead><tr><th>Return per year</th><th>After tax, future rupees</th><th>After tax, today's rupees</th><th>Gain, today's rupees</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table></div>`;
+}
 
-        <h3>🔍 Why this matters</h3>
-        <p>High nominal returns can look impressive, but inflation and tax quietly erode purchasing power. This tool helps you see beyond big numbers and focus on real, after-tax wealth.</p>
-    `;
-
-    let tableHTML = `
-        <h3>📅 Year-by-Year Projection</h3>
-        <p class="section-note">Pre-tax — tax is only shown once, in the SIP Summary above, since it only applies when you actually redeem.</p>
+function renderChartAndTable() {
+    const { inp, res } = lastSip;
+    const rows = res.rows;
+    let body = "";
+    rows.forEach(r => {
+        body += `<tr><td>${r.year}</td><td>${formatINR(r.invested)}</td><td>${formatINR(r.nominal)}</td><td>${formatINR(r.real)}</td><td>${formatINR(r.afterTax)}</td><td>${formatINR(r.realAfterTax)}</td></tr>`;
+    });
+    document.getElementById("projectionTable").innerHTML = `
+        <p class="section-note">Before-tax values show growth as it happens. The last two columns show what you would have after tax if you sold at the end of that year, in future and in today's rupees.</p>
         <table>
-            <thead>
-                <tr>
-                    <th>Year</th>
-                    <th>Invested (₹)</th>
-                    <th>Nominal Value (₹)</th>
-                    <th>Real Value, Pre-Tax (₹)</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${rows.map(r => `
-                    <tr>
-                        <td>${r.year}</td>
-                        <td>${formatINR(r.invested)}</td>
-                        <td>${formatINR(r.nominal)}</td>
-                        <td>${formatINR(r.real)}</td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        </table>
-    `;
+            <thead><tr><th>Year</th><th>Paid in (₹)</th><th>Value, future ₹</th><th>Value, today's ₹</th><th>After tax, future ₹</th><th>After tax, today's ₹</th></tr></thead>
+            <tbody>${body}</tbody>
+        </table>`;
 
-    document.getElementById("projectionTable").innerHTML = tableHTML;
-
-    const labels = rows.map(r => "Year " + r.year);
-    const nominalSeries = rows.map(r => r.nominal);
-    const realSeries = rows.map(r => r.real);
+    document.getElementById("chartCaption").textContent = "Before tax. The gap between the blue and green lines is what inflation takes away. The dashed line is what you pay in.";
 
     if (chart) chart.destroy();
-
     chart = new Chart(document.getElementById("sipChart"), {
         type: 'line',
         data: {
-            labels,
+            labels: rows.map(r => "Year " + r.year),
             datasets: [
-                {
-                    label: "Nominal Value",
-                    fullLabel: "Nominal SIP Value",
-                    data: nominalSeries,
-                    borderColor: "#4f46e5",
-                    backgroundColor: "rgba(79,70,229,0.08)",
-                    borderWidth: 3,
-                    tension: 0.3,
-                    pointRadius: 2
-                },
-                {
-                    label: "Real Value",
-                    fullLabel: "Real SIP Value (Inflation-adjusted, Pre-Tax)",
-                    data: realSeries,
-                    borderColor: "#10b981",
-                    backgroundColor: "rgba(16,185,129,0.08)",
-                    borderWidth: 3,
-                    tension: 0.3,
-                    pointRadius: 2
-                }
+                { label: "Value in future rupees", data: rows.map(r => r.nominal), borderColor: "#4f46e5", backgroundColor: "rgba(79,70,229,0.08)", borderWidth: 3, tension: 0.3, pointRadius: 2 },
+                { label: "Value in today's rupees", data: rows.map(r => r.real), borderColor: "#10b981", backgroundColor: "rgba(16,185,129,0.08)", borderWidth: 3, tension: 0.3, pointRadius: 2 },
+                { label: "Paid in", data: rows.map(r => r.invested), borderColor: "#6b7280", borderDash: [6, 4], borderWidth: 2, tension: 0, pointRadius: 0 }
             ]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
+            responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: {
-                    position: 'top',
-                    labels: { boxWidth: 14, font: { size: 11 } }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (ctx) {
-                            var name = ctx.dataset.fullLabel || ctx.dataset.label;
-                            return name + ": ₹" + Math.round(ctx.parsed.y).toLocaleString('en-IN');
-                        }
-                    }
-                }
+                title: { display: true, text: "How your SIP grows", font: { size: 13, weight: '600' }, padding: { bottom: 8 } },
+                legend: { position: 'top', labels: { boxWidth: 14, font: { size: 11 } } },
+                tooltip: { callbacks: { label: ctx => ctx.dataset.label + ": ₹" + Math.round(ctx.parsed.y).toLocaleString('en-IN') } }
             },
             scales: {
-                x: {
-                    ticks: { autoSkip: true, maxTicksLimit: 6, maxRotation: 0, minRotation: 0 }
-                },
-                y: {
-                    ticks: {
-                        callback: function (v) { return '₹' + Number(v).toLocaleString('en-IN'); }
-                    }
-                }
+                x: { ticks: { autoSkip: true, maxTicksLimit: 6, maxRotation: 0, minRotation: 0 } },
+                y: { ticks: { callback: v => '₹' + Number(v).toLocaleString('en-IN') } }
             }
         }
     });
 }
 
 function exportSIP() {
-    const inputs = readInputs();
-    if (!inputs) return;
-
-    const rows = computeSIPSeries(inputs);
-    const final = computeSIPFinal(rows, inputs.inflationRate);
-
+    const inp = readInputs();
+    if (!inp) return;
+    const res = computeSIP(inp), f = res.final;
     exportWorkbook("sip-growth-projection.xlsx", {
-        Inputs: [["SIP Growth Inputs"], ["Input", "Value"], ["Monthly SIP", inputs.sipAmount], ["Expected return", inputs.returnRate + "% per year"], ["Tenure", inputs.tenureYears + " years"], ["Inflation", inputs.inflationRate + "% per year"]],
-        Results: [["SIP Growth Results"], ["Metric", "Value"], ["Total invested", final.invested], ["Future value, nominal", final.nominal], ["LTCG tax (at redemption)", final.tax], ["Value after tax", final.afterTax], ["Nominal gain after " + inputs.tenureYears + " years, after tax", final.afterTax - final.invested], ["Real gain after " + inputs.tenureYears + " years, after tax", final.realAfterTax - final.invested], ["Value after " + inputs.tenureYears + " years, real (after tax)", final.realAfterTax], ["LTCG tax rate", "12.5% on gains above ₹1,25,000, applied once at redemption"]],
-        Analysis: [["Understanding Your SIP Growth"], ["Nominal value", "The actual rupee amount at any point, before tax."], ["Real value (year-by-year)", "Nominal value adjusted for inflation every year. Pre-tax — tax only applies at redemption, not annually."], ["LTCG tax", "Modeled at 12.5% on gains above the current ₹1,25,000 annual exemption, applied once at redemption — shown only in the final Results above, not per year."], ["Real gain", "Inflation-adjusted, after-tax value minus total invested — a measure of real wealth creation if you exit after the full tenure."], ["Important", "Actual returns vary based on market conditions, fund choice, and tax rules."]],
-        Projection: [["Year", "Invested (₹)", "Nominal Value (₹)", "Real Value, Pre-Tax (₹)"], ...rows.map(r => [r.year, r.invested, r.nominal, r.real])]
+        Inputs: [["SIP Growth Inputs"], ["Input", "Value"], ["Monthly SIP (₹)", inp.sip], ["Lump sum at start (₹)", inp.lump],
+                 ["Return assumed (% per year)", inp.ret], ["Years", inp.years], ["Inflation assumed (% per year)", inp.infl],
+                 ["LTCG rate (%)", LTCG_RATE * 100], ["LTCG exemption (₹)", LTCG_EXEMPTION]],
+        Results: [["SIP Growth Results"], ["Metric", "Value"], ["Total paid in (future rupees)", f.invested], ["Total paid in (today's rupees)", res.pvPaidIn],
+                  ["Value before tax", f.nominal], ["Tax when you sell", f.tax], ["Value after tax (future rupees)", f.afterTax],
+                  ["Value after tax (today's rupees)", f.realAfterTax], ["Gain after tax (future rupees)", res.gainNominal], ["Gain after tax (today's rupees)", res.gainReal]],
+        Projection: [["Year", "Paid in", "Value, future rupees", "Value, today's rupees", "After tax, future rupees", "After tax, today's rupees"],
+                     ...res.rows.map(r => [r.year, r.invested, r.nominal, r.real, r.afterTax, r.realAfterTax])]
     });
 }
 
+["sipAmount", "lumpSum", "returnRate", "tenureYears", "inflationRate"].forEach(function (id) {
+    document.getElementById(id).addEventListener("input", function () { setFieldError(id, ""); });
+});
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && e.target && e.target.tagName === "INPUT") calculateSIP();
+});
 calculateSIP();
 bindAmountInWords("sipAmount", "sipAmountWords");
+bindAmountInWords("lumpSum", "lumpSumWords");
 </script>
 
 <script src="/assets/js/ad-slot-collapse.js"></script>

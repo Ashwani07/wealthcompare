@@ -24,9 +24,11 @@ PAGES = {
     "tools/emi-calculator/index.html":
         "This tool is for educational illustration only. Verify figures with your bank before making a decision.",
     "tools/loan-vs-sip/index.html":
-        "This tool is for educational illustration only. It excludes stamp duty, registration, and brokerage — verify figures with your bank or advisor.",
+        "This tool is for educational illustration only. It excludes stamp duty, registration and brokerage. Verify figures with your bank or advisor.",
     "tools/loan-prepayment/index.html":
         "This tool is for educational illustration only. It excludes prepayment charges, fees and tax benefits. Confirm the revised schedule with your lender.",
+    "tools/step-up-sip/index.html":
+        "This tool is for educational illustration only. Returns, inflation and tax rules are assumptions and will vary. Check figures with your adviser or official sources.",
     "tools/sip-growth/index.html":
         "This tool is for educational illustration only. Actual returns will vary based on market conditions, fund choice, and tax rules.",
     "insights/emergency-fund-before-investing/index.html":

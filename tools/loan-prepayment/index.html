@@ -84,7 +84,12 @@ body {
 }
 .input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
 .amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
-.lump-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 20px; margin-top: 10px; }
+.lump-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 4px 20px; align-items: start; margin-top: 10px; }
+.lump-remove { width: 36px; height: 36px; margin: 23px 0 0; padding: 0; max-width: none; border-radius: 50%; background: #fff; color: #b91c1c; border: 1px solid #fecaca; font-size: 20px; line-height: 1; cursor: pointer; }
+.lump-remove:hover { background: #fef2f2; }
+.lump-add { width: auto; max-width: none; margin-top: 12px; padding: 8px 16px; font-size: 13px; font-weight: 700; background: var(--surface-muted); color: #3730a3; border: 1px dashed #a5b4fc; border-radius: 10px; }
+.lump-add:hover { background: #e0e7ff; }
+.lump-add:disabled { opacity: 0.5; cursor: not-allowed; }
 .check-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 14px; font-weight: 600; color: var(--text-secondary); }
 .check-row input { width: 18px; height: 18px; }
 .rate-fields[hidden] { display: none; }
@@ -158,7 +163,7 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 @media (min-width: 640px) { .chart-canvas-wrap { height: 380px; } }
 .export-button { background: #167d83; margin-left: 8px; }
 @media (max-width: 600px) { .export-button { margin-left: 0; } }
-@media (max-width: 520px) { .lump-grid { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .lump-row { gap: 4px 10px; } }
 @media (max-width: 420px) { .metric-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -217,8 +222,9 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
         </div>
 
         <h3 class="group-title">Lump-sum prepayments</h3>
-        <p class="group-note">Month 1 is your next EMI. Leave a row at 0 if you don't need it.</p>
-        <div class="lump-grid" id="lumpGrid"></div>
+        <p class="group-note">Month 1 is your next EMI. Use + to add another lump sum and − to remove one. You can add up to 20.</p>
+        <div id="lumpGrid"></div>
+        <button type="button" class="lump-add" id="addLump" onclick="addLumpRow()">+ Add a lump sum</button>
 
         <h3 class="group-title">Monthly extra payment</h3>
         <p class="group-note">A fixed amount paid on top of your EMI, between the start and end months.</p>
@@ -346,8 +352,9 @@ const SCENARIOS = {
     rate: "Mid-term rate change",
     combo: "Combination of all"
 };
-const LUMP_ROWS = 5;
-const DEFAULT_LUMPS = [[12, 500000], [36, 500000], [60, 500000], [0, 0], [0, 0]];
+const MAX_LUMPS = 20;   // most lump-sum rows the page allows
+const MIN_LUMPS = 1;    // there is always at least one row
+const DEFAULT_LUMPS = [[12, 500000], [36, 500000], [60, 500000]];
 
 let chart = null;
 let lastResults = null;
@@ -372,26 +379,68 @@ function pmt(ratePct, n, pv) {
     return r === 0 ? pv / n : pv * r / (1 - Math.pow(1 + r, -n));
 }
 
-/* ---------- Lump-sum rows ---------- */
-function buildLumpRows() {
+/* ---------- Lump-sum rows ----------
+   The rows on screen are the data. Before any change we copy what was typed into
+   `rows`, change that list, and draw the rows again. */
+function lumpCount() { return document.querySelectorAll("#lumpGrid .lump-row").length; }
+
+function readLumpRowsFromDom() {
+    const rows = [];
+    for (let i = 1; i <= lumpCount(); i++) {
+        rows.push([document.getElementById("lumpMonth" + i).value, document.getElementById("lumpAmount" + i).value]);
+    }
+    return rows;
+}
+
+function renderLumpRows(rows) {
     const grid = document.getElementById("lumpGrid");
     let html = "";
-    for (let i = 1; i <= LUMP_ROWS; i++) {
-        const d = DEFAULT_LUMPS[i - 1];
+    rows.forEach(function (d, k) {
+        const i = k + 1;
         html += `
-        <div class="input-group">
-            <label for="lumpMonth${i}">Lump sum ${i}: month</label>
-            <input id="lumpMonth${i}" type="number" inputmode="numeric" min="0" max="480" step="1" value="${d[0]}">
-            <span class="field-error" id="lumpMonth${i}Error" role="alert"></span>
-        </div>
-        <div class="input-group">
-            <label for="lumpAmount${i}">Lump sum ${i}: amount (₹)</label>
-            <input id="lumpAmount${i}" type="number" inputmode="decimal" min="0" step="1000" value="${d[1]}">
-            <span id="lumpAmount${i}Words" class="amount-words" aria-live="polite"></span>
-            <span class="field-error" id="lumpAmount${i}Error" role="alert"></span>
+        <div class="lump-row">
+            <div class="input-group">
+                <label for="lumpMonth${i}">Lump sum ${i}: month</label>
+                <input id="lumpMonth${i}" type="number" inputmode="numeric" min="0" max="480" step="1" value="${d[0]}">
+                <span class="field-error" id="lumpMonth${i}Error" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="lumpAmount${i}">Lump sum ${i}: amount (₹)</label>
+                <input id="lumpAmount${i}" type="number" inputmode="decimal" min="0" step="1000" value="${d[1]}">
+                <span id="lumpAmount${i}Words" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="lumpAmount${i}Error" role="alert"></span>
+            </div>
+            <button type="button" class="lump-remove" aria-label="Remove lump sum ${i}" title="Remove this lump sum" onclick="removeLumpRow(${k})">−</button>
         </div>`;
-    }
+    });
     grid.innerHTML = html;
+    document.getElementById("addLump").disabled = rows.length >= MAX_LUMPS;
+    if (typeof bindAmountInWords === "function") {
+        for (let i = 1; i <= rows.length; i++) bindAmountInWords("lumpAmount" + i, "lumpAmount" + i + "Words");
+    }
+}
+
+function addLumpRow() {
+    const rows = readLumpRowsFromDom();
+    if (rows.length >= MAX_LUMPS) return;
+    rows.push([0, 0]);
+    renderLumpRows(rows);
+    document.getElementById("lumpMonth" + rows.length).focus();
+}
+
+function removeLumpRow(index) {
+    const rows = readLumpRowsFromDom();
+    if (rows.length <= MIN_LUMPS) rows[0] = [0, 0];      // keep one empty row rather than none
+    else rows.splice(index, 1);
+    renderLumpRows(rows);
+    document.getElementById("formError").textContent = "";
+}
+
+// Replace every row at once. Used at start-up and by tests.
+function setLumpRows(list) {
+    const rows = list.slice(0, MAX_LUMPS).map(function (r) { return [r[0], r[1]]; });
+    while (rows.length < MIN_LUMPS) rows.push([0, 0]);
+    renderLumpRows(rows);
 }
 
 /* ---------- Inline validation ---------- */
@@ -414,7 +463,7 @@ function setFieldError(id, message) {
 
 function clearAllErrors() {
     const ids = ["loanAmount", "rate", "tenure", "extra", "extraStart", "extraEnd", "rateMonth", "newRate"];
-    for (let i = 1; i <= LUMP_ROWS; i++) { ids.push("lumpMonth" + i, "lumpAmount" + i); }
+    for (let i = 1; i <= lumpCount(); i++) { ids.push("lumpMonth" + i, "lumpAmount" + i); }
     ids.forEach(id => setFieldError(id, ""));
     document.getElementById("formError").textContent = "";
 }
@@ -450,7 +499,7 @@ function readInputs() {
     else if (Number.isInteger(extraStart) && extraEnd < extraStart) fail("extraEnd", "End month must be the same as or after the start month.");
 
     const lumps = [];
-    for (let i = 1; i <= LUMP_ROWS; i++) {
+    for (let i = 1; i <= lumpCount(); i++) {
         const month = num("lumpMonth" + i);
         const amount = num("lumpAmount" + i);
         let rowOk = true;
@@ -578,7 +627,7 @@ function calculate() {
     if (!inp) return;
     const res = computeAll(inp);
     lastResults = { inp, res };
-    window.lastResults = lastResults;
+    window.lastResults = lastResults;   // exposed so tests can read the result
     renderVerdict(inp, res);
     renderBreakdown(inp, res);
     renderScenarioView();
@@ -788,19 +837,20 @@ function updateRateFields() {
 }
 
 /* ---------- Start-up ---------- */
-buildLumpRows();
+setLumpRows(DEFAULT_LUMPS);
 document.getElementById("rateOn").addEventListener("change", updateRateFields);
 document.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && e.target && e.target.tagName === "INPUT" && e.target.type !== "checkbox") calculate();
 });
-document.querySelectorAll(".input-group input").forEach(function (el) {
-    el.addEventListener("input", function () { if (el.id) setFieldError(el.id, ""); });
+// One listener for every field, including lump-sum rows added later: typing clears that field's error.
+document.addEventListener("input", function (e) {
+    const el = e.target;
+    if (el && el.tagName === "INPUT" && el.id && el.closest(".input-group") && document.getElementById(el.id + "Error")) setFieldError(el.id, "");
 });
 updateRateFields();
 calculate();
 bindAmountInWords("loanAmount", "loanAmountWords");
 bindAmountInWords("extra", "extraWords");
-for (let i = 1; i <= LUMP_ROWS; i++) bindAmountInWords("lumpAmount" + i, "lumpAmount" + i + "Words");
 </script>
 
 <footer class="footer">

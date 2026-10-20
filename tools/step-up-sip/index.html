@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Free step-up SIP calculator for India. Enter a goal in today's money and see the monthly SIP to start with, and how much to raise it each year, after inflation and tax.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/step-up-sip/">
+<title>Step-Up SIP Calculator: How Much to Start With for a Goal | WealthCompare</title>
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="Step-Up SIP Calculator: How Much to Start With for a Goal">
+<meta property="og:description" content="Free step-up SIP calculator for India. Enter a goal in today's money and see the monthly SIP to start with, and how much to raise it each year, after inflation and tax.">
+<meta property="og:url" content="https://wealthcompare.in/tools/step-up-sip/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Auto Ads (Anchor + Vignette + In-page) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
+     crossorigin="anonymous"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="/assets/js/amount-words.js"></script>
+<script src="/assets/js/export-excel.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Step-Up SIP Goal Calculator",
+  "url": "https://wealthcompare.in/tools/step-up-sip/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "isPartOf": { "@type": "WebSite", "name": "WealthCompare", "url": "https://wealthcompare.in/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
+}
+.hero { padding: 30px 20px 40px; text-align: center; color: white; }
+.hero-inner {
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 20px 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+.container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
+.card {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.card-title { background: linear-gradient(135deg,#4f46e5,#3b82f6); color: white; padding: 10px; border-radius: 10px; margin: 0 0 6px; font-size: 20px; }
+.inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
+.input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+.input-group input, .input-group select { padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; font-family: inherit; background: #fff; }
+.input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+button {
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5); color: white; border: none;
+    border-radius: 12px; font-size: 15px; cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px; font-family: inherit;
+}
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
+.export-button { background: #167d83; margin-left: 8px; }
+@media (max-width: 600px) { .export-button { margin-left: 0; } }
+
+.verdict-card {
+    background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.verdict-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0; }
+.mode-toggle { display: inline-flex; border: 1px solid #c7d2fe; border-radius: 999px; overflow: hidden; background: #fff; }
+.mode-toggle button {
+    margin: 0; width: auto; max-width: none; padding: 7px 14px; font-size: 12px; font-weight: 700;
+    background: transparent; color: #3730a3; border-radius: 0;
+}
+.mode-toggle button[aria-pressed="true"] { background: #4f46e5; color: #fff; }
+.verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
+.verdict-headline.is-negative { color: #7c2d12; }
+.verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
+.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.verdict-bullets li { font-size: 13px; color: var(--text-primary); padding-left: 20px; position: relative; }
+.verdict-bullets li::before { content: "•"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; }
+.verdict-notes { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; background: #fffbeb; border: 1px solid #fde68a; font-size: 12px; color: #78350f; }
+.verdict-notes ul { margin: 4px 0 0; padding-left: 18px; }
+
+.breakdown-details > summary, .nested-details > summary {
+    cursor: pointer; list-style: none; font-weight: 700; color: #3730a3; display: flex; align-items: center; gap: 8px;
+}
+.breakdown-details > summary { padding: 12px 14px; border-radius: 10px; background: var(--surface-muted); font-size: 14px; }
+.breakdown-details > summary::-webkit-details-marker, .nested-details > summary::-webkit-details-marker { display: none; }
+.breakdown-details > summary::before, .nested-details > summary::before { content: "▸"; transition: transform 0.15s ease; }
+.breakdown-details[open] > summary::before, .nested-details[open] > summary::before { transform: rotate(90deg); }
+.breakdown-details > summary:hover { background: #e0e7ff; }
+.breakdown-body { padding-top: 16px; }
+.nested-details { margin-top: 14px; }
+.nested-details > summary { font-size: 14px; padding: 8px 0; }
+.result-section { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 14px; background: #fff; margin-bottom: 16px; }
+.result-section h3 { margin: 0 0 10px; color: #1f2937; font-size: 17px; }
+.group-note { margin: 0 0 8px; font-size: 12px; color: var(--text-muted); }
+.metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.metric { padding: 10px 12px; border-radius: 10px; background: var(--surface-muted); }
+.metric-label { display: block; color: var(--text-muted); font-size: 11px; }
+.metric-value { display: block; margin-top: 3px; color: var(--text-primary); font-size: 14px; font-weight: 700; }
+.decision-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+.decision-table th, .decision-table td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #e0e7ff; }
+.decision-table th:first-child, .decision-table td:first-child { text-align: left; color: var(--text-secondary); }
+.decision-table th { color: #3730a3; font-weight: 700; }
+.decision-table td:not(:first-child) { font-weight: 600; }
+.decision-table tr.is-selected td { background: #eef2ff; }
+.table-scroll { overflow-x: auto; }
+.advanced-body h4 { margin: 14px 0 6px; font-size: 14px; color: #1f2937; }
+.advanced-body p { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin: 0 0 10px; }
+.chart-container { background: rgba(255,255,255,0.95); padding: 16px; border-radius: 18px; margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.chart-caption { font-size: 12px; color: var(--text-muted); margin: 0 0 10px; }
+.chart-canvas-wrap { position: relative; height: 300px; width: 100%; }
+@media (min-width: 640px) { .chart-canvas-wrap { height: 380px; } }
+@media (max-width: 420px) { .metric-grid { grid-template-columns: 1fr; } }
+</style>
+
+</head>
+
+<body>
+
+<header class="site-header">
+    <a class="brand" href="/" aria-label="WealthCompare home">
+        <img src="/assets/logo.svg" alt="">
+        <span class="brand-name">Wealth<span>Compare</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+    </nav>
+</header>
+
+<div class="hero">
+    <div class="hero-inner">
+        <h1>Step-Up SIP Goal Calculator</h1>
+        <p>Say what you want to reach, in today's money. We work out the monthly SIP to start with, if you raise it by a set percentage every year.</p>
+        <p>Inflation and tax when you sell are included. Everything is calculated in your browser.</p>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <h2 class="card-title">📥 Your Goal</h2>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="goalType">What is it for?</label>
+                <select id="goalType">
+                    <option>Retirement</option>
+                    <option>Child education</option>
+                    <option>Home purchase</option>
+                    <option>Wedding</option>
+                    <option>Other</option>
+                </select>
+                <span class="input-help">Only used in the wording of your result.</span>
+            </div>
+            <div class="input-group">
+                <label for="goalCost">What it costs today (₹)</label>
+                <input id="goalCost" type="number" inputmode="decimal" min="0" step="10000" value="10000000">
+                <span id="goalCostWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="goalCostError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="years">Years to go</label>
+                <input id="years" type="number" inputmode="numeric" min="1" max="30" step="1" value="20">
+                <span class="field-error" id="yearsError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="corpus">Already invested for this goal (₹)</label>
+                <input id="corpus" type="number" inputmode="decimal" min="0" step="10000" value="0">
+                <span id="corpusWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="corpusError" role="alert"></span>
+            </div>
+        </div>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="inflation">Inflation you assume (% per year)</label>
+                <input id="inflation" type="number" inputmode="decimal" min="0" max="30" step="0.01" value="6">
+                <span class="field-error" id="inflationError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="returnRate">Return you assume (% per year)</label>
+                <input id="returnRate" type="number" inputmode="decimal" min="0" max="30" step="0.01" value="12">
+                <span class="input-help">An assumption, not a forecast.</span>
+                <span class="field-error" id="returnRateError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="stepUp">Raise your SIP by (% each year)</label>
+                <input id="stepUp" type="number" inputmode="decimal" min="0" max="30" step="0.5" value="10">
+                <span class="input-help">0 keeps the SIP the same every year.</span>
+                <span class="field-error" id="stepUpError" role="alert"></span>
+            </div>
+        </div>
+
+        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+
+        <button type="button" onclick="calculatePlan()">Find my SIP</button>
+        <button type="button" class="export-button" onclick="exportPlan()">Export to Excel</button>
+    </div>
+
+    <div id="verdictCard" class="card verdict-card"></div>
+
+    <details class="card breakdown-details">
+        <summary>Show the full breakdown (all figures, other returns and step-ups, how it works)</summary>
+        <div class="breakdown-body">
+            <div class="result-section" id="summarySection"></div>
+            <div class="result-section" id="returnSection"></div>
+            <div class="result-section" id="stepSection"></div>
+            <details class="nested-details">
+                <summary>Advanced Read: how these numbers are worked out</summary>
+                <div class="advanced-body">
+                    <h4>The goal</h4>
+                    <p>The cost you enter is in today's rupees. It is multiplied by (1 + inflation) for each year to get the amount you will need in the future. Anything you have already invested is grown at your assumed return and counts towards that amount.</p>
+                    <h4>The starting SIP</h4>
+                    <p>Each year's SIP is the previous year's multiplied by (1 + step-up), paid in twelve equal month-end instalments. Each instalment grows at the yearly return divided by 12, compounded monthly, until the goal date. The starting SIP is the one amount that makes the money after tax equal to the future cost of the goal. We solve it directly with algebra, so it is exact, not a guess.</p>
+                    <h4>Tax</h4>
+                    <p>Tax is worked out once, at the end, as if you sold everything. It is 12.5% of the gain above ₹1,25,000 (Section 198 of the Income-tax Act, 2025). The money you already have invested counts as part of what you paid in. This treats every rupee of gain as long-term. Units held for 12 months or less are taxed at 20% (Section 196), so a very short plan will pay more than shown. Cess, surcharge, exit loads and fund costs are not included.</p>
+                    <h4>Today's rupees</h4>
+                    <p>To compare what you pay in with the goal fairly, each year's instalments are divided by (1 + inflation) for that year, the same way our other tools do it. The final-year SIP is shown as "about ₹X in today's money" by dividing by (1 + inflation) for the years that have passed before it starts.</p>
+                    <h4>What is not included</h4>
+                    <p>Missed or changed instalments, a pay rise that doesn't match your step-up, and market ups and downs are not modelled. Real results will differ, which is why the lower-return table is worth a look. Our article on <a href="/insights/what-a-sip-return-assumption-means/">what a SIP return assumption really means</a> explains why.</p>
+                </div>
+            </details>
+        </div>
+    </details>
+
+    <div class="chart-container">
+        <p id="chartCaption" class="chart-caption"></p>
+        <div class="chart-canvas-wrap"><canvas id="planChart"></canvas></div>
+        <details class="nested-details">
+            <summary>Year-by-year table</summary>
+            <div class="table-container" id="projectionTable"></div>
+        </details>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. Returns, inflation and tax rules are assumptions and will vary. Check figures with your adviser or official sources.
+    </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Long-term gains on equity-oriented fund units: 12.5% above ₹1,25,000,
+// applied once, at the end (Section 198, Income-tax Act, 2025).
+const LTCG_EXEMPTION = 125000;
+const LTCG_RATE = 0.125;
+
+let chart = null;
+let viewMode = "real";
+let lastPlan = null;
+
+function formatINR(x) { return Math.round(x).toLocaleString('en-IN'); }
+function shortINR(x) {
+    const a = Math.abs(x), sign = x < 0 ? "−" : "";
+    if (a >= 1e7) return sign + "₹" + (a / 1e7).toFixed(2) + " crore";
+    if (a >= 1e5) return sign + "₹" + (a / 1e5).toFixed(2) + " lakh";
+    return sign + "₹" + formatINR(a);
+}
+
+/* ---------- Inline validation ---------- */
+const FIELD_IDS = ["goalCost", "years", "corpus", "inflation", "returnRate", "stepUp"];
+function setFieldError(id, message) {
+    const input = document.getElementById(id), err = document.getElementById(id + "Error"), group = input.closest(".input-group");
+    if (message) { err.textContent = message; group.classList.add("has-error"); input.setAttribute("aria-invalid", "true"); input.setAttribute("aria-describedby", id + "Error"); }
+    else { err.textContent = ""; group.classList.remove("has-error"); input.removeAttribute("aria-invalid"); input.removeAttribute("aria-describedby"); }
+}
+function num(id) { const raw = document.getElementById(id).value; return raw === "" ? NaN : +raw; }
+
+function readInputs() {
+    FIELD_IDS.forEach(id => setFieldError(id, ""));
+    document.getElementById("formError").textContent = "";
+    let ok = true;
+    const fail = (id, m) => { setFieldError(id, m); ok = false; };
+    const goal = num("goalCost"), years = num("years"), corpus = num("corpus"), infl = num("inflation"), ret = num("returnRate"), step = num("stepUp");
+    if (!Number.isFinite(goal) || goal <= 0) fail("goalCost", "Enter an amount above zero.");
+    if (!Number.isInteger(years) || years < 1 || years > 30) fail("years", "Enter a whole number of years from 1 to 30.");
+    if (!Number.isFinite(corpus) || corpus < 0) fail("corpus", "Enter 0 or more.");
+    if (!Number.isFinite(infl) || infl < 0 || infl > 30) fail("inflation", "Enter inflation between 0% and 30%.");
+    if (!Number.isFinite(ret) || ret < 0 || ret > 30) fail("returnRate", "Enter a return between 0% and 30%.");
+    if (!Number.isFinite(step) || step < 0 || step > 30) fail("stepUp", "Enter a step-up between 0% and 30%.");
+    if (!ok) { document.getElementById("formError").textContent = "Please fix the highlighted fields."; return null; }
+    return { goalType: document.getElementById("goalType").value, goal, years, corpus, infl, ret, step };
+}
+
+/* ---------- Calculation (follows the WealthCompare Excel model) ---------- */
+function solvePlan(inp) {
+    const r = inp.ret / 1200, g = inp.infl / 100, s = inp.step / 100, n = inp.years, t = LTCG_RATE;
+    const goalFuture = inp.goal * Math.pow(1 + g, n);
+    const fvCorpus = inp.corpus * Math.pow(1 + r, 12 * n);
+    const annuity = inp.ret === 0 ? 12 : (Math.pow(1 + r, 12) - 1) / r;
+    let fvPer1 = 0, paidPer1 = 0;
+    for (let y = 1; y <= n; y++) {
+        const mult = Math.pow(1 + s, y - 1);
+        fvPer1 += mult * annuity * Math.pow(1 + r, 12 * (n - y));
+        paidPer1 += 12 * mult;
+    }
+    const beforeTax = Math.max(0, (goalFuture - fvCorpus) / fvPer1);
+    const gainBeforeTaxSip = fvCorpus + fvPer1 * beforeTax - inp.corpus - paidPer1 * beforeTax;
+    const afterTax = Math.max(0, (goalFuture - fvCorpus + t * (fvCorpus - inp.corpus - LTCG_EXEMPTION)) / (fvPer1 - t * (fvPer1 - paidPer1)));
+    const start = gainBeforeTaxSip <= LTCG_EXEMPTION ? beforeTax : afterTax;
+
+    const rows = [];
+    let opening = inp.corpus, cum = inp.corpus;
+    for (let y = 1; y <= n; y++) {
+        const sip = start * Math.pow(1 + s, y - 1), contrib = sip * 12;
+        const closing = inp.ret === 0 ? opening + contrib : opening * Math.pow(1 + r, 12) + sip * ((Math.pow(1 + r, 12) - 1) / r);
+        cum += contrib;
+        const tax = Math.max(0, (closing - cum - LTCG_EXEMPTION) * t);
+        const post = closing - tax, goalY = inp.goal * Math.pow(1 + g, y);
+        rows.push({ year: y, sip, contrib, closing, cum, tax, post, goalY, funding: post / goalY, deflator: Math.pow(1 + g, y) });
+        opening = closing;
+    }
+    const last = rows[n - 1];
+    let pvPaidIn = inp.corpus;
+    rows.forEach(r2 => { pvPaidIn += r2.contrib / r2.deflator; });
+    return {
+        start, goalFuture, fvCorpus, rows, last,
+        totalPaid: last.cum, preTax: last.closing, tax: last.tax, postTax: last.post,
+        surplus: Math.abs(last.post - goalFuture) < 1 ? 0 : last.post - goalFuture,
+        pvPaidIn, finalSip: last.sip,
+        finalSipToday: last.sip / Math.pow(1 + g, n - 1)
+    };
+}
+
+/* ---------- Rendering ---------- */
+function calculatePlan() {
+    const inp = readInputs();
+    if (!inp) return;
+    lastPlan = { inp, res: solvePlan(inp) };
+    window.lastPlan = lastPlan;
+    renderAll();
+}
+function setMode(mode) {
+    viewMode = mode;
+    if (lastPlan) renderAll();
+}
+function renderAll() { renderVerdict(); renderBreakdown(); renderChartAndTable(); }
+
+function goalWording(type) {
+    return ({ "Retirement": "retirement", "Child education": "your child's education", "Home purchase": "a home purchase", "Wedding": "a wedding", "Other": "this goal" })[type] || "this goal";
+}
+
+function renderVerdict() {
+    const { inp, res } = lastPlan, real = viewMode === "real";
+    const yrs = inp.years + (inp.years === 1 ? " year" : " years");
+    let headline, sub;
+    if (res.start < 0.5) {
+        headline = "What you have already invested is projected to cover this goal on its own.";
+        sub = "Your " + shortINR(inp.corpus) + " could grow to about " + shortINR(res.postTax) + " after tax in " + yrs + ", against a goal that will cost about " + shortINR(res.goalFuture) + " by then. No new SIP is needed on these assumptions.";
+    } else {
+        headline = "Start with about ₹" + formatINR(res.start) + " a month" + (inp.step > 0 ? " and raise it by " + inp.step + "% every year." : ", kept the same every year.");
+        sub = real
+            ? "That reaches " + shortINR(inp.goal) + " in today's money for " + goalWording(inp.goalType) + ". By the time you need it, the same goal will cost about " + shortINR(res.goalFuture) + ", with inflation at " + inp.infl + "% a year."
+            : "That reaches about " + shortINR(res.goalFuture) + " in " + yrs + " for " + goalWording(inp.goalType) + ". That is " + shortINR(inp.goal) + " in today's money, with inflation at " + inp.infl + "% a year.";
+    }
+
+    const bullets = [];
+    if (res.start >= 0.5) {
+        if (inp.step > 0) {
+            bullets.push("In the last year you would pay " + "₹" + formatINR(res.finalSip) + " a month. With " + inp.infl + "% inflation, that feels like about ₹" + formatINR(res.finalSipToday) + " in today's money.");
+        }
+        bullets.push(real
+            ? "In today's money you would pay in about " + shortINR(res.pvPaidIn) + " in total, to end with " + shortINR(inp.goal) + " after tax."
+            : "In total you would pay in " + shortINR(res.totalPaid) + " (about " + shortINR(res.pvPaidIn) + " in today's money), to end with " + shortINR(res.postTax) + " after tax.");
+        bullets.push("Tax when you sell: about " + shortINR(res.tax) + " (12.5% on gains above ₹1.25 lakh). The plan already allows for it.");
+        const lower = Math.max(0, inp.ret - 2);
+        if (lower !== inp.ret) {
+            const alt = solvePlan({ ...inp, ret: lower });
+            bullets.push("The return is your assumption, not a forecast. If it is " + lower + "% instead, you would need to start at about ₹" + formatINR(alt.start) + " a month.");
+        }
+    }
+    bullets.push("This is an educational illustration, not advice.");
+
+    const notes = [];
+    if (inp.ret < inp.infl) notes.push("Your return (" + inp.ret + "%) is below inflation (" + inp.infl + "%), so your money loses buying power. The SIP needed gets very large.");
+    if (inp.years === 1) notes.push("Tax here treats all gains as long-term. Over one year most instalments would be short-term and taxed at a higher rate.");
+    if (inp.step > inp.infl + 8) notes.push("A " + inp.step + "% step-up is a big yearly rise. Check that your income will really grow that fast.");
+    const notesHtml = notes.length ? `<div class="verdict-notes"><b>Worth knowing</b><ul>${notes.map(n => `<li>${n}</li>`).join("")}</ul></div>` : "";
+
+    document.getElementById("verdictCard").innerHTML = `
+        <div class="verdict-top">
+            <p class="verdict-eyebrow">Your plan</p>
+            <div class="mode-toggle" role="group" aria-label="Show amounts in">
+                <button type="button" id="modeReal" aria-pressed="${real}" onclick="setMode('real')">Today's rupees</button>
+                <button type="button" id="modeNominal" aria-pressed="${!real}" onclick="setMode('nominal')">Future rupees</button>
+            </div>
+        </div>
+        <p class="verdict-headline">${headline}</p>
+        <p class="verdict-sub">${sub}</p>
+        <ul class="verdict-bullets">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+        ${notesHtml}`;
+}
+
+function renderBreakdown() {
+    const { inp, res } = lastPlan;
+    const m = (label, value) => `<div class="metric"><span class="metric-label">${label}</span><span class="metric-value">${value}</span></div>`;
+    document.getElementById("summarySection").innerHTML = `
+        <h3>📊 The full picture</h3>
+        <div class="metric-grid">
+            ${m("Goal cost today", "₹" + formatINR(inp.goal))}
+            ${m("Goal cost in " + inp.years + " years (inflation-adjusted)", "₹" + formatINR(res.goalFuture))}
+            ${m("Starting monthly SIP", "₹" + formatINR(res.start))}
+            ${m("First year you pay in", "₹" + formatINR(res.rows[0].contrib))}
+            ${m("Monthly SIP in the last year", "₹" + formatINR(res.finalSip))}
+            ${m("Already invested, grown to goal date", "₹" + formatINR(res.fvCorpus))}
+            ${m("Total you pay in (future rupees)", "₹" + formatINR(res.totalPaid))}
+            ${m("Total you pay in (today's rupees)", "₹" + formatINR(res.pvPaidIn))}
+            ${m("Value before tax", "₹" + formatINR(res.preTax))}
+            ${m("Tax when you sell", "₹" + formatINR(res.tax))}
+            ${m("Value after tax", "₹" + formatINR(res.postTax))}
+            ${m("Surplus / (gap) against the goal", res.surplus === 0 ? "None, it matches" : "₹" + formatINR(res.surplus))}
+        </div>`;
+
+    const retRates = [Math.max(0, inp.ret - 2), inp.ret, Math.min(30, inp.ret + 2)].filter((v, i, a) => a.indexOf(v) === i);
+    let rows1 = "";
+    retRates.forEach(rt => { const x = solvePlan({ ...inp, ret: rt }); rows1 += `<tr class="${rt === inp.ret ? "is-selected" : ""}"><td>${rt}%${rt === inp.ret ? " (yours)" : ""}</td><td>₹${formatINR(x.start)}</td><td>₹${formatINR(x.finalSip)}</td><td>₹${formatINR(x.pvPaidIn)}</td></tr>`; });
+    document.getElementById("returnSection").innerHTML = `
+        <h3>🔀 If the return is lower or higher</h3>
+        <p class="group-note">Same goal, same step-up. A lower return means a higher starting SIP.</p>
+        <div class="table-scroll"><table class="decision-table">
+            <thead><tr><th>Return per year</th><th>Starting SIP</th><th>SIP in the last year</th><th>Paid in, today's rupees</th></tr></thead>
+            <tbody>${rows1}</tbody></table></div>`;
+
+    const steps = [0, inp.step, Math.min(30, inp.step + 5)].filter((v, i, a) => a.indexOf(v) === i).sort((a, b) => a - b);
+    let rows2 = "";
+    steps.forEach(st => { const x = solvePlan({ ...inp, step: st }); rows2 += `<tr class="${st === inp.step ? "is-selected" : ""}"><td>${st}%${st === inp.step ? " (yours)" : ""}</td><td>₹${formatINR(x.start)}</td><td>₹${formatINR(x.finalSip)}</td><td>₹${formatINR(x.pvPaidIn)}</td></tr>`; });
+    document.getElementById("stepSection").innerHTML = `
+        <h3>📈 If you raise the SIP by a different amount</h3>
+        <p class="group-note">Same goal and return. A bigger yearly rise lets you start lower, but you pay more later.</p>
+        <div class="table-scroll"><table class="decision-table">
+            <thead><tr><th>Yearly step-up</th><th>Starting SIP</th><th>SIP in the last year</th><th>Paid in, today's rupees</th></tr></thead>
+            <tbody>${rows2}</tbody></table></div>`;
+}
+
+function renderChartAndTable() {
+    const { inp, res } = lastPlan, real = viewMode === "real";
+    let body = "";
+    res.rows.forEach(r => {
+        body += `<tr><td>${r.year}</td><td>${formatINR(r.sip)}</td><td>${formatINR(r.contrib)}</td><td>${formatINR(r.closing)}</td><td>${formatINR(r.post)}</td><td>${formatINR(r.goalY)}</td><td>${(r.funding * 100).toFixed(1)}%</td></tr>`;
+    });
+    document.getElementById("projectionTable").innerHTML = `
+        <p class="section-note">All columns are in future rupees. "After tax" is what you would have if you sold at the end of that year. "Goal" is the inflation-adjusted cost by then.</p>
+        <table>
+            <thead><tr><th>Year</th><th>Monthly SIP (₹)</th><th>Paid in this year</th><th>Value before tax</th><th>Value after tax</th><th>Goal by then</th><th>Funded</th></tr></thead>
+            <tbody>${body}</tbody></table>`;
+
+    const corpusData = res.rows.map(r => real ? r.post / r.deflator : r.post);
+    const goalData = res.rows.map(r => real ? inp.goal : r.goalY);
+    document.getElementById("chartCaption").textContent = real
+        ? "In today's rupees. The flat line is your goal; the other line is what you would have after tax if you sold at the end of each year."
+        : "In future rupees. The rising line is what the goal will cost with inflation; the other line is what you would have after tax if you sold at the end of each year.";
+    if (chart) chart.destroy();
+    chart = new Chart(document.getElementById("planChart"), {
+        type: 'line',
+        data: {
+            labels: res.rows.map(r => "Year " + r.year),
+            datasets: [
+                { label: "Your money after tax", data: corpusData, borderColor: "#4f46e5", backgroundColor: "rgba(79,70,229,0.08)", borderWidth: 3, tension: 0.3, pointRadius: 2 },
+                { label: real ? "Goal (today's rupees)" : "Goal (inflation-adjusted)", data: goalData, borderColor: "#10b981", borderDash: [6, 4], borderWidth: 3, tension: 0.2, pointRadius: 0 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+            plugins: {
+                title: { display: true, text: "Your plan against your goal", font: { size: 13, weight: '600' }, padding: { bottom: 8 } },
+                legend: { position: 'top', labels: { boxWidth: 14, font: { size: 11 } } },
+                tooltip: { callbacks: { label: ctx => ctx.dataset.label + ": ₹" + Math.round(ctx.parsed.y).toLocaleString('en-IN') } }
+            },
+            scales: {
+                x: { ticks: { autoSkip: true, maxTicksLimit: 6, maxRotation: 0, minRotation: 0 } },
+                y: { ticks: { callback: v => '₹' + Number(v).toLocaleString('en-IN') } }
+            }
+        }
+    });
+}
+
+function exportPlan() {
+    const inp = readInputs();
+    if (!inp) return;
+    const res = solvePlan(inp);
+    exportWorkbook("step-up-sip-goal.xlsx", {
+        Inputs: [["Step-Up SIP Goal Inputs"], ["Input", "Value"], ["Goal type", inp.goalType], ["Goal cost today (₹)", inp.goal], ["Years to goal", inp.years],
+                 ["Already invested (₹)", inp.corpus], ["Inflation (% per year)", inp.infl], ["Return (% per year)", inp.ret], ["Yearly step-up (%)", inp.step],
+                 ["LTCG rate (%)", LTCG_RATE * 100], ["LTCG exemption (₹)", LTCG_EXEMPTION]],
+        Results: [["Step-Up SIP Goal Results"], ["Metric", "Value"], ["Inflation-adjusted goal", res.goalFuture], ["Starting monthly SIP", res.start],
+                  ["Monthly SIP in the last year", res.finalSip], ["Total paid in (future rupees)", res.totalPaid], ["Total paid in (today's rupees)", res.pvPaidIn],
+                  ["Value before tax", res.preTax], ["Tax when you sell", res.tax], ["Value after tax", res.postTax], ["Surplus / (gap)", res.surplus]],
+        Projection: [["Year", "Monthly SIP", "Paid in this year", "Value before tax", "Tax if sold", "Value after tax", "Goal by then", "Funded"],
+                     ...res.rows.map(r => [r.year, r.sip, r.contrib, r.closing, r.tax, r.post, r.goalY, r.funding])]
+    });
+}
+
+FIELD_IDS.forEach(id => document.getElementById(id).addEventListener("input", () => setFieldError(id, "")));
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target && e.target.tagName === "INPUT") calculatePlan(); });
+calculatePlan();
+bindAmountInWords("goalCost", "goalCostWords");
+bindAmountInWords("corpus", "corpusWords");
+</script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
+
+</body>
+</html>
