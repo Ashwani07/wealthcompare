@@ -520,8 +520,8 @@ function exportPlan() {
 FIELD_IDS.forEach(id => document.getElementById(id).addEventListener("input", () => setFieldError(id, "")));
 document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target && e.target.tagName === "INPUT") calculatePlan(); });
 calculatePlan();
-bindAmountInWords("goalCost", "goalCostWords");
-bindAmountInWords("corpus", "corpusWords");
+if (typeof bindAmountInWords === "function") bindAmountInWords("goalCost", "goalCostWords");
+if (typeof bindAmountInWords === "function") bindAmountInWords("corpus", "corpusWords");
 </script>
 
 <script src="/assets/js/ad-slot-collapse.js"></script>

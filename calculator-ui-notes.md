@@ -10,9 +10,9 @@ Last updated: 12 October 2026. These notes describe how the tool pages are built
 | SIP Growth | `/tools/sip-growth/` | Reworked. Matches `SIP Growth` |
 | Loan Prepayment | `/tools/loan-prepayment/` | Built to the current pattern. Matches `Loan Prepayment` |
 | Step-Up SIP Goal | `/tools/step-up-sip/` | Built to the current pattern. Matches `Step-Up SIP Goal` |
-| EMI Calculator | `/tools/emi-calculator/` | Older layout. Not yet reworked or re-verified against the workbook |
+| EMI Calculator | `/tools/emi-calculator/` | Reworked on 12 October 2026. Matches `EMI Calculator`. All five tools now follow the same pattern |
 
-Sections below say which tools they apply to. Where a section says "the EMI page" it describes the older pattern.
+Sections below say which tools they apply to.
 
 ## The page pattern (every reworked tool)
 
@@ -21,7 +21,7 @@ Sections below say which tools they apply to. Where a section says "the EMI page
 3. **Collapsed "full breakdown"** (`<details class="breakdown-details">`). It holds every figure, the "what if" tables, and a nested **Advanced Read** with the maths, tax treatment and what is left out. The content is in the page, just folded.
 4. **Chart**, with the year-by-year table folded under it where the tool has one.
 5. **Export to Excel**, next to the main button.
-6. **Real/Nominal choice where it matters.** SIP Growth and Step-Up SIP Goal have a "Today's rupees / Future rupees" toggle beside the verdict. Loan vs SIP has the toggle on its chart (the verdict is in real terms by design, as the workbook decides). Loan Prepayment has none, because the workbook model has no inflation input and says so on the page.
+6. **Real/Nominal choice where it matters.** EMI Calculator and Loan Prepayment have none: they model a loan at a fixed rate in actual rupees and say so on the page. SIP Growth and Step-Up SIP Goal have a "Today's rupees / Future rupees" toggle beside the verdict. Loan vs SIP has the toggle on its chart (the verdict is in real terms by design, as the workbook decides). Loan Prepayment has none, because the workbook model has no inflation input and says so on the page.
 
 Do not put the verdict below the inputs-and-chart or under a fold. Do not repeat the same number in three places.
 
@@ -78,9 +78,9 @@ Every calculator validates before calculating or exporting. An error appears und
 
 | Field | Limit |
 |---|---|
-| Tenure, Loan vs SIP, SIP Growth, Loan Prepayment | whole years, 1 to 40 |
+| Tenure, EMI Calculator, Loan vs SIP, SIP Growth, Loan Prepayment | whole years, 1 to 40 |
 | Years to goal, Step-Up SIP Goal | whole years, 1 to 30 |
-| Loan interest, Loan vs SIP | 0% to 50% |
+| Loan interest, EMI Calculator and Loan vs SIP | 0% to 50% |
 | Loan interest and new rate, Loan Prepayment | 0% to 30% |
 | SIP return, inflation, step-up | 0% to 30% |
 | Property growth | -10% to 30% |
@@ -91,11 +91,9 @@ Every calculator validates before calculating or exporting. An error appears und
 | Amounts | greater than zero for the main amount, 0 or more for optional ones |
 | Loan vs SIP | loan cannot exceed the property price |
 
-The EMI page keeps its own older limits until it is reworked.
-
 ## Amount guidance
 
-Rupee inputs show a live amount-in-words line below the field (`bindAmountInWords(inputId, wordsId)` from `assets/js/amount-words.js`). It is presentation only; the calculation always uses the number. `numberToIndianWords()` returns the words plus a trailing "Only"; the caller adds "Rupees " itself, so do not add it twice.
+Rupee inputs show a live amount-in-words line below the field (`bindAmountInWords(inputId, wordsId)` from `assets/js/amount-words.js`). It is presentation only; the calculation always uses the number. Every call is wrapped in `if (typeof bindAmountInWords === "function")`, so if `amount-words.js` fails to load (for example when a page is opened straight from disk, where the root-relative `/assets/...` path does not resolve) the calculator still works and only the words line is missing. `numberToIndianWords()` returns the words plus a trailing "Only"; the caller adds "Rupees " itself, so do not add it twice.
 
 Applied to: Loan vs SIP (property price, loan), EMI (loan), SIP Growth (monthly SIP, lump sum), Step-Up (goal cost, amount already invested), Loan Prepayment (loan, monthly extra, each lump sum).
 
@@ -113,15 +111,15 @@ Text, surface and accent colours come from the CSS custom properties defined onc
 
 ## Ads
 
-- The AdSense **Auto Ads** script is in the head of every page. The reworked tool pages and the articles contain **no manual ad units**.
-- Two places still have manual units with placeholder slot IDs: the homepage (`300000001` to `300000003`) and the EMI Calculator page (`200000001` to `200000004`). Replace them with real IDs or remove them. Do not invent slot IDs.
+- The AdSense **Auto Ads** script is in the head of every page. All five tool pages and the articles contain **no manual ad units**.
+- Only the homepage still has manual units with placeholder slot IDs (`300000001` to `300000003`). Replace them with real IDs or remove them. Do not invent slot IDs.
 - `.ad-slot` reserves `min-height: 100px` to avoid layout shift, and `assets/js/ad-slot-collapse.js` collapses a slot that comes back unfilled or never resolves within 4 seconds. Use that class for any manual unit you add later. Never fall back to a bare `<div style="margin:20px 0;">`.
 - `ads.txt` must contain exactly: `google.com, pub-4357149194740826, DIRECT, f08c47fec0942fa0`.
 - Do not show "coming soon" or "planned" tiles or article cards for things that do not exist. They make a site look unfinished to AdSense reviewers and to visitors. Add a tile when the page is live.
 
-## Amortization schedule (EMI Calculator)
+## EMI Calculator
 
-`computeAmortizationSchedule()` runs a full month-by-month amortization and groups it into yearly principal, interest and balance rows. It is a free feature, not gated. Verified: yearly principal sums to the loan amount, yearly interest sums to total interest, and the balance reaches zero at term.
+`computeEMI()` gives the EMI (P / n at 0%), `computeMonthly()` runs the month-by-month schedule, and `computeYearly()` groups it into yearly principal, interest and balance rows. The verdict also reports the month when principal first exceeds interest and the month when half the loan is repaid. A chart of stacked yearly bars shows interest against principal, and two small tables show the EMI and total interest for a tenure of five years more or less and a rate of one point more or less. The schedule is a free feature, not gated. Verified: yearly principal sums to the loan amount, yearly interest sums to total interest, and the balance reaches zero at term. The page also holds a short block of static explanation (the formula, a worked example, fixed versus floating rates, what is left out, common questions). Its worked-example numbers are written into the HTML, so if the default inputs change, recompute them.
 
 ## Loan Prepayment engine
 

@@ -62,13 +62,13 @@ Last updated: 12 October 2026.
 
 | Tool | Path | What it answers | State |
 |---|---|---|---|
-| EMI Calculator | `/tools/emi-calculator/` | EMI, total interest, total repayment | Live. Older layout, not yet reworked or re-verified |
+| EMI Calculator | `/tools/emi-calculator/` | EMI, total interest, total repayment, yearly split between interest and principal | Live. Reworked, matches the workbook |
 | Loan vs SIP | `/tools/loan-vs-sip/` | If you already own a home: buy a second property with a loan, or invest the same down payment and EMI in a SIP | Live. Reworked, matches the workbook |
 | SIP Growth | `/tools/sip-growth/` | What a SIP grows to, before and after tax, in today's rupees | Live. Reworked, matches the workbook |
 | Loan Prepayment | `/tools/loan-prepayment/` | Lump sums, monthly extra, rate change: effect on tenure and interest | Live. Matches the workbook |
 | Step-Up SIP Goal | `/tools/step-up-sip/` | Starting SIP for a goal when you raise it each year | Live. Matches the workbook |
 
-Workbook sheets not yet converted to web pages: Prepay vs Invest, Retirement SWP, Emergency Fund, Net Worth & Cash Flow, Term Insurance, Asset Allocation, Goal Dashboard, Expense Ratio Impact, Rent vs Buy (plus its Sensitivity sheet). Rent vs Buy, Expense Ratio Impact and EMI Calculator had a lighter review than the others. Re-verify them before converting.
+Workbook sheets not yet converted to web pages: Prepay vs Invest, Retirement SWP, Emergency Fund, Net Worth & Cash Flow, Term Insurance, Asset Allocation, Goal Dashboard, Expense Ratio Impact, Rent vs Buy (plus its Sensitivity sheet). Rent vs Buy and Expense Ratio Impact had a lighter review than the others. Re-verify them before converting.
 
 All tools follow one layout: verdict first, a collapsed full breakdown, an "Advanced Read", a chart, inline field errors, and Export to Excel.
 
@@ -182,8 +182,8 @@ Adding these scripts to a `tests/` folder would make the checks repeatable. Dyna
 
 - AdSense Auto Ads are loaded from the head of each page (publisher `ca-pub-4357149194740826`).
 - `ads.txt` must contain exactly: `google.com, pub-4357149194740826, DIRECT, f08c47fec0942fa0`
-- Two places still have manual ad units with slot IDs that look like placeholders: the homepage (`300000001` to `300000003`) and the EMI Calculator page (`200000001` to `200000004`). Replace them with real slot IDs from AdSense or remove the manual units.
-- The reworked tool pages contain no manual ad units.
+- The homepage still has three manual ad units with slot IDs that look like placeholders (`300000001` to `300000003`). Replace them with real slot IDs from AdSense or remove the manual units.
+- All five tool pages and the articles contain no manual ad units.
 - AdSense status last seen: "Needs attention, Low value content" (8 September 2026). More original articles are being added before a review is requested. Monetization beyond ads is undecided. Decision as of 12 October 2026: no accounts, email capture or payment collection for now; see `paid-features.txt`.
 
 ---
@@ -192,7 +192,7 @@ Adding these scripts to a `tests/` folder would make the checks repeatable. Dyna
 
 - Homepage ad slot IDs (above).
 - `build_footers.py` does not yet list the Loan vs SIP article, because its page was not available to check.
-- EMI Calculator page and sheet need the same rework and re-verification as the other tools, including removing its manual ad units.
+- `EMI Calculator` sheet: the yearly schedule has 20 rows while tenure can go to 40, the schedule errors at a 0% rate (CUMPRINC and CUMIPMT need a rate above zero), and the sheet has no input validation. The web page handles all three.
 - `Home Loan Analysis`, cells `C41` and `C42`, hold text instead of values and break the text in row 48 (fix prompt given separately).
 - Rent vs Buy and Expense Ratio Impact need a full re-derivation before conversion.
 - Lower-priority workbook items: the Loan Prepayment sheet's yearly schedule is 30 rows while tenure goes to 40, and it has five lump-sum slots while the page accepts up to 20 (the page was checked against an independent simulator for more than five).

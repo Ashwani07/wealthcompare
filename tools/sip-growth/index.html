@@ -498,8 +498,8 @@ document.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && e.target && e.target.tagName === "INPUT") calculateSIP();
 });
 calculateSIP();
-bindAmountInWords("sipAmount", "sipAmountWords");
-bindAmountInWords("lumpSum", "lumpSumWords");
+if (typeof bindAmountInWords === "function") bindAmountInWords("sipAmount", "sipAmountWords");
+if (typeof bindAmountInWords === "function") bindAmountInWords("lumpSum", "lumpSumWords");
 </script>
 
 <script src="/assets/js/ad-slot-collapse.js"></script>

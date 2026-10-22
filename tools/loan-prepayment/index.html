@@ -849,8 +849,8 @@ document.addEventListener("input", function (e) {
 });
 updateRateFields();
 calculate();
-bindAmountInWords("loanAmount", "loanAmountWords");
-bindAmountInWords("extra", "extraWords");
+if (typeof bindAmountInWords === "function") bindAmountInWords("loanAmount", "loanAmountWords");
+if (typeof bindAmountInWords === "function") bindAmountInWords("extra", "extraWords");
 </script>
 
 <footer class="footer">

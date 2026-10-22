@@ -24,10 +24,9 @@ merged and the plan is now marked as a draft.
 - ads.txt is in place with the line:
   google.com, pub-4357149194740826, DIRECT, f08c47fec0942fa0
 - The AdSense Auto Ads script is in the head of every page.
-- Manual ad units with placeholder slot IDs remain on the homepage
-  (300000001 to 300000003) and on the EMI Calculator page (200000001 to
-  200000004). Replace them with real IDs or remove them. The reworked tool
-  pages and the articles have no manual units.
+- Manual ad units with placeholder slot IDs remain only on the homepage
+  (300000001 to 300000003). Replace them with real IDs or remove them. All
+  five tool pages and the articles have no manual units.
 - Content added since the rejection: reworked Loan vs SIP and SIP Growth,
   new Loan Prepayment and Step-Up SIP Goal tools, and two new articles.
   More articles are planned before a review is requested.
@@ -83,8 +82,8 @@ legal advice is wanted before options D and E.
 ---------------------------------
 Premium ideas must build on this, not hide it.
 - Five tools: EMI Calculator, Loan vs SIP, SIP Growth, Loan Prepayment and
-  Step-Up SIP Goal. The first is on the older layout.
-- Each reworked tool shows the verdict first, has a collapsed full breakdown
+  Step-Up SIP Goal, all on the same layout.
+- Each tool shows the verdict first, has a collapsed full breakdown
   and an Advanced Read, validates inputs inline, and exports to Excel.
 - Results are shown in today's rupees as well as future rupees, with real and
   nominal kept consistent on both sides.

@@ -37,6 +37,8 @@ PAGES = {
         "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
     "insights/reduce-emi-or-reduce-tenure-after-prepayment/index.html":
         "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "insights/how-an-emi-splits-between-interest-and-principal/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
     "about/index.html": None,
     "privacy-policy/index.html": None,
     "terms/index.html": None,
