@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Calculate whether buying a residential property or renting and investing in mutual funds creates more wealth over 20 years in Indian rupees.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/rent-vs-buy/">
+<title>Rent vs Buy Calculator India: 20-Year Wealth Comparison | WealthCompare</title>
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="Rent vs Buy Calculator India: 20-Year Wealth Comparison">
+<meta property="og:description" content="Calculate whether buying a residential property or renting and investing in mutual funds creates more wealth over 20 years in Indian rupees.">
+<meta property="og:url" content="https://wealthcompare.in/tools/rent-vs-buy/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Auto Ads (Anchor + Vignette + In-page) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
+     crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="/assets/js/amount-words.js"></script>
+<script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Rent vs Buy Calculator",
+  "url": "https://wealthcompare.in/tools/rent-vs-buy/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "isPartOf": { "@type": "WebSite", "name": "WealthCompare", "url": "https://wealthcompare.in/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
+}
+.hero { padding: 30px 20px 40px; text-align: center; color: white; }
+.hero-inner {
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 20px 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+.container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
+.card {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.card-title { background: linear-gradient(135deg,#4f46e5,#3b82f6); color: white; padding: 10px; border-radius: 10px; margin: 0 0 6px; font-size: 20px; }
+.group-title { font-size: 14px; font-weight: 700; color: #3730a3; margin: 16px 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+.inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
+.input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+.input-group input { padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; font-family: inherit; }
+.input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+button {
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5); color: white; border: none;
+    border-radius: 12px; font-size: 15px; cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px; font-family: inherit;
+}
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
+
+.verdict-card {
+    background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.verdict-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0; }
+.mode-toggle { display: inline-flex; border: 1px solid #c7d2fe; border-radius: 999px; overflow: hidden; background: #fff; }
+.mode-toggle button {
+    margin: 0; width: auto; max-width: none; padding: 7px 14px; font-size: 12px; font-weight: 700;
+    background: transparent; color: #3730a3; border-radius: 0;
+}
+.mode-toggle button[aria-pressed="true"] { background: #4f46e5; color: #fff; }
+.verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
+.verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
+.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.verdict-bullets li { font-size: 13px; color: var(--text-primary); padding-left: 20px; position: relative; }
+.verdict-bullets li::before { content: "▸"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; }
+
+.breakdown-details > summary, .nested-details > summary {
+    cursor: pointer; list-style: none; font-weight: 700; color: #3730a3; display: flex; align-items: center; gap: 8px;
+}
+.breakdown-details > summary { padding: 12px 14px; border-radius: 10px; background: var(--surface-muted); font-size: 14px; }
+.breakdown-details > summary::-webkit-details-marker, .nested-details > summary::-webkit-details-marker { display: none; }
+.breakdown-details > summary::before, .nested-details > summary::before { content: "▸"; transition: transform 0.15s ease; }
+.breakdown-details[open] > summary::before, .nested-details[open] > summary::before { transform: rotate(90deg); }
+.breakdown-details > summary:hover { background: #e0e7ff; }
+.breakdown-body { padding-top: 16px; }
+.nested-details { margin-top: 14px; }
+.nested-details > summary { font-size: 14px; padding: 8px 0; }
+.result-section { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 14px; background: #fff; margin-bottom: 16px; }
+.result-section h3 { margin: 0 0 10px; color: #1f2937; font-size: 17px; }
+.metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.metric { padding: 10px 12px; border-radius: 10px; background: var(--surface-muted); }
+.metric-label { display: block; color: var(--text-muted); font-size: 11px; }
+.metric-value { display: block; margin-top: 3px; color: var(--text-primary); font-size: 14px; font-weight: 700; }
+.decision-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+.decision-table th, .decision-table td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #e0e7ff; }
+.decision-table th:first-child, .decision-table td:first-child { text-align: left; color: var(--text-secondary); }
+.decision-table th { color: #3730a3; font-weight: 700; }
+.decision-table td:not(:first-child) { font-weight: 600; }
+.table-scroll { overflow-x: auto; }
+.chart-container { background: rgba(255,255,255,0.95); padding: 16px; border-radius: 18px; margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.chart-caption { font-size: 12px; color: var(--text-muted); margin: 0 0 10px; }
+.chart-canvas-wrap { position: relative; height: 300px; width: 100%; }
+@media (min-width: 640px) { .chart-canvas-wrap { height: 380px; } }
+@media (max-width: 420px) { .metric-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+    <a class="brand" href="/" aria-label="WealthCompare home">
+        <img src="/assets/logo.svg" alt="">
+        <span class="brand-name">Wealth<span>Compare</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+        <a href="/#insights">Insights</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>Rent vs Buy Calculator India</h1>
+        <p>Buy a home with a loan or rent and invest your down payment and monthly surplus in equity mutual funds?</p>
+        <p>Compare terminal wealth after 20 years in today's purchasing power, factoring in rent inflation, tax, and maintenance.</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="card">
+        <h2 class="card-title">📥 Enter Property & Rental Assumptions</h2>
+
+        <div class="group-title">1. Buying the Property</div>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="propertyPrice">Property purchase price (₹)</label>
+                <input id="propertyPrice" type="number" inputmode="decimal" min="500000" step="100000" value="10000000">
+                <span id="propertyPriceWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="propertyPriceError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="loanAmount">Home loan amount (₹)</label>
+                <input id="loanAmount" type="number" inputmode="decimal" min="100000" step="50000" value="7500000">
+                <span id="loanAmountWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="loanAmountError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="loanRate">Loan interest rate (% p.a.)</label>
+                <input id="loanRate" type="number" inputmode="decimal" min="1" max="25" step="0.05" value="7.5">
+                <span class="field-error" id="loanRateError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="loanTenure">Loan tenure (years)</label>
+                <input id="loanTenure" type="number" inputmode="numeric" min="5" max="30" step="1" value="20">
+                <span class="field-error" id="loanTenureError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="maintenanceRate">First-year maintenance (% p.a.)</label>
+                <input id="maintenanceRate" type="number" inputmode="decimal" min="0" max="5" step="0.1" value="1.0">
+                <span class="input-help">1% on ₹1 cr = ₹1,00,000/yr (society + repairs)</span>
+                <span class="field-error" id="maintenanceRateError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="propertyApprec">Property appreciation (% p.a.)</label>
+                <input id="propertyApprec" type="number" inputmode="decimal" min="0" max="25" step="0.5" value="10.0">
+                <span class="field-error" id="propertyApprecError" role="alert"></span>
+            </div>
+        </div>
+
+        <div class="group-title">2. Renting & Investing</div>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="startingRent">Starting monthly rent (₹)</label>
+                <input id="startingRent" type="number" inputmode="decimal" min="2000" step="1000" value="25000">
+                <span id="startingRentWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="startingRentError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="rentHike">Annual rent increase (%)</label>
+                <input id="rentHike" type="number" inputmode="decimal" min="0" max="20" step="0.5" value="10.0">
+                <span class="input-help">Standard metro lease increase is 5% - 10%</span>
+                <span class="field-error" id="rentHikeError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="investmentReturn">Expected equity return (% p.a.)</label>
+                <input id="investmentReturn" type="number" inputmode="decimal" min="1" max="25" step="0.5" value="12.0">
+                <span class="input-help">Equity mutual funds compounding</span>
+                <span class="field-error" id="investmentReturnError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="inflation">Inflation rate (% p.a.)</label>
+                <input id="inflation" type="number" inputmode="decimal" min="0" max="15" step="0.5" value="6.0">
+                <span class="field-error" id="inflationError" role="alert"></span>
+            </div>
+        </div>
+
+        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+
+        <button type="button" onclick="calculateRvB()">Compare Rent vs Buy</button>
+        <button type="button" class="export-button" onclick="exportRvB()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
+    </div>
+
+    <div id="verdictCard" class="card verdict-card"></div>
+
+    <details class="card breakdown-details">
+        <summary>Show the full breakdown (milestone tables, cost comparison, how it works)</summary>
+        <div class="breakdown-body">
+            <div class="result-section" id="summarySection"></div>
+            <div class="result-section" id="comparisonSection"></div>
+        </div>
+    </details>
+
+    <div class="chart-container">
+        <p id="chartCaption" class="chart-caption"></p>
+        <div class="chart-canvas-wrap"><canvas id="rvbChart"></canvas></div>
+        <details class="nested-details">
+            <summary>Year-by-year Rent vs Buy schedule</summary>
+            <div class="table-container" id="scheduleTable"></div>
+        </details>
+    </div>
+
+    <div class="learn">
+        <h2>Rent vs Buy in India: The True Financial Equation</h2>
+        <p>In Indian metros, residential rental yields sit at a low 2.5% to 3.2%, while home loan interest rates hover between 7.5% and 8.5%. This means renting a home requires far less monthly cash than buying it.</p>
+        <p>To compare fairly, we assume the renter invests the exact down payment on day one into equity mutual funds, plus every rupee saved each month between the buyer's EMI + maintenance and the rent. Over 20 years, escalating rent gradually catches up to fixed EMIs, while property appreciation and equity compounding determine the ultimate winner.</p>
+        <p>For an in-depth analysis of tipping points, read our pillar guide: <a href="/insights/rent-vs-buy-india-wealth-comparison/">Rent vs Buy in India: Why the 30x Rule of Thumb is Broken</a>.</p>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. Real estate and mutual fund returns vary. Verify figures with your advisor before acting.
+    </div>
+</footer>
+
+<script>
+const SHARE_FIELDS = [
+    { id: "propertyPrice", param: "price" },
+    { id: "loanAmount", param: "loan" },
+    { id: "loanRate", param: "rate" },
+    { id: "loanTenure", param: "tenure" },
+    { id: "maintenanceRate", param: "maint" },
+    { id: "propertyApprec", param: "apprec" },
+    { id: "startingRent", param: "rent" },
+    { id: "rentHike", param: "hike" },
+    { id: "investmentReturn", param: "return" },
+    { id: "inflation", param: "infl" }
+];
+initShareScenario(SHARE_FIELDS);
+
+const FIELD_IDS = SHARE_FIELDS.map(f => f.id);
+let rvbChart = null;
+let lastRvb = null;
+let viewBasis = "real";
+
+function formatINR(n) { return Math.round(n).toLocaleString('en-IN'); }
+function shortINR(n) {
+    const abs = Math.abs(n);
+    if (abs >= 1e7) return "₹" + (n / 1e7).toFixed(2) + " crore";
+    if (abs >= 1e5) return "₹" + (n / 1e5).toFixed(2) + " lakh";
+    return "₹" + formatINR(n);
+}
+
+function setFieldError(id, msg) {
+    const el = document.getElementById(id), err = document.getElementById(id + "Error");
+    if (!el || !err) return;
+    const grp = el.closest(".input-group");
+    err.textContent = msg || "";
+    if (grp) grp.classList.toggle("has-error", !!msg);
+    el.setAttribute("aria-invalid", msg ? "true" : "false");
+}
+
+function num(id) { const v = document.getElementById(id).value; return v === "" ? NaN : +v; }
+
+function readInputs() {
+    FIELD_IDS.forEach(id => setFieldError(id, ""));
+    document.getElementById("formError").textContent = "";
+    let ok = true;
+    const fail = (id, m) => { setFieldError(id, m); ok = false; };
+
+    const price = num("propertyPrice"), loan = num("loanAmount"), rate = num("loanRate");
+    const tenure = num("loanTenure"), maint = num("maintenanceRate"), apprec = num("propertyApprec");
+    const rent = num("startingRent"), hike = num("rentHike"), ret = num("investmentReturn"), infl = num("inflation");
+
+    if (!Number.isFinite(price) || price <= 0) fail("propertyPrice", "Enter property price above 0.");
+    if (!Number.isFinite(loan) || loan < 0 || loan >= price) fail("loanAmount", "Loan must be less than property price.");
+    if (!Number.isFinite(rate) || rate <= 0 || rate > 30) fail("loanRate", "Rate must be between 1% and 30%.");
+    if (!Number.isInteger(tenure) || tenure < 1 || tenure > 40) fail("loanTenure", "Tenure must be 1 to 40 years.");
+    if (!Number.isFinite(maint) || maint < 0 || maint > 10) fail("maintenanceRate", "Maintenance must be 0% to 10%.");
+    if (!Number.isFinite(apprec) || apprec < 0 || apprec > 30) fail("propertyApprec", "Appreciation must be 0% to 30%.");
+    if (!Number.isFinite(rent) || rent <= 0) fail("startingRent", "Enter starting rent above 0.");
+    if (!Number.isFinite(hike) || hike < 0 || hike > 25) fail("rentHike", "Rent hike must be 0% to 25%.");
+    if (!Number.isFinite(ret) || ret <= 0 || ret > 30) fail("investmentReturn", "Equity return must be 1% to 30%.");
+    if (!Number.isFinite(infl) || infl < 0 || infl > 20) fail("inflation", "Inflation must be 0% to 20%.");
+
+    if (!ok) {
+        document.getElementById("formError").textContent = "Please fix the highlighted fields.";
+        return null;
+    }
+    return { price, loan, rate, tenure, maint, apprec, rent, hike, ret, infl };
+}
+
+function computeRvB(inp) {
+    const r = inp.rate / 1200;
+    const n = inp.tenure * 12;
+    const emi = inp.loan * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+    const maintMonthly = (inp.price * (inp.maint / 100)) / 12;
+    const down = inp.price - inp.loan;
+
+    const mr = inp.ret / 1200;
+    const ltcgTax = 0.125, ltcgExemp = 125000;
+    const propTaxRate = 0.125;
+
+    let portfolio = down;
+    let contrib = down;
+    let totalBuyerOutlay = down;
+    let totalRentPaid = 0;
+
+    const yearlyData = [];
+
+    for (let y = 1; y <= inp.tenure; y++) {
+        const annualRent = inp.rent * 12 * Math.pow(1 + inp.hike / 100, y - 1);
+        const monthlyRent = annualRent / 12;
+        const monthlyDiff = emi + maintMonthly - monthlyRent;
+        contrib += monthlyDiff * 12;
+        totalBuyerOutlay += (emi + maintMonthly) * 12;
+        totalRentPaid += annualRent;
+
+        const fvDiff = mr > 0 ? monthlyDiff * (Math.pow(1 + mr, 12) - 1) / mr : monthlyDiff * 12;
+        portfolio = portfolio * Math.pow(1 + mr, 12) + fvDiff;
+
+        const propVal = inp.price * Math.pow(1 + inp.apprec / 100, y);
+        const remMonths = Math.max(0, n - y * 12);
+        const loanBal = remMonths > 0 ? inp.loan * (Math.pow(1 + r, n) - Math.pow(1 + r, y * 12)) / (Math.pow(1 + r, n) - 1) : 0;
+
+        const taxablePropGain = Math.max(0, propVal - inp.price);
+        const propTax = taxablePropGain * propTaxRate;
+        const buyWealth = propVal - propTax - loanBal;
+
+        const defl = Math.pow(1 + inp.infl / 100, y);
+        const buyReal = buyWealth / defl;
+
+        const taxableMFGain = Math.max(0, portfolio - contrib - ltcgExemp);
+        const mfTax = taxableMFGain * ltcgTax;
+        const rentWealth = portfolio - mfTax;
+        const rentReal = rentWealth / defl;
+
+        yearlyData.push({
+            year: y,
+            annualRent,
+            monthlyDiff,
+            propVal,
+            loanBal,
+            buyWealth,
+            buyReal,
+            portfolio,
+            rentWealth,
+            rentReal
+        });
+    }
+
+    const cur = yearlyData[yearlyData.length - 1];
+    return {
+        emi,
+        firstYrMaint: maintMonthly * 12,
+        totalBuyerOutlay,
+        totalRentPaid,
+        buyNetReal: cur.buyReal,
+        rentNetReal: cur.rentReal,
+        buyNetNominal: cur.buyWealth,
+        rentNetNominal: cur.rentWealth,
+        edgeReal: cur.buyReal - cur.rentReal,
+        edgeNominal: cur.buyWealth - cur.rentWealth,
+        yearlyData
+    };
+}
+
+function calculateRvB() {
+    const inp = readInputs();
+    if (!inp) return;
+    const res = computeRvB(inp);
+    lastRvb = { inp, res };
+    renderVerdict();
+    renderBreakdown();
+    renderChart();
+    renderSchedule();
+}
+
+function setViewBasis(mode) {
+    viewBasis = mode;
+    document.getElementById("btnReal").setAttribute("aria-pressed", mode === "real");
+    document.getElementById("btnNominal").setAttribute("aria-pressed", mode === "nominal");
+    renderVerdict();
+    renderBreakdown();
+    renderChart();
+}
+
+function renderVerdict() {
+    const { inp, res } = lastRvb;
+    const isReal = viewBasis === "real";
+    const buyVal = isReal ? res.buyNetReal : res.buyNetNominal;
+    const rentVal = isReal ? res.rentNetReal : res.rentNetNominal;
+    const edge = buyVal - rentVal;
+
+    let headline = "";
+    if (edge > 0) {
+        headline = `Buying creates about ${shortINR(edge)} more wealth ${isReal ? "in today's purchasing power" : "in future rupees"}.`;
+    } else {
+        headline = `Renting + SIP creates about ${shortINR(Math.abs(edge))} more wealth ${isReal ? "in today's purchasing power" : "in future rupees"}.`;
+    }
+
+    const bullets = [
+        `<b>Buyer wealth (Year ${inp.tenure}):</b> Reaches <b>${shortINR(buyVal)}</b> after clearing the entire loan and estimated property exit tax.`,
+        `<b>Renter wealth (Year ${inp.tenure}):</b> Liquid mutual fund portfolio reaches <b>${shortINR(rentVal)}</b> after full LTCG tax deduction.`,
+        `<b>Monthly loan commitment:</b> EMI is ₹${formatINR(res.emi)}, plus ₹${formatINR(res.firstYrMaint/12)} monthly maintenance.`,
+        `Starting rent was ₹${formatINR(inp.rent)}/month escalating at ${inp.hike}% annually.`
+    ];
+
+    document.getElementById("verdictCard").innerHTML = `
+        <div class="verdict-top">
+            <span class="verdict-eyebrow">20-Year Decision Result</span>
+            <div class="mode-toggle" role="group" aria-label="Show real or nominal values">
+                <button type="button" id="btnReal" aria-pressed="${isReal}" onclick="setViewBasis('real')">Today's rupees</button>
+                <button type="button" id="btnNominal" aria-pressed="${!isReal}" onclick="setViewBasis('nominal')">Future rupees</button>
+            </div>
+        </div>
+        <p class="verdict-headline">${headline}</p>
+        <p class="verdict-sub">Both paths commit the identical down payment (₹${formatINR(inp.price - inp.loan)}) and identical monthly cash outlays.</p>
+        <ul class="verdict-bullets">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+    `;
+}
+
+function renderBreakdown() {
+    const { inp, res } = lastRvb;
+    const m = (l, v) => `<div class="metric"><span class="metric-label">${l}</span><span class="metric-value">${v}</span></div>`;
+    const isReal = viewBasis === "real";
+
+    document.getElementById("summarySection").innerHTML = `
+        <h3>📊 20-Year Summary</h3>
+        <div class="metric-grid">
+            ${m("Monthly EMI", "₹" + formatINR(res.emi))}
+            ${m("First-Year Maintenance", "₹" + formatINR(res.firstYrMaint))}
+            ${m("Buyer Real Wealth", shortINR(res.buyNetReal))}
+            ${m("Renter Real Wealth", shortINR(res.rentNetReal))}
+            ${m("Buyer Cash Outlay (20 Yrs)", "₹" + formatINR(res.totalBuyerOutlay))}
+            ${m("Total Rent Paid (20 Yrs)", "₹" + formatINR(res.totalRentPaid))}
+        </div>
+    `;
+
+    const milestoneYears = [1, 5, 10, 15, 20].filter(y => y <= inp.tenure);
+    const rows = milestoneYears.map(yr => {
+        const d = res.yearlyData[yr - 1];
+        return `
+            <tr>
+                <td><b>Year ${d.year}</b></td>
+                <td>₹${formatINR(d.annualRent)}</td>
+                <td>${shortINR(isReal ? d.buyReal : d.buyWealth)}</td>
+                <td>${shortINR(isReal ? d.rentReal : d.rentWealth)}</td>
+                <td><b>${shortINR(isReal ? (d.buyReal - d.rentReal) : (d.buyWealth - d.rentWealth))}</b></td>
+            </tr>
+        `;
+    }).join("");
+
+    document.getElementById("comparisonSection").innerHTML = `
+        <h3>⏳ Milestone Comparison (${isReal ? "Today's Purchasing Power" : "Future Rupees"})</h3>
+        <div class="table-scroll">
+            <table class="decision-table">
+                <thead><tr><th>Milestone</th><th>Annual Rent</th><th>Buyer Wealth</th><th>Renter Wealth</th><th>Difference</th></tr></thead>
+                <tbody>${rows}</tbody>
+            </table>
+        </div>
+    `;
+}
+
+function renderChart() {
+    const { res } = lastRvb;
+    const isReal = viewBasis === "real";
+    const labels = res.yearlyData.map(d => "Yr " + d.year);
+    const bData = res.yearlyData.map(d => Math.round(isReal ? d.buyReal : d.buyWealth));
+    const rData = res.yearlyData.map(d => Math.round(isReal ? d.rentReal : d.rentWealth));
+
+    document.getElementById("chartCaption").textContent = `Buyer home equity vs renter liquid portfolio (${isReal ? "today's purchasing power" : "nominal rupees"}).`;
+
+    if (rvbChart) rvbChart.destroy();
+    rvbChart = new Chart(document.getElementById("rvbChart"), {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                { label: "Buyer (Property Net Equity)", data: bData, borderColor: "#4f46e5", backgroundColor: "rgba(79,70,229,0.1)", fill: false, tension: 0.1 },
+                { label: "Renter (Liquid Mutual Funds)", data: rData, borderColor: "#10b981", backgroundColor: "rgba(16,185,129,0.1)", fill: false, tension: 0.1 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: {
+                y: { ticks: { callback: v => "₹" + Number(v).toLocaleString('en-IN') } }
+            }
+        }
+    });
+}
+
+function renderSchedule() {
+    const { res } = lastRvb;
+    const rows = res.yearlyData.map(d => `
+        <tr>
+            <td>${d.year}</td>
+            <td>₹${formatINR(d.annualRent)}</td>
+            <td>₹${formatINR(d.propVal)}</td>
+            <td>₹${formatINR(d.loanBal)}</td>
+            <td>₹${formatINR(d.buyReal)}</td>
+            <td>₹${formatINR(d.rentReal)}</td>
+        </tr>
+    `).join("");
+
+    document.getElementById("scheduleTable").innerHTML = `
+        <table>
+            <thead><tr><th>Year</th><th>Annual Rent (₹)</th><th>Property Value (₹)</th><th>Loan Balance (₹)</th><th>Buy Wealth Real (₹)</th><th>Rent Wealth Real (₹)</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table>
+    `;
+}
+
+function exportRvB() {
+    const inp = readInputs();
+    if (!inp) return;
+    const res = computeRvB(inp);
+    exportWorkbook("rent-vs-buy.xlsx", {
+        Inputs: [["Parameter", "Value"], ["Property Price", inp.price], ["Loan Amount", inp.loan], ["Loan Rate (%)", inp.rate], ["Tenure (Years)", inp.tenure], ["Starting Rent", inp.rent], ["Rent Hike (%)", inp.hike], ["Equity Return (%)", inp.ret]],
+        Summary: [["Decision Metric", "Value"], ["Monthly EMI", res.emi], ["Buyer Real Wealth", res.buyNetReal], ["Renter Real Wealth", res.rentNetReal], ["Net Advantage", res.edgeReal]],
+        Schedule: [["Year", "Annual Rent", "Property Value", "Loan Balance", "Buyer Wealth Real", "Renter Wealth Real"], ...res.yearlyData.map(d => [d.year, d.annualRent, d.propVal, d.loanBal, d.buyReal, d.rentReal])]
+    });
+}
+
+FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", () => setFieldError(id, ""));
+});
+if (typeof bindAmountInWords === "function") {
+    bindAmountInWords("propertyPrice", "propertyPriceWords");
+    bindAmountInWords("loanAmount", "loanAmountWords");
+    bindAmountInWords("startingRent", "startingRentWords");
+}
+calculateRvB();
+</script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
+</body>
+</html>

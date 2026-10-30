@@ -25,12 +25,15 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
      crossorigin="anonymous"></script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="/assets/css/site.css?v=6" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="/assets/js/amount-words.js"></script>
 <script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
 
 <script type="application/ld+json">
 {
@@ -217,6 +220,7 @@ button {
 
         <button type="button" onclick="calculatePlan()">Find my SIP</button>
         <button type="button" class="export-button" onclick="exportPlan()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
     </div>
 
     <div id="verdictCard" class="card verdict-card"></div>
@@ -253,7 +257,34 @@ button {
             <div class="table-container" id="projectionTable"></div>
         </details>
     </div>
+<!-- Static text, present when the page loads, so crawlers and readers see it without running the calculator. -->
+    <div class="learn">
+        <h2>How the Step-Up SIP Goal calculation works</h2>
+        <p>A step-up SIP (also known as a top-up SIP) allows you to automatically increase your monthly mutual fund investment by a set percentage each year. This reflects the reality of household finances: as your career progresses and your earnings increase, your capacity to save and invest grows along with it.</p>
 
+        <h3>Why start with a step-up rather than a flat SIP?</h3>
+        <p>Targeting a large future milestone (such as a child's higher education or retirement) with a fixed monthly SIP often yields an intimidatingly large starting amount. For example, accumulating a corpus equivalent to ₹1 crore in today's money over 20 years with a flat SIP might require ₹25,000 to ₹30,000 per month right from month one.</p>
+        <p>With an annual 10% step-up, you can start with a significantly smaller monthly amount (e.g. ₹11,000 to ₹13,000). As your salary grows with annual increments, the stepped-up instalments absorb a manageable share of your incremental income.</p>
+
+        <h3>How the calculator solves for your starting SIP</h3>
+        <p>Most basic calculators ask you for your starting amount and tell you where you end up. This calculator reverses the problem to solve directly for the monthly amount you need to invest today:</p>
+        <ul>
+            <li><b>Step 1 (Inflate the goal):</b> Your goal is expressed in today's purchasing power. We first calculate the future target corpus: <code>Future Goal = Goal in Today's Money × (1 + inflation)<sup>years</sup></code>.</li>
+            <li><b>Step 2 (Existing corpus growth):</b> Any money already invested in mutual funds is projected forward at your expected return rate to reduce the burden on your monthly SIP.</li>
+            <li><b>Step 3 (Solve the step-up annuity with tax):</b> The calculator solves algebraically for the exact starting monthly contribution, accounting for compounding, annual step-up jumps, and the 12.5% Long-Term Capital Gains (LTCG) tax on equity fund profits above ₹1.25 lakh under Section 198 of the Income-tax Act, 2025.</li>
+        </ul>
+
+        <h3>Choosing a realistic step-up percentage</h3>
+        <p>While a 15% or 20% annual step-up makes the required starting SIP look delightfully small, it can become burdensome later. If you start with ₹15,000 and step up 15% each year, by Year 15 your monthly contribution will exceed ₹1,05,000 per month.</p>
+        <p>For most salaried Indian households, an annual step-up between <b>5% and 10%</b> matches realistic long-term career salary growth without creating cash-flow strain in later years.</p>
+
+        <h3>Related tools and guides</h3>
+        <ul>
+            <li>To project wealth accumulation for a fixed monthly SIP without annual increases, use our <a href="/tools/sip-growth/">SIP Growth Calculator</a>.</li>
+            <li>To understand how market volatility impacts your return assumptions, read <a href="/insights/what-a-sip-return-assumption-means/">What a SIP Return Assumption Really Means</a>.</li>
+            <li>Before committing long-term funds to equity SIPs, ensure you have set aside cash for unexpected expenses: <a href="/insights/emergency-fund-before-investing/">Emergency Fund Before Investing</a>.</li>
+        </ul>
+    </div>
 </div>
 
 <footer class="footer">

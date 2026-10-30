@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Compare prepaying your home loan versus investing surplus cash in mutual funds. See interest saved, early debt-free month, and terminal wealth in today's rupees.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/prepay-vs-invest/">
+<title>Prepay Loan vs Invest Calculator: Surplus Cash Decision | WealthCompare</title>
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="Prepay Loan vs Invest Calculator: Surplus Cash Decision">
+<meta property="og:description" content="Compare prepaying your home loan versus investing surplus cash in mutual funds. See interest saved, early debt-free month, and terminal wealth in today's rupees.">
+<meta property="og:url" content="https://wealthcompare.in/tools/prepay-vs-invest/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Auto Ads (Anchor + Vignette + In-page) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
+     crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="/assets/js/amount-words.js"></script>
+<script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Prepay Loan vs Invest Calculator",
+  "url": "https://wealthcompare.in/tools/prepay-vs-invest/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "isPartOf": { "@type": "WebSite", "name": "WealthCompare", "url": "https://wealthcompare.in/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
+}
+.hero { padding: 30px 20px 40px; text-align: center; color: white; }
+.hero-inner {
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 20px 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+.container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
+.card {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.card-title { background: linear-gradient(135deg,#4f46e5,#3b82f6); color: white; padding: 10px; border-radius: 10px; margin: 0 0 6px; font-size: 20px; }
+.group-title { font-size: 14px; font-weight: 700; color: #3730a3; margin: 16px 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+.inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
+.input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+.input-group input { padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; font-family: inherit; }
+.input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+button {
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5); color: white; border: none;
+    border-radius: 12px; font-size: 15px; cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px; font-family: inherit;
+}
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
+
+.verdict-card {
+    background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.verdict-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0; }
+.mode-toggle { display: inline-flex; border: 1px solid #c7d2fe; border-radius: 999px; overflow: hidden; background: #fff; }
+.mode-toggle button {
+    margin: 0; width: auto; max-width: none; padding: 7px 14px; font-size: 12px; font-weight: 700;
+    background: transparent; color: #3730a3; border-radius: 0;
+}
+.mode-toggle button[aria-pressed="true"] { background: #4f46e5; color: #fff; }
+.verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
+.verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
+.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.verdict-bullets li { font-size: 13px; color: var(--text-primary); padding-left: 20px; position: relative; }
+.verdict-bullets li::before { content: "▸"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; }
+
+.breakdown-details > summary, .nested-details > summary {
+    cursor: pointer; list-style: none; font-weight: 700; color: #3730a3; display: flex; align-items: center; gap: 8px;
+}
+.breakdown-details > summary { padding: 12px 14px; border-radius: 10px; background: var(--surface-muted); font-size: 14px; }
+.breakdown-details > summary::-webkit-details-marker, .nested-details > summary::-webkit-details-marker { display: none; }
+.breakdown-details > summary::before, .nested-details > summary::before { content: "▸"; transition: transform 0.15s ease; }
+.breakdown-details[open] > summary::before, .nested-details[open] > summary::before { transform: rotate(90deg); }
+.breakdown-details > summary:hover { background: #e0e7ff; }
+.breakdown-body { padding-top: 16px; }
+.nested-details { margin-top: 14px; }
+.nested-details > summary { font-size: 14px; padding: 8px 0; }
+.result-section { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 14px; background: #fff; margin-bottom: 16px; }
+.result-section h3 { margin: 0 0 10px; color: #1f2937; font-size: 17px; }
+.group-note { margin: 0 0 8px; font-size: 12px; color: var(--text-muted); }
+.metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.metric { padding: 10px 12px; border-radius: 10px; background: var(--surface-muted); }
+.metric-label { display: block; color: var(--text-muted); font-size: 11px; }
+.metric-value { display: block; margin-top: 3px; color: var(--text-primary); font-size: 14px; font-weight: 700; }
+.decision-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+.decision-table th, .decision-table td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #e0e7ff; }
+.decision-table th:first-child, .decision-table td:first-child { text-align: left; color: var(--text-secondary); }
+.decision-table th { color: #3730a3; font-weight: 700; }
+.decision-table td:not(:first-child) { font-weight: 600; }
+.table-scroll { overflow-x: auto; }
+.advanced-body h4 { margin: 14px 0 6px; font-size: 14px; color: #1f2937; }
+.advanced-body p { font-size: 13px; color: var(--text-secondary); line-height: 1.55; margin: 0 0 10px; }
+.chart-container { background: rgba(255,255,255,0.95); padding: 16px; border-radius: 18px; margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.chart-caption { font-size: 12px; color: var(--text-muted); margin: 0 0 10px; }
+.chart-canvas-wrap { position: relative; height: 300px; width: 100%; }
+@media (min-width: 640px) { .chart-canvas-wrap { height: 380px; } }
+@media (max-width: 420px) { .metric-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+    <a class="brand" href="/" aria-label="WealthCompare home">
+        <img src="/assets/logo.svg" alt="">
+        <span class="brand-name">Wealth<span>Compare</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+        <a href="/#insights">Insights</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>Prepay Loan vs Invest Calculator</h1>
+        <p>Compare the certainty of loan interest savings against the wealth potential of investing surplus cash in mutual funds.</p>
+        <p>See your break-even hurdle rate, early debt-free date, and final wealth in today's purchasing power.</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="card">
+        <h2 class="card-title">📥 Enter Loan & Surplus Details</h2>
+
+        <div class="group-title">1. Your Existing Home Loan</div>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="outstandingLoan">Outstanding loan balance (₹)</label>
+                <input id="outstandingLoan" type="number" inputmode="decimal" min="10000" step="50000" value="10000000">
+                <span id="outstandingLoanWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="outstandingLoanError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="interestRate">Loan interest rate (% per year)</label>
+                <input id="interestRate" type="number" inputmode="decimal" min="1" max="30" step="0.05" value="7.5">
+                <span class="field-error" id="interestRateError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="remainingTenure">Remaining tenure (years)</label>
+                <input id="remainingTenure" type="number" inputmode="numeric" min="1" max="40" step="1" value="20">
+                <span class="field-error" id="remainingTenureError" role="alert"></span>
+            </div>
+        </div>
+
+        <div class="group-title">2. Surplus Cash Available</div>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="lumpSumSurplus">One-time surplus lump sum (₹)</label>
+                <input id="lumpSumSurplus" type="number" inputmode="decimal" min="0" step="25000" value="500000">
+                <span id="lumpSumSurplusWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="lumpSumSurplusError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="lumpMonth">Apply lump sum in month</label>
+                <input id="lumpMonth" type="number" inputmode="numeric" min="1" max="480" step="1" value="12">
+                <span class="input-help">Month 12 = end of year 1</span>
+                <span class="field-error" id="lumpMonthError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="monthlySurplus">Ongoing monthly surplus (₹)</label>
+                <input id="monthlySurplus" type="number" inputmode="decimal" min="0" step="1000" value="10000">
+                <span id="monthlySurplusWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="monthlySurplusError" role="alert"></span>
+            </div>
+        </div>
+
+        <div class="group-title">3. Investment & Economic Assumptions</div>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="expectedReturn">Expected gross return (% p.a.)</label>
+                <input id="expectedReturn" type="number" inputmode="decimal" min="1" max="25" step="0.5" value="12.0">
+                <span class="input-help">Before fund expenses and tax</span>
+                <span class="field-error" id="expectedReturnError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="expenseRatio">Fund expense ratio (TER % p.a.)</label>
+                <input id="expenseRatio" type="number" inputmode="decimal" min="0" max="3" step="0.05" value="0.5">
+                <span class="input-help">Typically 0.3% - 0.8% for direct index/flexicap</span>
+                <span class="field-error" id="expenseRatioError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="inflation">Inflation rate (% p.a.)</label>
+                <input id="inflation" type="number" inputmode="decimal" min="0" max="15" step="0.5" value="6.0">
+                <span class="field-error" id="inflationError" role="alert"></span>
+            </div>
+        </div>
+
+        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+
+        <button type="button" onclick="calculatePVI()">Compare Decisions</button>
+        <button type="button" class="export-button" onclick="exportPVI()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
+    </div>
+
+    <div id="verdictCard" class="card verdict-card"></div>
+
+    <details class="card breakdown-details">
+        <summary>Show the full breakdown (side-by-side comparison, hurdle return, how it works)</summary>
+        <div class="breakdown-body">
+            <div class="result-section" id="summarySection"></div>
+            <div class="result-section" id="comparisonTableSection"></div>
+            <details class="nested-details">
+                <summary>Advanced Read: calculation methodology and tax rules</summary>
+                <div class="advanced-body">
+                    <h4>Path A: Invest the surplus in equity</h4>
+                    <p>Normal loan EMI is paid on schedule every month. The surplus (lump sum and monthly extra) is invested in diversified mutual funds compounding at <code>(grossReturn - expenseRatio)</code>. Capital gains tax (12.5% on gains above ₹1.25 lakh under Section 198) is deducted at the end of tenure.</p>
+                    <h4>Path B: Prepay loan & reduce tenure</h4>
+                    <p>Surplus funds directly reduce loan principal. When the loan closes early, the entire former EMI plus surplus is invested into mutual funds for the remaining months so both paths commit identical cash.</p>
+                    <h4>Path C: Prepay loan & reduce EMI</h4>
+                    <p>Prepayments lower monthly EMI across remaining tenure. The monthly cashflow difference is invested into mutual funds every single month.</p>
+                    <h4>Hurdle rate formula</h4>
+                    <p><code>Gross Hurdle Return = [Loan Rate ÷ (1 - LTCG Tax)] + Expense Ratio</code>. If your expected mutual fund return does not exceed this rate, prepaying is guaranteed to build more wealth.</p>
+                </div>
+            </details>
+        </div>
+    </details>
+
+    <div class="chart-container">
+        <p id="chartCaption" class="chart-caption"></p>
+        <div class="chart-canvas-wrap"><canvas id="pviChart"></canvas></div>
+        <details class="nested-details">
+            <summary>Yearly wealth schedule</summary>
+            <div class="table-container" id="scheduleTable"></div>
+        </details>
+    </div>
+
+    <div class="learn">
+        <h2>Prepaying vs Investing: The Core Principles</h2>
+        <p>When you have surplus cash flow, deciding between prepaying your home loan and investing in equity mutual funds requires balancing <b>guaranteed interest savings</b> against <b>long-term market compounding</b>.</p>
+        <p>Every rupee used to prepay a 7.5% loan gives an immediate, 100% risk-free return of 7.5% after tax. To beat that in mutual funds, after accounting for 12.5% Long-Term Capital Gains (LTCG) tax and fund management fees, your portfolio must achieve a gross return higher than your hurdle rate.</p>
+
+        <h3>Key trade-offs to keep in mind:</h3>
+        <ul>
+            <li><b>Liquidity:</b> Money paid to a lender is locked into property equity and cannot be accessed in an emergency without taking another loan. Mutual funds can be redeemed in two working days.</li>
+            <li><b>Sequence of returns risk:</b> Stock market returns arrive erratically. A bear market right before your loan ends can erase projected investment gains. Loan interest, however, compounds with mathematical certainty.</li>
+            <li><b>The 50/50 approach:</b> If you are torn between peace of mind and mathematical growth, consider directing 50% of surplus to prepayments and 50% to an equity SIP.</li>
+        </ul>
+        <p>For a detailed breakdown with worked numbers, read our guide: <a href="/insights/prepay-loan-vs-invest/">Prepay Loan vs Invest: The Mathematics of Surplus Cash</a>.</p>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. Actual returns and interest rates will vary. Verify figures with your bank or advisor.
+    </div>
+</footer>
+
+<script>
+const SHARE_FIELDS = [
+    { id: "outstandingLoan", param: "loan" },
+    { id: "interestRate", param: "rate" },
+    { id: "remainingTenure", param: "tenure" },
+    { id: "lumpSumSurplus", param: "lump" },
+    { id: "lumpMonth", param: "lumpM" },
+    { id: "monthlySurplus", param: "surplus" },
+    { id: "expectedReturn", param: "return" },
+    { id: "expenseRatio", param: "ter" },
+    { id: "inflation", param: "infl" }
+];
+initShareScenario(SHARE_FIELDS);
+
+const FIELD_IDS = SHARE_FIELDS.map(f => f.id);
+let pviChart = null;
+let lastPvi = null;
+let viewBasis = "real"; // "real" or "nominal"
+
+function formatINR(n) { return Math.round(n).toLocaleString('en-IN'); }
+function shortINR(n) {
+    const abs = Math.abs(n);
+    if (abs >= 1e7) return "₹" + (n / 1e7).toFixed(2) + " crore";
+    if (abs >= 1e5) return "₹" + (n / 1e5).toFixed(2) + " lakh";
+    return "₹" + formatINR(n);
+}
+
+function setFieldError(id, msg) {
+    const el = document.getElementById(id), err = document.getElementById(id + "Error");
+    if (!el || !err) return;
+    const grp = el.closest(".input-group");
+    err.textContent = msg || "";
+    if (grp) grp.classList.toggle("has-error", !!msg);
+    el.setAttribute("aria-invalid", msg ? "true" : "false");
+}
+
+function num(id) { const v = document.getElementById(id).value; return v === "" ? NaN : +v; }
+
+function readInputs() {
+    FIELD_IDS.forEach(id => setFieldError(id, ""));
+    document.getElementById("formError").textContent = "";
+    let ok = true;
+    const fail = (id, m) => { setFieldError(id, m); ok = false; };
+    const loan = num("outstandingLoan"), rate = num("interestRate"), tenure = num("remainingTenure");
+    const lump = num("lumpSumSurplus"), lumpM = num("lumpMonth"), surplus = num("monthlySurplus");
+    const ret = num("expectedReturn"), ter = num("expenseRatio"), infl = num("inflation");
+
+    if (!Number.isFinite(loan) || loan <= 0) fail("outstandingLoan", "Enter loan balance above 0.");
+    if (!Number.isFinite(rate) || rate <= 0 || rate > 30) fail("interestRate", "Rate must be between 1% and 30%.");
+    if (!Number.isInteger(tenure) || tenure < 1 || tenure > 40) fail("remainingTenure", "Tenure must be 1 to 40 years.");
+    if (!Number.isFinite(lump) || lump < 0) fail("lumpSumSurplus", "Enter 0 or positive amount.");
+    if (!Number.isInteger(lumpM) || lumpM < 1 || lumpM > tenure * 12) fail("lumpMonth", "Month must be within loan tenure.");
+    if (!Number.isFinite(surplus) || surplus < 0) fail("monthlySurplus", "Enter 0 or positive amount.");
+    if (!Number.isFinite(ret) || ret <= 0 || ret > 30) fail("expectedReturn", "Return must be between 1% and 30%.");
+    if (!Number.isFinite(ter) || ter < 0 || ter > 5) fail("expenseRatio", "TER must be between 0% and 5%.");
+    if (!Number.isFinite(infl) || infl < 0 || infl > 20) fail("inflation", "Inflation must be between 0% and 20%.");
+
+    if (!ok) {
+        document.getElementById("formError").textContent = "Please fix the highlighted fields.";
+        return null;
+    }
+    return { loan, rate, tenure, lump, lumpM, surplus, ret, ter, infl };
+}
+
+function simulatePVI(inp) {
+    const months = inp.tenure * 12;
+    const r = inp.rate / 1200;
+    const baseEMI = inp.loan * r * Math.pow(1 + r, months) / (Math.pow(1 + r, months) - 1);
+    const netRetM = Math.max(0, inp.ret - inp.ter) / 1200;
+    const ltcgTax = 0.125, ltcgExemp = 125000;
+    const hurdleGross = (inp.rate / (1 - ltcgTax)) + inp.ter;
+
+    // Path A: Invest
+    let invVal = 0, invCost = 0;
+    // Path B: Prepay Reduce Tenure
+    let bBal = inp.loan, bInv = 0, bCost = 0, bInterest = 0, bFreeM = months;
+    // Path C: Prepay Reduce EMI
+    let cBal = inp.loan, cInv = 0, cCost = 0, cInterest = 0;
+
+    const yearlyData = [];
+    let basePaidTotal = 0;
+
+    for (let m = 1; m <= months; m++) {
+        const lumpNow = (m === inp.lumpM ? inp.lump : 0);
+        const surplusNow = inp.surplus + lumpNow;
+
+        // Path A:
+        invVal = invVal * (1 + netRetM) + surplusNow;
+        invCost += surplusNow;
+
+        // Path B:
+        const bInt = bBal > 0 ? bBal * r : 0;
+        bInterest += bInt;
+        const bBasePay = bBal > 0 ? Math.min(baseEMI, bBal + bInt) : 0;
+        const bPrepay = bBal > 0 ? Math.min(Math.max(0, bBal + bInt - bBasePay), surplusNow) : 0;
+        bBal = Math.max(0, bBal + bInt - bBasePay - bPrepay);
+        if (bBal === 0 && bFreeM === months) bFreeM = m;
+        bInv *= (1 + netRetM);
+        const bActualOut = bBasePay + bPrepay;
+        const bSurplusInvest = Math.max(0, baseEMI + surplusNow - bActualOut);
+        bInv += bSurplusInvest;
+        bCost += bSurplusInvest;
+
+        // Path C:
+        const cInt = cBal > 0 ? cBal * r : 0;
+        cInterest += cInt;
+        const remM = months - m + 1;
+        const cRecalcEMI = cBal > 0 ? cBal * r * Math.pow(1 + r, remM) / (Math.pow(1 + r, remM) - 1) : 0;
+        const cPay = cBal > 0 ? Math.min(cRecalcEMI, cBal + cInt) : 0;
+        const cPrepay = cBal > 0 ? Math.min(Math.max(0, cBal + cInt - cPay), surplusNow) : 0;
+        cBal = Math.max(0, cBal + cInt - cPay - cPrepay);
+        cInv *= (1 + netRetM);
+        const cActualOut = cPay + cPrepay;
+        const cSurplusInvest = Math.max(0, baseEMI + surplusNow - cActualOut);
+        cInv += cSurplusInvest;
+        cCost += cSurplusInvest;
+
+        if (m % 12 === 0) {
+            const y = m / 12;
+            const defl = Math.pow(1 + inp.infl / 100, y);
+            const aTax = Math.max(0, invVal - invCost - ltcgExemp) * ltcgTax;
+            const bTax = Math.max(0, bInv - bCost - ltcgExemp) * ltcgTax;
+            const cTax = Math.max(0, cInv - cCost - ltcgExemp) * ltcgTax;
+
+            yearlyData.push({
+                year: y,
+                defl,
+                investNominal: invVal - aTax,
+                investReal: (invVal - aTax) / defl,
+                tenureBal: bBal,
+                tenureNominal: bInv - bTax,
+                tenureReal: (bInv - bTax) / defl,
+                emiBal: cBal,
+                emiNominal: cInv - cTax,
+                emiReal: (cInv - cTax) / defl
+            });
+        }
+    }
+
+    const aTaxFinal = Math.max(0, invVal - invCost - ltcgExemp) * ltcgTax;
+    const aPostTax = invVal - aTaxFinal;
+    const bTaxFinal = Math.max(0, bInv - bCost - ltcgExemp) * ltcgTax;
+    const bPostTax = bInv - bTaxFinal;
+    const cTaxFinal = Math.max(0, cInv - cCost - ltcgExemp) * ltcgTax;
+    const cPostTax = cInv - cTaxFinal;
+
+    const normalTotalInterest = (baseEMI * months) - inp.loan;
+    const defl20 = Math.pow(1 + inp.infl / 100, inp.tenure);
+
+    return {
+        baseEMI,
+        hurdleGross,
+        bFreeM,
+        tenureSavedInterest: normalTotalInterest - bInterest,
+        emiSavedInterest: normalTotalInterest - cInterest,
+        pathA: { nominal: aPostTax, real: aPostTax / defl20 },
+        pathB: { nominal: bPostTax, real: bPostTax / defl20 },
+        pathC: { nominal: cPostTax, real: cPostTax / defl20 },
+        yearlyData
+    };
+}
+
+function calculatePVI() {
+    const inp = readInputs();
+    if (!inp) return;
+    const res = simulatePVI(inp);
+    lastPvi = { inp, res };
+    renderVerdict();
+    renderBreakdown();
+    renderChart();
+    renderSchedule();
+}
+
+function setViewBasis(mode) {
+    viewBasis = mode;
+    document.getElementById("btnReal").setAttribute("aria-pressed", mode === "real");
+    document.getElementById("btnNominal").setAttribute("aria-pressed", mode === "nominal");
+    renderVerdict();
+    renderBreakdown();
+    renderChart();
+}
+
+function renderVerdict() {
+    const { inp, res } = lastPvi;
+    const isReal = viewBasis === "real";
+    const aVal = isReal ? res.pathA.real : res.pathA.nominal;
+    const bVal = isReal ? res.pathB.real : res.pathB.nominal;
+    const cVal = isReal ? res.pathC.real : res.pathC.nominal;
+    const bestPrepay = Math.max(bVal, cVal);
+    const edge = aVal - bestPrepay;
+
+    const freeYrs = (res.bFreeM / 12).toFixed(1);
+    const savedYrs = (inp.tenure - res.bFreeM / 12).toFixed(1);
+
+    let headline = "";
+    if (edge > 0) {
+        headline = `Investing leads by about ${shortINR(edge)} ${isReal ? "in today's rupees" : "nominally"}.`;
+    } else {
+        headline = `Prepayment leads by about ${shortINR(Math.abs(edge))} ${isReal ? "in today's rupees" : "nominally"}.`;
+    }
+
+    const bullets = [
+        `<b>Path A (Invest in SIP):</b> Accumulates <b>${shortINR(aVal)}</b> after tax. Your loan runs full term (${inp.tenure} years).`,
+        `<b>Path B (Prepay & Reduce Tenure):</b> Makes you completely debt-free in <b>Month ${res.bFreeM}</b> (${freeYrs} years), saving <b>${savedYrs} years of debt</b> and ₹${formatINR(res.tenureSavedInterest)} in interest. Terminal wealth reaches <b>${shortINR(bVal)}</b>.`,
+        `<b>Path C (Prepay & Reduce EMI):</b> Lowers monthly EMI immediately; surplus builds <b>${shortINR(cVal)}</b> in wealth.`,
+        `<b>Gross hurdle return:</b> Your investments must earn at least <b>${res.hurdleGross.toFixed(2)}% per year</b> to beat the risk-free saving of loan prepayment.`
+    ];
+
+    document.getElementById("verdictCard").innerHTML = `
+        <div class="verdict-top">
+            <span class="verdict-eyebrow">Your Decision Result</span>
+            <div class="mode-toggle" role="group" aria-label="Show real or nominal values">
+                <button type="button" id="btnReal" aria-pressed="${isReal}" onclick="setViewBasis('real')">Today's rupees</button>
+                <button type="button" id="btnNominal" aria-pressed="${!isReal}" onclick="setViewBasis('nominal')">Future rupees</button>
+            </div>
+        </div>
+        <p class="verdict-headline">${headline}</p>
+        <p class="verdict-sub">Normal monthly EMI is ₹${formatINR(res.baseEMI)}. All 3 paths commit the identical monthly surplus.</p>
+        <ul class="verdict-bullets">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+    `;
+}
+
+function renderBreakdown() {
+    const { inp, res } = lastPvi;
+    const m = (l, v) => `<div class="metric"><span class="metric-label">${l}</span><span class="metric-value">${v}</span></div>`;
+    
+    document.getElementById("summarySection").innerHTML = `
+        <h3>📊 Summary Metrics</h3>
+        <div class="metric-grid">
+            ${m("Normal Monthly EMI", "₹" + formatINR(res.baseEMI))}
+            ${m("Gross Hurdle Return", res.hurdleGross.toFixed(2) + "% p.a.")}
+            ${m("Path A Terminal Wealth (Real)", shortINR(res.pathA.real))}
+            ${m("Path B Terminal Wealth (Real)", shortINR(res.pathB.real))}
+            ${m("Path B Debt-Free Date", "Month " + res.bFreeM + " (" + (res.bFreeM / 12).toFixed(1) + " yrs)")}
+            ${m("Path B Interest Saved", "₹" + formatINR(res.tenureSavedInterest))}
+        </div>
+    `;
+
+    const isReal = viewBasis === "real";
+    document.getElementById("comparisonTableSection").innerHTML = `
+        <h3>⚖️ Three Paths Compared (${isReal ? "Today's Purchasing Power" : "Future Nominal Rupees"})</h3>
+        <div class="table-scroll">
+            <table class="decision-table">
+                <thead><tr><th>Strategy</th><th>Debt-Free Date</th><th>Interest Saved</th><th>Terminal Liquid Wealth</th></tr></thead>
+                <tbody>
+                    <tr><td><b>Path A: Invest Surplus in SIP</b></td><td>Year ${inp.tenure}</td><td>₹0</td><td>${shortINR(isReal ? res.pathA.real : res.pathA.nominal)}</td></tr>
+                    <tr><td><b>Path B: Prepay (Reduce Tenure)</b></td><td>Month ${res.bFreeM} (${(res.bFreeM/12).toFixed(1)} yrs)</td><td>₹${formatINR(res.tenureSavedInterest)}</td><td>${shortINR(isReal ? res.pathB.real : res.pathB.nominal)}</td></tr>
+                    <tr><td><b>Path C: Prepay (Reduce EMI)</b></td><td>Year ${inp.tenure}</td><td>₹${formatINR(res.emiSavedInterest)}</td><td>${shortINR(isReal ? res.pathC.real : res.pathC.nominal)}</td></tr>
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+function renderChart() {
+    const { res } = lastPvi;
+    const isReal = viewBasis === "real";
+    const labels = res.yearlyData.map(d => "Yr " + d.year);
+    const aData = res.yearlyData.map(d => Math.round(isReal ? d.investReal : d.investNominal));
+    const bData = res.yearlyData.map(d => Math.round(isReal ? d.tenureReal : d.tenureNominal));
+    const cData = res.yearlyData.map(d => Math.round(isReal ? d.emiReal : d.emiNominal));
+
+    document.getElementById("chartCaption").textContent = `Showing liquid portfolio wealth growth over time (${isReal ? "adjusted for inflation" : "nominal rupees"}).`;
+
+    if (pviChart) pviChart.destroy();
+    pviChart = new Chart(document.getElementById("pviChart"), {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                { label: "Path A: Invest Surplus", data: aData, borderColor: "#4f46e5", backgroundColor: "rgba(79,70,229,0.1)", fill: false, tension: 0.1 },
+                { label: "Path B: Prepay (Reduce Tenure)", data: bData, borderColor: "#10b981", backgroundColor: "rgba(16,185,129,0.1)", fill: false, tension: 0.1 },
+                { label: "Path C: Prepay (Reduce EMI)", data: cData, borderColor: "#f59e0b", backgroundColor: "rgba(245,158,11,0.1)", fill: false, tension: 0.1 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: {
+                y: { ticks: { callback: v => "₹" + Number(v).toLocaleString('en-IN') } }
+            }
+        }
+    });
+}
+
+function renderSchedule() {
+    const { res } = lastPvi;
+    const rows = res.yearlyData.map(d => `
+        <tr>
+            <td>${d.year}</td>
+            <td>₹${formatINR(d.tenureBal)}</td>
+            <td>₹${formatINR(d.emiBal)}</td>
+            <td>₹${formatINR(d.investReal)}</td>
+            <td>₹${formatINR(d.tenureReal)}</td>
+            <td>₹${formatINR(d.emiReal)}</td>
+        </tr>
+    `).join("");
+
+    document.getElementById("scheduleTable").innerHTML = `
+        <table>
+            <thead><tr><th>Year</th><th>Path B Loan Bal (₹)</th><th>Path C Loan Bal (₹)</th><th>Path A Wealth (Real)</th><th>Path B Wealth (Real)</th><th>Path C Wealth (Real)</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table>
+    `;
+}
+
+function exportPVI() {
+    const inp = readInputs();
+    if (!inp) return;
+    const res = simulatePVI(inp);
+    exportWorkbook("prepay-vs-invest.xlsx", {
+        Inputs: [["Parameter", "Value"], ["Outstanding Loan", inp.loan], ["Interest Rate (%)", inp.rate], ["Tenure (Years)", inp.tenure], ["Lump Sum Surplus", inp.lump], ["Monthly Surplus", inp.surplus], ["Expected Return (%)", inp.ret]],
+        Summary: [["Decision Metric", "Value"], ["Normal Monthly EMI", res.baseEMI], ["Gross Hurdle Return", res.hurdleGross], ["Path B Loan-Free Month", res.bFreeM], ["Path A Terminal Wealth (Real)", res.pathA.real], ["Path B Terminal Wealth (Real)", res.pathB.real]],
+        Schedule: [["Year", "Path B Loan Balance", "Path C Loan Balance", "Path A Real Wealth", "Path B Real Wealth", "Path C Real Wealth"], ...res.yearlyData.map(d => [d.year, d.tenureBal, d.emiBal, d.investReal, d.tenureReal, d.emiReal])]
+    });
+}
+
+FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", () => setFieldError(id, ""));
+});
+if (typeof bindAmountInWords === "function") {
+    bindAmountInWords("outstandingLoan", "outstandingLoanWords");
+    bindAmountInWords("lumpSumSurplus", "lumpSumSurplusWords");
+    bindAmountInWords("monthlySurplus", "monthlySurplusWords");
+}
+calculatePVI();
+</script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
+</body>
+</html>

@@ -25,6 +25,9 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
      crossorigin="anonymous"></script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="/assets/css/site.css?v=6" rel="stylesheet">
 
@@ -110,6 +113,20 @@ body {
     margin: 1.8em 0 0; padding: 12px 16px; border-radius: 10px; font-size: 13px;
     background: var(--surface-muted); border: 1px solid var(--border-subtle); color: var(--text-secondary);
 }
+.keep-reading {
+    margin: 2.4em 0 0; padding: 0; border-top: 1px solid var(--border-subtle);
+}
+.keep-reading h2 { font-size: 18px; margin: 1.2em 0 0.6em; }
+.keep-reading-list { list-style: none; padding: 0; margin: 0; }
+.keep-reading-list li { margin-bottom: 10px; }
+.keep-reading-list a {
+    display: block; padding: 12px 16px; border-radius: 12px;
+    background: var(--surface-muted); border: 1px solid var(--border-subtle);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.keep-reading-list a:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+.keep-reading-title { font-weight: 700; font-size: 14px; color: var(--brand-ink); margin-bottom: 3px; }
+.keep-reading-desc { font-size: 13px; color: var(--text-muted); font-weight: 400; }
 @media (max-width: 520px) {
     .article table { font-size: 13px; }
     .article th, .article td { padding: 8px 9px; }
@@ -252,6 +269,24 @@ body {
 </div></details>
 </section>
 <p class="disclaimer"><strong>Not personalised advice.</strong> WealthCompare is an educational resource. The figures in the examples are illustrative, and tax rules change, so confirm current rules or speak to a qualified tax professional before acting. This article does not recommend any fund, stock or lender.</p>
+
+<div class="keep-reading">
+    <h2>Keep reading</h2>
+    <ul class="keep-reading-list">
+        <li><a href="/insights/emergency-fund-before-investing/">
+            <div class="keep-reading-title">Emergency Fund Before Investing</div>
+            <div class="keep-reading-desc">Before you start a SIP, how much cash should you keep aside, and where? A worked example shows what a savings account, an FD and a liquid fund earn after tax.</div>
+        </a></li>
+        <li><a href="/insights/loan-vs-sip-hidden-tradeoffs/">
+            <div class="keep-reading-title">Loan vs SIP: The Hidden Trade-offs</div>
+            <div class="keep-reading-desc">A home loan gets you a house, but you also pay interest and upkeep. A SIP just grows in the background. Here is how the two compare, and what a calculator cannot tell you.</div>
+        </a></li>
+        <li><a href="/insights/how-an-emi-splits-between-interest-and-principal/">
+            <div class="keep-reading-title">How Your EMI Splits Between Interest and Principal</div>
+            <div class="keep-reading-desc">In the first years of a loan, most of every EMI is interest. One worked example, month by month, shows why and what it means for prepaying early.</div>
+        </a></li>
+    </ul>
+</div>
 </article>
 </div>
 

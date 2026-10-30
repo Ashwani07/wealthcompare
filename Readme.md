@@ -31,7 +31,7 @@ Last updated: 12 October 2026.
 ├── favicon.ico
 ├── build_footers.py            Syncs the footer into every page (see below)
 ├── footer-template.html        The footer, with a {{DISCLAIMER}} placeholder
-├── WealthCompare Excel Calculator.xlsx   The model. Source of truth for the maths
+├── WealthCompare Excel Calculator.xlsx   Offline development reference only; not served on the website.
 ├── README.md                   This file
 ├── calculator-ui-notes.md      How the tool pages are built: page pattern, tax rules, validation, ads, chart sizing
 ├── paid-features.txt           Monetization status, options and the feature backlog (nothing here is decided)
@@ -67,6 +67,9 @@ Last updated: 12 October 2026.
 | SIP Growth | `/tools/sip-growth/` | What a SIP grows to, before and after tax, in today's rupees | Live. Reworked, matches the workbook |
 | Loan Prepayment | `/tools/loan-prepayment/` | Lump sums, monthly extra, rate change: effect on tenure and interest | Live. Matches the workbook |
 | Step-Up SIP Goal | `/tools/step-up-sip/` | Starting SIP for a goal when you raise it each year | Live. Matches the workbook |
+| Prepay vs Invest | `/tools/prepay-vs-invest/` | Prepay loan vs invest surplus in equity SIP: hurdle rate, early debt-free month, terminal wealth | Live. Matches the workbook |
+| Expense Ratio Impact | `/tools/expense-ratio-impact/` | Direct vs Regular mutual funds: compounding cost of distributor commissions | Live. Matches the workbook |
+| Rent vs Buy | `/tools/rent-vs-buy/` | Buy with home loan vs rent and invest down payment + monthly difference in mutual funds | Live. Matches the workbook |
 
 Workbook sheets not yet converted to web pages: Prepay vs Invest, Retirement SWP, Emergency Fund, Net Worth & Cash Flow, Term Insurance, Asset Allocation, Goal Dashboard, Expense Ratio Impact, Rent vs Buy (plus its Sensitivity sheet). Rent vs Buy and Expense Ratio Impact had a lighter review than the others. Re-verify them before converting.
 
@@ -80,14 +83,18 @@ All tools follow one layout: verdict first, a collapsed full breakdown, an "Adva
 | Loan vs SIP: The Hidden Trade-offs | `/insights/loan-vs-sip-hidden-tradeoffs/` |
 | What a SIP Return Assumption Really Means | `/insights/what-a-sip-return-assumption-means/` |
 | Reduce EMI or Reduce Tenure After a Prepayment? | `/insights/reduce-emi-or-reduce-tenure-after-prepayment/` |
+| How Your EMI Splits Between Interest and Principal | /insights/how-an-emi-splits-between-interest-and-principal/ |
+| Prepay Loan vs Invest: The Mathematics of Surplus Cash | /insights/prepay-loan-vs-invest/ |
+| Direct vs Regular Mutual Funds: How a 1% Fee Costs ₹23 Lakh | /insights/direct-vs-regular-mutual-fund-expense-ratio/ |
 
-Planned: how an EMI splits between interest and principal; real vs nominal wealth; prepay vs invest.
+| Rent vs Buy in India: Why the 30x Rule of Thumb is Broken | /insights/rent-vs-buy-india-wealth-comparison/ |
+Planned: real vs nominal wealth.
 
 ---
 
 ## The workbook is the source of truth
 
-`WealthCompare Excel Calculator.xlsx` holds the model. Each web tool must give the same numbers as its sheet.
+WealthCompare Excel Calculator.xlsx is strictly an offline mathematical reference and source of truth for development; it is never linked or served directly to users. Each web tool runs client-side JavaScript that independently matches its sheet.
 
 - Defaults and shared assumptions (inflation, return, tax rate, exemption, loan rate, property tax, selling cost, LTV bands) sit on the **Common Assumptions** sheet.
 - Read `calculator-ui-notes.md` before building a tool. It records the page pattern and the reasons behind each convention.

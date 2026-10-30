@@ -25,12 +25,15 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
      crossorigin="anonymous"></script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="/assets/css/site.css?v=6" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="/assets/js/amount-words.js"></script>
 <script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
 
 <script type="application/ld+json">
 {
@@ -287,6 +290,7 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 
         <button type="button" onclick="calculate()">See my savings</button>
         <button type="button" class="export-button" onclick="exportPrepayment()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
     </div>
 
     <!-- Verdict: the headline answer, always visible -->
@@ -339,6 +343,34 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
             <summary>Yearly schedule for the scenario selected above</summary>
             <div class="table-container" id="scheduleTable"></div>
         </details>
+    </div>
+
+    <!-- Static text, present when the page loads, so crawlers and readers see it without running the calculator. -->
+    <div class="learn">
+        <h2>How loan prepayments reduce interest</h2>
+        <p>A loan prepayment is any payment made toward your loan principal above and beyond your scheduled monthly EMI. Because interest in reducing-balance loans is calculated each month on the remaining balance, prepaying even a small amount immediately lowers every subsequent month's interest charge.</p>
+
+        <h3>Reduce EMI vs Reduce Tenure: Which should you pick?</h3>
+        <p>When you make a lump-sum prepayment, Indian banks typically ask whether you want to reduce your monthly EMI or reduce your loan tenure:</p>
+        <ul>
+            <li><b>Reduce tenure (Keep EMI constant):</b> You keep paying your existing EMI, and the loan closes early. This choice saves the maximum possible interest because your high monthly payments rapidly crush the remaining principal balance.</li>
+            <li><b>Reduce EMI (Keep tenure constant):</b> The bank recalculates your EMI to a smaller monthly amount spread across the remaining months. This gives immediate relief to your monthly household budget, but saves significantly less total interest over the life of the loan.</li>
+        </ul>
+        <p>For a detailed side-by-side comparison with rupee numbers, read our article: <a href="/insights/reduce-emi-or-reduce-tenure-after-prepayment/">Reduce EMI or Reduce Tenure After a Prepayment?</a></p>
+
+        <h3>Why early prepayment matters most</h3>
+        <p>During the first few years of a long-term home loan, 70% to 80% of every EMI goes toward paying interest, and only a tiny sliver reduces the principal. Prepaying ₹1 lakh in Year 2 can save ₹2 lakh to ₹3 lakh in total interest over a 20-year loan, whereas prepaying the same ₹1 lakh in Year 17 saves only a few thousand rupees.</p>
+        <p>To understand why this happens, see our breakdown on <a href="/insights/how-an-emi-splits-between-interest-and-principal/">How Your EMI Splits Between Interest and Principal</a>.</p>
+
+        <h3>Rules on pre-payment charges</h3>
+        <p>Under Reserve Bank of India (RBI) guidelines, banks and housing finance companies (HFCs) are strictly prohibited from charging prepayment penalties or foreclosure charges on floating-rate term loans granted to individual borrowers for non-business purposes. Always obtain a written revised amortization schedule and balance confirmation letter from your lender after making any prepayment.</p>
+
+        <h3>Things to consider before prepaying</h3>
+        <ul>
+            <li><b>Keep your emergency fund intact:</b> Money paid to a lender cannot be easily withdrawn if you face unexpected medical emergencies or job disruption. Build 6 months of expenses in liquid funds before making large prepayments. See our guide on <a href="/insights/emergency-fund-before-investing/">Emergency Fund Before Investing</a>.</li>
+            <li><b>Tax benefits under Section 24 and Section 80C:</b> If you claim tax deductions on home loan interest under the old tax regime, prepaying reduces the interest paid, which may affect your deduction. Under the new tax regime, interest deductions on self-occupied properties are not available.</li>
+            <li><b>Compare with loan EMI:</b> To check your baseline loan repayment schedule before planning prepayments, visit our <a href="/tools/emi-calculator/">EMI Calculator</a>.</li>
+        </ul>
     </div>
 
 </div>

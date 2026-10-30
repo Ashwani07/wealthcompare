@@ -25,12 +25,15 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
      crossorigin="anonymous"></script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="/assets/css/site.css?v=6" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="/assets/js/amount-words.js"></script>
 <script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
 
 <script type="application/ld+json">
 {
@@ -195,6 +198,7 @@ button {
 
         <button type="button" onclick="calculateEMI()">Calculate my EMI</button>
         <button type="button" class="export-button" onclick="exportEMI()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
     </div>
 
     <div id="verdictCard" class="card verdict-card"></div>

@@ -25,12 +25,15 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
      crossorigin="anonymous"></script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="/assets/css/site.css?v=6" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="/assets/js/amount-words.js"></script>
 <script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
 
 <script type="application/ld+json">
 {
@@ -198,6 +201,7 @@ button {
 
         <button type="button" onclick="calculateSIP()">Show my SIP</button>
         <button type="button" class="export-button" onclick="exportSIP()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
     </div>
 
     <div id="verdictCard" class="card verdict-card"></div>
@@ -230,6 +234,34 @@ button {
             <summary>Year-by-year table</summary>
             <div class="table-container" id="projectionTable"></div>
         </details>
+    </div>
+
+    <!-- Static text, present when the page loads, so crawlers and readers see it without running the calculator. -->
+    <div class="learn">
+        <h2>How SIP growth is worked out</h2>
+        <p>A systematic investment plan (SIP) allows you to invest a fixed amount regularly into mutual funds. The monthly contributions purchase fund units at different market levels (rupee-cost averaging), and compound over the investment horizon.</p>
+        <p>The standard future value formula for month-end contributions is:</p>
+        <div class="formula">FV = P × [ (1 + r)<sup>n</sup> − 1 ] ÷ r + LumpSum × (1 + r)<sup>n</sup></div>
+        <p>Here, P is your monthly instalment, r is the monthly interest rate (annual return divided by 12 and by 100), and n is the total number of months.</p>
+
+        <h3>The effect of inflation: Future rupees vs today's rupees</h3>
+        <p>Over long periods, inflation erodes purchasing power. A maturity corpus of ₹50 lakh in 20 years will not buy what ₹50 lakh buys today. At 6% annual inflation, prices roughly double every 12 years (Rule of 72).</p>
+        <p>This calculator deflates the nominal maturity corpus back to today's purchasing power using your chosen inflation assumption:</p>
+        <div class="formula">Purchasing power in today's rupees = Maturity corpus ÷ (1 + inflation)<sup>years</sup></div>
+        <p>Reviewing the inflation-adjusted number ensures you do not set an ambitious financial goal in nominal terms that falls short in real goods and services.</p>
+
+        <h3>Taxes on mutual fund returns</h3>
+        <p>Gains from equity-oriented mutual funds (funds holding at least 65% in domestic equities) are taxed at redemption under the Income-tax Act, 2025:</p>
+        <ul>
+            <li><b>Long-Term Capital Gains (LTCG):</b> Units held for more than 12 months qualify as long-term. Under Section 198 (previously Section 112A of the 1961 Act), long-term capital gains exceeding ₹1,25,000 across all equity investments in a financial year are taxed at 12.5%. The first ₹1.25 lakh of profit is exempt.</li>
+            <li><b>Short-Term Capital Gains (STCG):</b> Units held for 12 months or less are taxed at 20% under Section 196. In a monthly SIP, every single instalment has its own 12-month clock, meaning instalments paid in the final year are subject to short-term taxation if redeemed immediately.</li>
+        </ul>
+
+        <h3>Common questions</h3>
+        <p><b>Is the expected return guaranteed?</b> No. Mutual fund investments are subject to market risks. An assumed rate such as 11% or 12% is a steady-state mathematical assumption for planning, not a forecast. In reality, equity returns arrive erratically, with periods of flat or negative returns followed by sharp recoveries.</p>
+        <p><b>What return should I assume?</b> For long-term Indian broad-market equity funds (10+ years), many conservative planners use between 10% and 12% nominal return. The Association of Mutual Funds in India (AMFI) caps calculator illustrations for fund houses between 2% and 13%. For an in-depth explanation, read our guide on <a href="/insights/what-a-sip-return-assumption-means/">What a SIP Return Assumption Really Means</a>.</p>
+        <p><b>Can I increase my SIP each year?</b> If your income rises annually, a step-up SIP allows you to start smaller and raise your monthly investment by a fixed percentage each year. See the <a href="/tools/step-up-sip/">Step-Up SIP Goal Calculator</a> to plan a target corpus with annual step-ups.</p>
+        <p><b>Should I build an emergency fund before starting an SIP?</b> Yes. Because equity markets are volatile, an unexpected emergency during a market dip could force you to redeem at a loss. Read our guide on <a href="/insights/emergency-fund-before-investing/">Emergency Fund Before Investing</a> to see how much cash to keep in safe, liquid instruments first.</p>
     </div>
 
 </div>

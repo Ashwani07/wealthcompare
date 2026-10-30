@@ -25,6 +25,12 @@ PAGES = {
         "This tool is for educational illustration only. Verify figures with your bank before making a decision.",
     "tools/loan-vs-sip/index.html":
         "This tool is for educational illustration only. It excludes stamp duty, registration and brokerage. Verify figures with your bank or advisor.",
+    "tools/prepay-vs-invest/index.html":
+        "This tool is for educational illustration only. Actual returns and interest rates will vary. Verify figures with your bank or advisor.",
+    "tools/expense-ratio-impact/index.html":
+        "This tool is for educational illustration only. Expense ratios and market returns will vary. Check scheme information documents before investing.",
+    "tools/rent-vs-buy/index.html":
+        "This tool is for educational illustration only. Real estate and mutual fund returns vary. Verify figures with your advisor before acting.",
     "tools/loan-prepayment/index.html":
         "This tool is for educational illustration only. It excludes prepayment charges, fees and tax benefits. Confirm the revised schedule with your lender.",
     "tools/step-up-sip/index.html":
@@ -38,6 +44,14 @@ PAGES = {
     "insights/reduce-emi-or-reduce-tenure-after-prepayment/index.html":
         "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
     "insights/how-an-emi-splits-between-interest-and-principal/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "insights/loan-vs-sip-hidden-tradeoffs/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "insights/prepay-loan-vs-invest/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "insights/direct-vs-regular-mutual-fund-expense-ratio/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "insights/rent-vs-buy-india-wealth-comparison/index.html":
         "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
     "about/index.html": None,
     "privacy-policy/index.html": None,

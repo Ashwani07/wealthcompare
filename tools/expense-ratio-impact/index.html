@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Calculate how much wealth you lose to distributor commissions between Direct and Regular mutual funds. See 5 to 30 year compounding impact in today's rupees.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/expense-ratio-impact/">
+<title>Mutual Fund Expense Ratio Calculator: Direct vs Regular | WealthCompare</title>
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="Mutual Fund Expense Ratio Calculator: Direct vs Regular">
+<meta property="og:description" content="Calculate how much wealth you lose to distributor commissions between Direct and Regular mutual funds. See 5 to 30 year compounding impact in today's rupees.">
+<meta property="og:url" content="https://wealthcompare.in/tools/expense-ratio-impact/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Auto Ads (Anchor + Vignette + In-page) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
+     crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="/assets/js/amount-words.js"></script>
+<script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Mutual Fund Expense Ratio Calculator",
+  "url": "https://wealthcompare.in/tools/expense-ratio-impact/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "isPartOf": { "@type": "WebSite", "name": "WealthCompare", "url": "https://wealthcompare.in/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
+}
+.hero { padding: 30px 20px 40px; text-align: center; color: white; }
+.hero-inner {
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 20px 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+.container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
+.card {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.card-title { background: linear-gradient(135deg,#4f46e5,#3b82f6); color: white; padding: 10px; border-radius: 10px; margin: 0 0 6px; font-size: 20px; }
+.inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
+.input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+.input-group input { padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; font-family: inherit; }
+.input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+button {
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5); color: white; border: none;
+    border-radius: 12px; font-size: 15px; cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px; font-family: inherit;
+}
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
+
+.verdict-card {
+    background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.verdict-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0; }
+.mode-toggle { display: inline-flex; border: 1px solid #c7d2fe; border-radius: 999px; overflow: hidden; background: #fff; }
+.mode-toggle button {
+    margin: 0; width: auto; max-width: none; padding: 7px 14px; font-size: 12px; font-weight: 700;
+    background: transparent; color: #3730a3; border-radius: 0;
+}
+.mode-toggle button[aria-pressed="true"] { background: #4f46e5; color: #fff; }
+.verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
+.verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
+.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.verdict-bullets li { font-size: 13px; color: var(--text-primary); padding-left: 20px; position: relative; }
+.verdict-bullets li::before { content: "▸"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; }
+
+.breakdown-details > summary, .nested-details > summary {
+    cursor: pointer; list-style: none; font-weight: 700; color: #3730a3; display: flex; align-items: center; gap: 8px;
+}
+.breakdown-details > summary { padding: 12px 14px; border-radius: 10px; background: var(--surface-muted); font-size: 14px; }
+.breakdown-details > summary::-webkit-details-marker, .nested-details > summary::-webkit-details-marker { display: none; }
+.breakdown-details > summary::before, .nested-details > summary::before { content: "▸"; transition: transform 0.15s ease; }
+.breakdown-details[open] > summary::before, .nested-details[open] > summary::before { transform: rotate(90deg); }
+.breakdown-details > summary:hover { background: #e0e7ff; }
+.breakdown-body { padding-top: 16px; }
+.nested-details { margin-top: 14px; }
+.nested-details > summary { font-size: 14px; padding: 8px 0; }
+.result-section { padding: 16px; border: 1px solid var(--border-subtle); border-radius: 14px; background: #fff; margin-bottom: 16px; }
+.result-section h3 { margin: 0 0 10px; color: #1f2937; font-size: 17px; }
+.metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.metric { padding: 10px 12px; border-radius: 10px; background: var(--surface-muted); }
+.metric-label { display: block; color: var(--text-muted); font-size: 11px; }
+.metric-value { display: block; margin-top: 3px; color: var(--text-primary); font-size: 14px; font-weight: 700; }
+.decision-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+.decision-table th, .decision-table td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #e0e7ff; }
+.decision-table th:first-child, .decision-table td:first-child { text-align: left; color: var(--text-secondary); }
+.decision-table th { color: #3730a3; font-weight: 700; }
+.decision-table td:not(:first-child) { font-weight: 600; }
+.table-scroll { overflow-x: auto; }
+.chart-container { background: rgba(255,255,255,0.95); padding: 16px; border-radius: 18px; margin-top: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.chart-caption { font-size: 12px; color: var(--text-muted); margin: 0 0 10px; }
+.chart-canvas-wrap { position: relative; height: 300px; width: 100%; }
+@media (min-width: 640px) { .chart-canvas-wrap { height: 380px; } }
+@media (max-width: 420px) { .metric-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+    <a class="brand" href="/" aria-label="WealthCompare home">
+        <img src="/assets/logo.svg" alt="">
+        <span class="brand-name">Wealth<span>Compare</span></span>
+    </a>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a href="/">Home</a>
+        <a href="/#tools">Tools</a>
+        <a href="/#insights">Insights</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>Mutual Fund Expense Ratio Calculator</h1>
+        <p>See exactly how much wealth is lost to distributor commissions between Direct and Regular mutual funds.</p>
+        <p>Because fees are deducted from cumulative capital, a 1% fee difference robs 20% to 30% of your long-term profits.</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="card">
+        <h2 class="card-title">📥 Enter Investment & Fee Details</h2>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="monthlySIP">Monthly SIP amount (₹)</label>
+                <input id="monthlySIP" type="number" inputmode="decimal" min="500" step="1000" value="20000">
+                <span id="monthlySIPWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="monthlySIPError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="lumpSum">Lump sum at start (₹)</label>
+                <input id="lumpSum" type="number" inputmode="decimal" min="0" step="10000" value="0">
+                <span id="lumpSumWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="lumpSumError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="horizonYears">Investment horizon (years)</label>
+                <input id="horizonYears" type="number" inputmode="numeric" min="1" max="40" step="1" value="20">
+                <span class="field-error" id="horizonYearsError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="grossReturn">Gross return before expenses (% p.a.)</label>
+                <input id="grossReturn" type="number" inputmode="decimal" min="1" max="30" step="0.5" value="12.0">
+                <span class="field-error" id="grossReturnError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="directTER">Direct plan expense ratio (% p.a.)</label>
+                <input id="directTER" type="number" inputmode="decimal" min="0" max="3" step="0.05" value="0.50">
+                <span class="input-help">Net direct return = gross − direct TER</span>
+                <span class="field-error" id="directTERError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="regularTER">Regular plan expense ratio (% p.a.)</label>
+                <input id="regularTER" type="number" inputmode="decimal" min="0" max="4" step="0.05" value="1.50">
+                <span class="input-help">Includes distributor commission (~1.0% gap)</span>
+                <span class="field-error" id="regularTERError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="inflation">Inflation rate (% p.a.)</label>
+                <input id="inflation" type="number" inputmode="decimal" min="0" max="15" step="0.5" value="6.0">
+                <span class="field-error" id="inflationError" role="alert"></span>
+            </div>
+        </div>
+
+        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+
+        <button type="button" onclick="calculateTER()">Calculate Fee Impact</button>
+        <button type="button" class="export-button" onclick="exportTER()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
+    </div>
+
+    <div id="verdictCard" class="card verdict-card"></div>
+
+    <details class="card breakdown-details">
+        <summary>Show the full breakdown (milestones at 5, 10, 15, 20, 25, 30 years)</summary>
+        <div class="breakdown-body">
+            <div class="result-section" id="summarySection"></div>
+            <div class="result-section" id="milestonesSection"></div>
+        </div>
+    </details>
+
+    <div class="chart-container">
+        <p id="chartCaption" class="chart-caption"></p>
+        <div class="chart-canvas-wrap"><canvas id="terChart"></canvas></div>
+        <details class="nested-details">
+            <summary>Year-by-year fee schedule</summary>
+            <div class="table-container" id="yearlyTable"></div>
+        </details>
+    </div>
+
+    <div class="learn">
+        <h2>Direct vs Regular: Why a 1% Fee Destroys Huge Wealth</h2>
+        <p>A mutual fund's Total Expense Ratio (TER) is not a one-time fee on your monthly instalment. It is an ongoing annual levy subtracted every calendar day from your entire accumulated portfolio.</p>
+        <p>When you hold a regular plan, the fund house deducts 0.75% to 1.25% extra every year to pay trail commissions to the bank or broker who sold you the fund. Because this deducted money never gets a chance to compound, the cumulative wealth lost over 15 to 25 years can equal <b>hundreds of months of your own contributions</b>.</p>
+        <p>For an in-depth mathematical walkthrough, read our guide: <a href="/insights/direct-vs-regular-mutual-fund-expense-ratio/">Direct vs Regular Mutual Funds: How a 1% Fee Costs ₹23 Lakh</a>.</p>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. Expense ratios and market returns will vary. Check scheme information documents before investing.
+    </div>
+</footer>
+
+<script>
+const SHARE_FIELDS = [
+    { id: "monthlySIP", param: "sip" },
+    { id: "lumpSum", param: "lump" },
+    { id: "horizonYears", param: "years" },
+    { id: "grossReturn", param: "gross" },
+    { id: "directTER", param: "dirTer" },
+    { id: "regularTER", param: "regTer" },
+    { id: "inflation", param: "infl" }
+];
+initShareScenario(SHARE_FIELDS);
+
+const FIELD_IDS = SHARE_FIELDS.map(f => f.id);
+let terChart = null;
+let lastTer = null;
+let viewBasis = "real";
+
+function formatINR(n) { return Math.round(n).toLocaleString('en-IN'); }
+function shortINR(n) {
+    const abs = Math.abs(n);
+    if (abs >= 1e7) return "₹" + (n / 1e7).toFixed(2) + " crore";
+    if (abs >= 1e5) return "₹" + (n / 1e5).toFixed(2) + " lakh";
+    return "₹" + formatINR(n);
+}
+
+function setFieldError(id, msg) {
+    const el = document.getElementById(id), err = document.getElementById(id + "Error");
+    if (!el || !err) return;
+    const grp = el.closest(".input-group");
+    err.textContent = msg || "";
+    if (grp) grp.classList.toggle("has-error", !!msg);
+    el.setAttribute("aria-invalid", msg ? "true" : "false");
+}
+
+function num(id) { const v = document.getElementById(id).value; return v === "" ? NaN : +v; }
+
+function readInputs() {
+    FIELD_IDS.forEach(id => setFieldError(id, ""));
+    document.getElementById("formError").textContent = "";
+    let ok = true;
+    const fail = (id, m) => { setFieldError(id, m); ok = false; };
+
+    const sip = num("monthlySIP"), lump = num("lumpSum"), years = num("horizonYears");
+    const gross = num("grossReturn"), dTER = num("directTER"), rTER = num("regularTER"), infl = num("inflation");
+
+    if (!Number.isFinite(sip) || sip < 0) fail("monthlySIP", "Enter a positive SIP amount.");
+    if (!Number.isFinite(lump) || lump < 0) fail("lumpSum", "Enter 0 or positive lump sum.");
+    if (sip === 0 && lump === 0) fail("monthlySIP", "Enter either SIP or lump sum above 0.");
+    if (!Number.isInteger(years) || years < 1 || years > 40) fail("horizonYears", "Years must be 1 to 40.");
+    if (!Number.isFinite(gross) || gross <= 0 || gross > 30) fail("grossReturn", "Gross return must be 1% to 30%.");
+    if (!Number.isFinite(dTER) || dTER < 0 || dTER > 5) fail("directTER", "Direct TER must be 0% to 5%.");
+    if (!Number.isFinite(rTER) || rTER < dTER) fail("regularTER", "Regular TER must be greater than or equal to Direct TER.");
+    if (!Number.isFinite(infl) || infl < 0 || infl > 20) fail("inflation", "Inflation must be 0% to 20%.");
+
+    if (!ok) {
+        document.getElementById("formError").textContent = "Please fix the highlighted fields.";
+        return null;
+    }
+    return { sip, lump, years, gross, dTER, rTER, infl };
+}
+
+function computeTER(inp) {
+    const ltcgTax = 0.125, ltcgExemp = 125000;
+    const dNetRate = (inp.gross - inp.dTER) / 1200;
+    const rNetRate = (inp.gross - inp.rTER) / 1200;
+    const deflHorizon = Math.pow(1 + inp.infl / 100, inp.years);
+
+    function getCorpus(rateM, totalMonths) {
+        let fv = inp.lump * Math.pow(1 + rateM, totalMonths);
+        if (rateM > 0 && inp.sip > 0) {
+            fv += inp.sip * (Math.pow(1 + rateM, totalMonths) - 1) / rateM;
+        } else if (inp.sip > 0) {
+            fv += inp.sip * totalMonths;
+        }
+        return fv;
+    }
+
+    const yearlyData = [];
+    for (let y = 1; y <= inp.years; y++) {
+        const m = y * 12;
+        const invested = inp.lump + inp.sip * m;
+        const defl = Math.pow(1 + inp.infl / 100, y);
+
+        const dPre = getCorpus(dNetRate, m);
+        const rPre = getCorpus(rNetRate, m);
+        const dTax = Math.max(0, dPre - invested - ltcgExemp) * ltcgTax;
+        const rTax = Math.max(0, rPre - invested - ltcgExemp) * ltcgTax;
+
+        const dPost = dPre - dTax;
+        const rPost = rPre - rTax;
+
+        yearlyData.push({
+            year: y,
+            invested,
+            dPre, rPre,
+            preTaxLost: dPre - rPre,
+            dPostReal: dPost / defl,
+            rPostReal: rPost / defl,
+            realLost: (dPost - rPost) / defl,
+            dPostNominal: dPost,
+            rPostNominal: rPost
+        });
+    }
+
+    const cur = yearlyData[yearlyData.length - 1];
+    return {
+        invested: cur.invested,
+        dPreTax: cur.dPre,
+        rPreTax: cur.rPre,
+        preTaxLost: cur.preTaxLost,
+        dPostReal: cur.dPostReal,
+        rPostReal: cur.rPostReal,
+        realLost: cur.realLost,
+        dPostNominal: cur.dPostNominal,
+        rPostNominal: cur.rPostNominal,
+        yearlyData
+    };
+}
+
+function calculateTER() {
+    const inp = readInputs();
+    if (!inp) return;
+    const res = computeTER(inp);
+    lastTer = { inp, res };
+    renderVerdict();
+    renderBreakdown();
+    renderChart();
+    renderSchedule();
+}
+
+function setViewBasis(mode) {
+    viewBasis = mode;
+    document.getElementById("btnReal").setAttribute("aria-pressed", mode === "real");
+    document.getElementById("btnNominal").setAttribute("aria-pressed", mode === "nominal");
+    renderVerdict();
+    renderBreakdown();
+    renderChart();
+}
+
+function renderVerdict() {
+    const { inp, res } = lastTer;
+    const isReal = viewBasis === "real";
+    const gap = isReal ? res.realLost : (res.dPostNominal - res.rPostNominal);
+    const feeDiff = (inp.rTER - inp.dTER).toFixed(2);
+
+    const headline = `You lose about ${shortINR(gap)} ${isReal ? "in today's purchasing power" : "in future rupees"} to regular plan fees.`;
+    const bullets = [
+        `<b>Direct plan portfolio:</b> Reaches <b>${shortINR(isReal ? res.dPostReal : res.dPostNominal)}</b> after tax.`,
+        `<b>Regular plan portfolio:</b> Reaches <b>${shortINR(isReal ? res.rPostReal : res.rPostNominal)}</b> after tax.`,
+        `<b>The ${feeDiff}% commission gap:</b> Over ${inp.years} years, regular plan commissions consume <b>${shortINR(res.preTaxLost)}</b> of your pre-tax compounding.`,
+        `Total capital invested by you was ₹${formatINR(res.invested)}.`
+    ];
+
+    document.getElementById("verdictCard").innerHTML = `
+        <div class="verdict-top">
+            <span class="verdict-eyebrow">Fee Impact Verdict</span>
+            <div class="mode-toggle" role="group" aria-label="Show real or nominal values">
+                <button type="button" id="btnReal" aria-pressed="${isReal}" onclick="setViewBasis('real')">Today's rupees</button>
+                <button type="button" id="btnNominal" aria-pressed="${!isReal}" onclick="setViewBasis('nominal')">Future rupees</button>
+            </div>
+        </div>
+        <p class="verdict-headline">${headline}</p>
+        <p class="verdict-sub">Comparing a ${inp.dTER}% direct expense ratio against ${inp.rTER}% regular plan fees.</p>
+        <ul class="verdict-bullets">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+    `;
+}
+
+function renderBreakdown() {
+    const { inp, res } = lastTer;
+    const m = (l, v) => `<div class="metric"><span class="metric-label">${l}</span><span class="metric-value">${v}</span></div>`;
+    const isReal = viewBasis === "real";
+
+    document.getElementById("summarySection").innerHTML = `
+        <h3>📊 Summary for ${inp.years}-Year Horizon</h3>
+        <div class="metric-grid">
+            ${m("Total Capital Invested", "₹" + formatINR(res.invested))}
+            ${m("Commission Gap", (inp.rTER - inp.dTER).toFixed(2) + "% p.a.")}
+            ${m("Direct Plan Wealth (" + (isReal ? "Real" : "Nominal") + ")", shortINR(isReal ? res.dPostReal : res.dPostNominal))}
+            ${m("Regular Plan Wealth (" + (isReal ? "Real" : "Nominal") + ")", shortINR(isReal ? res.rPostReal : res.rPostNominal))}
+            ${m("Wealth Lost to Higher TER", shortINR(isReal ? res.realLost : (res.dPostNominal - res.rPostNominal)))}
+            ${m("Pre-Tax Compounding Lost", shortINR(res.preTaxLost))}
+        </div>
+    `;
+
+    const milestoneYears = [5, 10, 15, 20, 25, 30].filter(y => y <= inp.years);
+    if (!milestoneYears.includes(inp.years)) milestoneYears.push(inp.years);
+
+    const rows = milestoneYears.map(yr => {
+        const d = res.yearlyData[yr - 1];
+        return `
+            <tr>
+                <td><b>Year ${d.year}</b></td>
+                <td>₹${formatINR(d.invested)}</td>
+                <td>${shortINR(isReal ? d.dPostReal : d.dPostNominal)}</td>
+                <td>${shortINR(isReal ? d.rPostReal : d.rPostNominal)}</td>
+                <td><b style="color:var(--negative);">${shortINR(isReal ? d.realLost : (d.dPostNominal - d.rPostNominal))}</b></td>
+            </tr>
+        `;
+    }).join("");
+
+    document.getElementById("milestonesSection").innerHTML = `
+        <h3>⏳ Milestone Breakdown</h3>
+        <div class="table-scroll">
+            <table class="decision-table">
+                <thead><tr><th>Horizon</th><th>Invested</th><th>Direct Wealth</th><th>Regular Wealth</th><th>Wealth Lost</th></tr></thead>
+                <tbody>${rows}</tbody>
+            </table>
+        </div>
+    `;
+}
+
+function renderChart() {
+    const { res } = lastTer;
+    const isReal = viewBasis === "real";
+    const labels = res.yearlyData.map(d => "Yr " + d.year);
+    const dData = res.yearlyData.map(d => Math.round(isReal ? d.dPostReal : d.dPostNominal));
+    const rData = res.yearlyData.map(d => Math.round(isReal ? d.rPostReal : d.rPostNominal));
+
+    document.getElementById("chartCaption").textContent = `Direct vs Regular portfolio wealth over time (${isReal ? "today's purchasing power" : "nominal rupees"}).`;
+
+    if (terChart) terChart.destroy();
+    terChart = new Chart(document.getElementById("terChart"), {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                { label: "Direct Plan", data: dData, borderColor: "#10b981", backgroundColor: "rgba(16,185,129,0.1)", fill: false, tension: 0.1 },
+                { label: "Regular Plan", data: rData, borderColor: "#ef4444", backgroundColor: "rgba(239,68,68,0.1)", fill: false, tension: 0.1 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: {
+                y: { ticks: { callback: v => "₹" + Number(v).toLocaleString('en-IN') } }
+            }
+        }
+    });
+}
+
+function renderSchedule() {
+    const { res } = lastTer;
+    const rows = res.yearlyData.map(d => `
+        <tr>
+            <td>${d.year}</td>
+            <td>₹${formatINR(d.invested)}</td>
+            <td>₹${formatINR(d.dPre)}</td>
+            <td>₹${formatINR(d.rPre)}</td>
+            <td>₹${formatINR(d.preTaxLost)}</td>
+            <td>₹${formatINR(d.realLost)}</td>
+        </tr>
+    `).join("");
+
+    document.getElementById("yearlyTable").innerHTML = `
+        <table>
+            <thead><tr><th>Year</th><th>Total Invested (₹)</th><th>Direct Pre-Tax (₹)</th><th>Regular Pre-Tax (₹)</th><th>Pre-Tax Lost (₹)</th><th>Real Wealth Lost (₹)</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table>
+    `;
+}
+
+function exportTER() {
+    const inp = readInputs();
+    if (!inp) return;
+    const res = computeTER(inp);
+    exportWorkbook("expense-ratio-impact.xlsx", {
+        Inputs: [["Parameter", "Value"], ["Monthly SIP", inp.sip], ["Lump Sum", inp.lump], ["Horizon (Years)", inp.years], ["Gross Return (%)", inp.gross], ["Direct TER (%)", inp.dTER], ["Regular TER (%)", inp.rTER]],
+        Summary: [["Metric", "Value"], ["Pre-Tax Wealth Lost", res.preTaxLost], ["Real Wealth Lost (Today's ₹)", res.realLost]],
+        Schedule: [["Year", "Total Invested", "Direct Pre-Tax", "Regular Pre-Tax", "Pre-Tax Lost", "Real Lost"], ...res.yearlyData.map(d => [d.year, d.invested, d.dPre, d.rPre, d.preTaxLost, d.realLost])]
+    });
+}
+
+FIELD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", () => setFieldError(id, ""));
+});
+if (typeof bindAmountInWords === "function") {
+    bindAmountInWords("monthlySIP", "monthlySIPWords");
+    bindAmountInWords("lumpSum", "lumpSumWords");
+}
+calculateTER();
+</script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
+</body>
+</html>

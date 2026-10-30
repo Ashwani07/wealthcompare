@@ -25,12 +25,15 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
      crossorigin="anonymous"></script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="/assets/css/site.css?v=6" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script src="/assets/js/amount-words.js"></script>
 <script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
 
 <script type="application/ld+json">
 {
@@ -260,6 +263,7 @@ button {
 
         <button type="button" onclick="calculate()">Compare the two paths</button>
         <button type="button" class="export-button" onclick="exportLoanVsSip()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
     </div>
 
     <div id="verdictCard" class="card verdict-card"></div>
@@ -301,6 +305,44 @@ button {
         </div>
         <p id="chartCaption" class="chart-caption"></p>
         <div class="chart-canvas-wrap"><canvas id="wealthChart"></canvas></div>
+    </div>
+
+    <!-- Static text, present when the page loads, so crawlers and readers see it without running the calculator. -->
+    <div class="learn">
+        <h2>How this comparison works</h2>
+        <p>Comparing real estate bought with a home loan against equity mutual fund SIPs is one of the most common dilemmas for Indian households. A loan lets you control a large asset today with borrowed money, while a systematic investment plan (SIP) lets you build wealth steadily in liquid financial assets without debt.</p>
+        <p>To compare the two fairly, both paths must commit the exact same cash flows over time:</p>
+        <ul>
+            <li><b>Path 1 (Property with loan):</b> You pay the down payment upfront. Every month, you pay the loan EMI plus recurring maintenance costs. At the end of the loan tenure, the property is sold, deduction is made for selling expenses (brokerage and legal costs), and capital gains tax is paid.</li>
+            <li><b>Path 2 (SIP investment):</b> The exact same down payment is invested as a lump sum on day one. Every month, the exact same amount that would have gone towards EMI plus maintenance is invested into an equity mutual fund SIP. At the end of the tenure, the units are redeemed and long-term capital gains (LTCG) tax is deducted.</li>
+        </ul>
+
+        <h3>Real gain in today's rupees</h3>
+        <p>A crore twenty years from now will buy far less than a crore buys today. This calculator converts all future proceeds and monthly cash outflows into today's purchasing power using your chosen inflation rate:</p>
+        <div class="formula">Value in today's rupees = Future amount ÷ (1 + inflation)^years</div>
+        <p>The "real net gain" shows what was created above and beyond the purchasing power of the money you put into each option. This ensures that inflation is not treated as wealth.</p>
+
+        <h3>Taxes and regulatory rules</h3>
+        <p>Under the Income-tax Act, capital gains are taxed differently across property and mutual funds:</p>
+        <ul>
+            <li><b>Mutual fund gains:</b> Listed equity fund gains held for more than 12 months are subject to 12.5% LTCG tax on the gain exceeding ₹1,25,000 per financial year (Section 198 of the Income-tax Act, 2025, previously Section 112A).</li>
+            <li><b>Property gains:</b> Long-term property capital gains are taxed based on the prevailing tax rate. For properties purchased after 23 July 2024, the rate is 12.5% without indexation benefit.</li>
+            <li><b>LTV caps:</b> The Reserve Bank of India caps home loan borrowing to 90% for loans up to ₹30 lakh, 80% for loans between ₹30 lakh and ₹75 lakh, and 75% for loans above ₹75 lakh.</li>
+        </ul>
+
+        <h3>What this calculator leaves out</h3>
+        <ul>
+            <li><b>One-time acquisition costs:</b> Stamp duty (typically 5% to 7% depending on state), registration fees, and legal verification charges on the property purchase.</li>
+            <li><b>Rental yield or saved rent:</b> This calculator assumes the buyer already has a home to live in, comparing the property purely as an investment against an equity portfolio.</li>
+            <li><b>Fund management costs:</b> Mutual fund total expense ratio (TER) and any applicable exit loads.</li>
+            <li><b>Interest rate resets:</b> Floating home loan interest rates reset periodically with RBI repo rate changes.</li>
+        </ul>
+
+        <h3>Key trade-offs beyond the numbers</h3>
+        <p><b>Liquidity:</b> Mutual fund units can be redeemed in two working days. Selling physical real estate can take several months to a year, requiring extensive documentation and site visits.</p>
+        <p><b>Divisibility:</b> You can redeem ₹50,000 from an SIP portfolio in an emergency without touching the rest. A property cannot be partially sold.</p>
+        <p><b>Debt obligation:</b> An EMI is a fixed legal obligation. If household income drops, missed EMIs harm your credit score and risk loan default. SIPs can be paused or stopped at any time without penalty.</p>
+        <p>For a detailed breakdown of these factors, read our complete guide: <a href="/insights/loan-vs-sip-hidden-tradeoffs/">Loan vs SIP: The Hidden Trade-offs Most Comparisons Miss</a>.</p>
     </div>
 
 </div>
