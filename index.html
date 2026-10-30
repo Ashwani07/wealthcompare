@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Free calculators for EMI, SIP growth, loan prepayment and loan vs SIP, made for Indian households. Each page explains what it assumes, in plain words.">
+<meta name="description" content="Free financial calculators for Indian households. Compare EMI, SIP growth, loan prepayment, Rent vs Buy, and prepay vs invest in today's rupees.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://wealthcompare.in/">
 <title>Free Financial Calculators for India | WealthCompare</title>
@@ -17,12 +17,12 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="WealthCompare">
 <meta property="og:title" content="Free Financial Calculators for India | WealthCompare">
-<meta property="og:description" content="Free calculators for EMI, SIP growth, loan prepayment and loan vs SIP, made for Indian households. Each page explains what it assumes, in plain words.">
+<meta property="og:description" content="Free financial calculators for Indian households. Compare EMI, SIP growth, loan prepayment, Rent vs Buy, and prepay vs invest in today's rupees.">
 <meta property="og:url" content="https://wealthcompare.in/">
 <meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Free Financial Calculators for India | WealthCompare">
-<meta name="twitter:description" content="Free calculators for EMI, SIP growth, loan prepayment and loan vs SIP, made for Indian households. Each page explains what it assumes, in plain words.">
+<meta name="twitter:description" content="Free financial calculators for Indian households. Compare EMI, SIP growth, loan prepayment, Rent vs Buy, and prepay vs invest in today's rupees.">
 <meta name="twitter:image" content="https://wealthcompare.in/assets/og-image.png">
 
 <!-- AdSense Auto Ads -->
@@ -43,7 +43,7 @@
   "url": "https://wealthcompare.in/",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": "Any",
-  "description": "Free calculators for EMI, SIP growth, loan prepayment and loan vs SIP, made for Indian households. Each page explains what it assumes, in plain words.",
+  "description": "Free financial calculators for Indian households. Compare EMI, SIP growth, loan prepayment, Rent vs Buy, and prepay vs invest in today's rupees.",
   "offers": {
     "@type": "Offer",
     "price": "0",
@@ -159,9 +159,10 @@ a { text-decoration: none; color: inherit; }
     margin-bottom: 4px;
 }
 .tool-desc {
-    font-size: 13px;
+    font-size: 14px;
+    line-height: 1.5;
     color: var(--text-secondary);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 .tool-link {
     font-size: 13px;
@@ -201,7 +202,8 @@ a.insight-card:hover {
     margin-bottom: 6px;
 }
 .insight-text {
-    font-size: 13px;
+    font-size: 14px;
+    line-height: 1.55;
     color: var(--text-secondary);
 }
 .article-status {
@@ -246,8 +248,9 @@ a.insight-card:hover {
         <h1>Free Financial Calculators for India</h1>
         <p>Work out what a loan really costs, what a SIP could grow to, and whether paying a loan off early is worth it.</p>
         <p>Where inflation matters, we also show the answer in today's rupees. ₹1 crore twenty years from now will not buy what ₹1 crore buys today.</p>
-        <div class="hero-cta">
-            <a href="#tools">Explore Tools &amp; Calculators</a>
+        <div class="hero-cta" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <a href="#tools">Explore 8 Calculators</a>
+            <a href="#insights" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.4);">Read Financial Insights</a>
         </div>
     </div>
 </section>
@@ -264,34 +267,13 @@ a.insight-card:hover {
         </p>
 
         <div class="tools-grid">
-            <a class="tool-tile" href="/tools/loan-vs-sip/">
-                <div>
-                    <div class="tool-icon">🏠📈</div>
-                    <div class="tool-title">Loan vs SIP Wealth Comparison</div>
-                    <div class="tool-desc">
-                        Buy a property with a home loan, or invest the same down payment and EMI in a SIP? See both outcomes in today's rupees.
-                    </div>
-                </div>
-                <div class="tool-link">Open calculator →</div>
-            </a>
-
+            <!-- Loan Tools -->
             <a class="tool-tile" href="/tools/emi-calculator/">
                 <div>
                     <div class="tool-icon">📊</div>
                     <div class="tool-title">EMI Calculator</div>
                     <div class="tool-desc">
-                        Your monthly EMI, total interest and total repayment for a home, car or personal loan.
-                    </div>
-                </div>
-                <div class="tool-link">Open calculator →</div>
-            </a>
-
-            <a class="tool-tile" href="/tools/sip-growth/">
-                <div>
-                    <div class="tool-icon">📈</div>
-                    <div class="tool-title">SIP Growth Projection</div>
-                    <div class="tool-desc">
-                        What a monthly SIP could grow to, and what that is worth in today's money. The return is your assumption, not a promise.
+                        Your monthly EMI, total interest and year-by-year principal breakdown for home, car, or personal loans.
                     </div>
                 </div>
                 <div class="tool-link">Open calculator →</div>
@@ -302,18 +284,30 @@ a.insight-card:hover {
                     <div class="tool-icon">🔁</div>
                     <div class="tool-title">Loan Prepayment Calculator</div>
                     <div class="tool-desc">
-                        See what a lump sum, an extra amount each month or a rate change does to your tenure and total interest.
+                        See how lump sums or monthly extra payments cut your loan tenure and save lakhs in interest.
                     </div>
                 </div>
                 <div class="tool-link">Open calculator →</div>
             </a>
 
-            <a class="tool-tile" href="/tools/prepay-vs-invest/">
+            <!-- SIP & Wealth Accumulation -->
+            <a class="tool-tile" href="/tools/sip-growth/">
                 <div>
-                    <div class="tool-icon">⚖️</div>
-                    <div class="tool-title">Prepay vs Invest Calculator</div>
+                    <div class="tool-icon">📈</div>
+                    <div class="tool-title">SIP Growth Projection</div>
                     <div class="tool-desc">
-                        Should surplus cash go to loan prepayment or equity SIP? See early debt-free date, interest saved, and hurdle rate.
+                        What a monthly mutual fund SIP grows to after capital gains tax, and what that corpus is worth in today's money.
+                    </div>
+                </div>
+                <div class="tool-link">Open calculator →</div>
+            </a>
+
+            <a class="tool-tile" href="/tools/step-up-sip/">
+                <div>
+                    <div class="tool-icon">🪜</div>
+                    <div class="tool-title">Step-Up SIP Goal Calculator</div>
+                    <div class="tool-desc">
+                        Enter your goal in today's money. We calculate the starting SIP if you step it up annually with your pay increments.
                     </div>
                 </div>
                 <div class="tool-link">Open calculator →</div>
@@ -322,9 +316,21 @@ a.insight-card:hover {
             <a class="tool-tile" href="/tools/expense-ratio-impact/">
                 <div>
                     <div class="tool-icon">📉</div>
-                    <div class="tool-title">Mutual Fund Expense Ratio Impact</div>
+                    <div class="tool-title">Expense Ratio Impact</div>
                     <div class="tool-desc">
-                        Compare Direct vs Regular plans. See how much wealth distributor commissions quietly take over 5 to 30 years.
+                        Compare Direct vs Regular mutual funds. See how a 1% distributor commission quietly costs ₹20L+ over time.
+                    </div>
+                </div>
+                <div class="tool-link">Open calculator →</div>
+            </a>
+
+            <!-- Major Financial Decisions -->
+            <a class="tool-tile" href="/tools/prepay-vs-invest/">
+                <div>
+                    <div class="tool-icon">⚖️</div>
+                    <div class="tool-title">Prepay Loan vs Invest</div>
+                    <div class="tool-desc">
+                        Should surplus cash go to home loan prepayment or equity SIP? See the break-even hurdle rate and debt-free date.
                     </div>
                 </div>
                 <div class="tool-link">Open calculator →</div>
@@ -333,24 +339,24 @@ a.insight-card:hover {
             <a class="tool-tile" href="/tools/rent-vs-buy/">
                 <div>
                     <div class="tool-icon">🏠🔑</div>
-                    <div class="tool-title">Rent vs Buy Wealth Comparison</div>
+                    <div class="tool-title">Rent vs Buy Comparison</div>
                     <div class="tool-desc">
-                        Buy with a home loan or rent and invest down payment + monthly difference in mutual funds? Compare 20-year wealth in today's rupees.
-                    </div>
-                </div>
-                <div class="tool-link">Open calculator →</div>
-            </a>
-            <a class="tool-tile" href="/tools/step-up-sip/">
-                <div>
-                    <div class="tool-icon">🪜</div>
-                    <div class="tool-title">Step-Up SIP Goal Calculator</div>
-                    <div class="tool-desc">
-                        Tell us the goal in today's money. We work out the SIP to start with if you raise it every year, after inflation and tax.
+                        Buy with a home loan or rent and invest down payment + monthly difference in mutual funds? Compare 20-year wealth.
                     </div>
                 </div>
                 <div class="tool-link">Open calculator →</div>
             </a>
 
+            <a class="tool-tile" href="/tools/loan-vs-sip/">
+                <div>
+                    <div class="tool-icon">🏠📈</div>
+                    <div class="tool-title">Loan vs SIP Property Matchup</div>
+                    <div class="tool-desc">
+                        Buy a second property with a loan or invest the same cashflow in an equity SIP? See both results in today's rupees.
+                    </div>
+                </div>
+                <div class="tool-link">Open calculator →</div>
+            </a>
         </div>
 
         <!-- Ad placement managed by AdSense Auto Ads -->
