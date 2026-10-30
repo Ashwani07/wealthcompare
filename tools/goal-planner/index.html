@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Coordinate multiple life goals (emergency fund, house down payment, child education, retirement) and allocate a limited monthly investment budget by priority.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/goal-planner/">
+<title>Goal-Based Investment Dashboard: Multi-Goal SIP Allocation | WealthCompare</title>
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="Goal-Based Investment Dashboard: Multi-Goal SIP Allocation">
+<meta property="og:description" content="Coordinate multiple life goals (emergency fund, house down payment, child education, retirement) and allocate a limited monthly investment budget by priority.">
+<meta property="og:url" content="https://wealthcompare.in/tools/goal-planner/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Auto Ads (Anchor + Vignette + In-page) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
+     crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="/assets/js/amount-words.js"></script>
+<script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Goal-Based Investment Dashboard",
+  "url": "https://wealthcompare.in/tools/goal-planner/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "isPartOf": { "@type": "WebSite", "name": "WealthCompare", "url": "https://wealthcompare.in/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
+}
+.hero { padding: 30px 20px 40px; text-align: center; color: white; }
+.hero-inner {
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 20px 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+.container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
+.card {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.card-title { background: linear-gradient(135deg,#4f46e5,#3b82f6); color: white; padding: 10px; border-radius: 10px; margin: 0 0 6px; font-size: 20px; }
+.group-title { font-size: 14px; font-weight: 700; color: #3730a3; margin: 16px 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+.inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
+.input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+.input-group input, .input-group select {
+    padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; font-family: inherit; background: #fff;
+}
+.input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+button {
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5); color: white; border: none;
+    border-radius: 12px; font-size: 15px; cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px; font-family: inherit;
+}
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
+
+.verdict-card {
+    background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.verdict-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0; }
+.verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
+.verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
+.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.verdict-bullets li { position: relative; padding-left: 18px; font-size: 14px; line-height: 1.5; color: #1f2937; }
+.verdict-bullets li::before { content: "•"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; font-size: 16px; }
+
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 14px 0; }
+.metric { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; }
+.metric-label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+.metric-value { font-size: 18px; font-weight: 700; color: #1e293b; }
+
+.table-scroll { overflow-x: auto; margin-top: 14px; }
+.goals-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.goals-table th, .goals-table td { padding: 9px 10px; text-align: right; border-bottom: 1px solid #e2e8f0; }
+.goals-table th:first-child, .goals-table td:first-child,
+.goals-table th:nth-child(2), .goals-table td:nth-child(2) { text-align: left; }
+.goals-table th { background: #f8fafc; font-weight: 600; color: #475569; }
+.goals-table input { padding: 6px 8px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; font-family: inherit; width: 100%; }
+
+.pill { display: inline-block; padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.pill-funded { background: #dcfce7; color: #166534; }
+.pill-partial { background: #fef3c7; color: #92400e; }
+.pill-unfunded { background: #fee2e2; color: #991b1b; }
+
+.breakdown-details { border: 1px solid #e2e8f0; }
+.breakdown-details summary { cursor: pointer; font-weight: 700; color: #3730a3; padding: 6px 0; }
+.breakdown-body { margin-top: 14px; }
+.nested-details { margin: 12px 0; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 10px 14px; }
+.nested-details summary { font-size: 13px; font-weight: 600; cursor: pointer; color: #475569; }
+.advanced-body { margin-top: 10px; font-size: 13px; color: #334155; line-height: 1.6; }
+
+.chart-container {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    border-radius: 18px; padding: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); margin-bottom: 20px;
+}
+.chart-caption { font-size: 13px; color: var(--text-secondary); margin: 0 0 12px; }
+.chart-canvas-wrap { position: relative; height: 320px; max-height: 380px; width: 100%; }
+
+.export-button { background: #10b981; max-width: 180px; margin-left: 8px; }
+.share-button { background: #0284c7; max-width: 200px; margin-left: 8px; }
+.share-button.is-copied { background: #15803d !important; }
+
+@media (max-width: 768px) {
+    .hero h1 { font-size: 22px; }
+    button, .export-button, .share-button { max-width: 100%; margin: 8px 0 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a href="/" class="brand-link">
+            <span class="brand-title">WealthCompare</span>
+            <span class="brand-tag">India</span>
+        </a>
+        <nav class="site-nav">
+            <a href="/">All Calculators</a>
+            <a href="/insights/">Insights</a>
+            <a href="/about/">About</a>
+        </nav>
+    </div>
+</header>
+
+<div class="hero">
+    <div class="hero-inner">
+        <h1>Goal-Based Investment Dashboard</h1>
+        <p>Coordinate multiple financial goals simultaneously, compute each required SIP, and automatically allocate your monthly savings budget in priority order.</p>
+        <p style="font-size:12px; opacity:0.9;">Prioritizes emergency reserves, home down payments, child education, and retirement</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2 class="card-title">1. Monthly Investment Budget</h2>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="monthlyBudget">Total Monthly Investment Budget (₹)</label>
+                <input id="monthlyBudget" type="number" min="5000" step="5000" value="100000">
+                <span id="monthlyBudgetWords" class="amount-words" aria-live="polite"></span>
+                <span class="input-help">Free surplus available for investments each month</span>
+            </div>
+        </div>
+
+        <div class="group-title">2. Your Multi-Goal Portfolio (Priority Order 1 to 6)</div>
+        <p style="font-size: 13px; color: var(--text-secondary); margin: 0 0 10px;">The model allocates your monthly budget in strict priority sequence: Goal 1 gets funded first, then Goal 2, until your budget is fully utilized.</p>
+
+        <div class="table-scroll">
+            <table class="goals-table" id="inputTable">
+                <thead>
+                    <tr>
+                        <th style="width:5%;">Pri</th>
+                        <th style="width:25%;">Goal Description</th>
+                        <th style="width:20%;">Target Today (₹)</th>
+                        <th style="width:18%;">Current Assets (₹)</th>
+                        <th style="width:10%;">Years</th>
+                        <th style="width:11%;">Inflation (%)</th>
+                        <th style="width:11%;">Return (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>1</b></td>
+                        <td><input id="g1_name" type="text" value="Emergency fund"></td>
+                        <td><input id="g1_target" type="number" min="0" step="25000" value="665000"></td>
+                        <td><input id="g1_asset" type="number" min="0" step="25000" value="200000"></td>
+                        <td><input id="g1_yrs" type="number" min="1" max="40" value="1"></td>
+                        <td><input id="g1_infl" type="number" min="0" max="15" step="0.5" value="0.0"></td>
+                        <td><input id="g1_ret" type="number" min="1" max="25" step="0.5" value="4.0"></td>
+                    </tr>
+                    <tr>
+                        <td><b>2</b></td>
+                        <td><input id="g2_name" type="text" value="Home down payment"></td>
+                        <td><input id="g2_target" type="number" min="0" step="50000" value="2000000"></td>
+                        <td><input id="g2_asset" type="number" min="0" step="50000" value="500000"></td>
+                        <td><input id="g2_yrs" type="number" min="1" max="40" value="5"></td>
+                        <td><input id="g2_infl" type="number" min="0" max="15" step="0.5" value="6.0"></td>
+                        <td><input id="g2_ret" type="number" min="1" max="25" step="0.5" value="12.0"></td>
+                    </tr>
+                    <tr>
+                        <td><b>3</b></td>
+                        <td><input id="g3_name" type="text" value="Child education"></td>
+                        <td><input id="g3_target" type="number" min="0" step="50000" value="3000000"></td>
+                        <td><input id="g3_asset" type="number" min="0" step="50000" value="300000"></td>
+                        <td><input id="g3_yrs" type="number" min="1" max="40" value="10"></td>
+                        <td><input id="g3_infl" type="number" min="0" max="15" step="0.5" value="6.0"></td>
+                        <td><input id="g3_ret" type="number" min="1" max="25" step="0.5" value="12.0"></td>
+                    </tr>
+                    <tr>
+                        <td><b>4</b></td>
+                        <td><input id="g4_name" type="text" value="Retirement corpus"></td>
+                        <td><input id="g4_target" type="number" min="0" step="500000" value="50000000"></td>
+                        <td><input id="g4_asset" type="number" min="0" step="100000" value="2000000"></td>
+                        <td><input id="g4_yrs" type="number" min="1" max="40" value="20"></td>
+                        <td><input id="g4_infl" type="number" min="0" max="15" step="0.5" value="6.0"></td>
+                        <td><input id="g4_ret" type="number" min="1" max="25" step="0.5" value="12.0"></td>
+                    </tr>
+                    <tr>
+                        <td><b>5</b></td>
+                        <td><input id="g5_name" type="text" value="Car replacement"></td>
+                        <td><input id="g5_target" type="number" min="0" step="50000" value="1500000"></td>
+                        <td><input id="g5_asset" type="number" min="0" step="50000" value="200000"></td>
+                        <td><input id="g5_yrs" type="number" min="1" max="40" value="3"></td>
+                        <td><input id="g5_infl" type="number" min="0" max="15" step="0.5" value="6.0"></td>
+                        <td><input id="g5_ret" type="number" min="1" max="25" step="0.5" value="12.0"></td>
+                    </tr>
+                    <tr>
+                        <td><b>6</b></td>
+                        <td><input id="g6_name" type="text" value="Travel / experience"></td>
+                        <td><input id="g6_target" type="number" min="0" step="25000" value="500000"></td>
+                        <td><input id="g6_asset" type="number" min="0" step="25000" value="100000"></td>
+                        <td><input id="g6_yrs" type="number" min="1" max="40" value="2"></td>
+                        <td><input id="g6_infl" type="number" min="0" max="15" step="0.5" value="6.0"></td>
+                        <td><input id="g6_ret" type="number" min="1" max="25" step="0.5" value="12.0"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+
+        <button type="button" onclick="calculateGoals()">Allocate Budget</button>
+        <button type="button" class="export-button" onclick="exportGoals()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
+    </div>
+
+    <div id="verdictCard" class="card verdict-card"></div>
+
+    <div class="chart-container">
+        <p id="chartCaption" class="chart-caption"></p>
+        <div class="chart-canvas-wrap"><canvas id="goalChart"></canvas></div>
+    </div>
+
+    <details class="card breakdown-details" open>
+        <summary>Show Budget Waterfall &amp; Goal Allocation Schedule</summary>
+        <div class="breakdown-body">
+            <div class="table-scroll" id="waterfallTableWrap"></div>
+            <div class="result-section" id="summarySection"></div>
+            <details class="nested-details">
+                <summary>How to Handle Shortfalls Across Competing Goals</summary>
+                <div class="advanced-body">
+                    <h4>The Waterfall Allocation Method</h4>
+                    <p>When your required monthly SIP exceeds your monthly budget, spreading cash thinly across every goal guarantees none of them will be achieved on time. The priority method fully secures essential, non-negotiable milestones (Emergency fund, Children’s education) first before committing money to discretionary desires (car upgrades, luxury travel).</p>
+                    <h4>Step-Up SIP to Bridge the Gap</h4>
+                    <p>Notice a shortfall in long-term goals like Retirement? You do not have to commit the full required SIP today. You can start with a lower allocated SIP and step it up by 10% annually as your salary increments take effect.</p>
+                </div>
+            </details>
+        </div>
+    </details>
+
+    <div class="learn">
+        <h2>Multi-Goal Investing: Overcoming the Budget Constraint</h2>
+        <p>In the real world, families do not plan for one goal in isolation. You are simultaneously trying to build an emergency reserve, accumulate a home down payment, fund a child’s overseas education, and build a retirement corpus.</p>
+
+        <h3>1. The Time Horizon Principle</h3>
+        <p>Goals less than 3 years away (emergency fund, travel) must never be invested in equity. Market corrections can wipe out 20% of your capital right when you need to pay. Goals 7 to 20 years away (retirement, college degrees) require equity compounding (11%–12%) to outpace 6% lifestyle inflation.</p>
+
+        <h3>2. Why Priority Ordering Protects You</h3>
+        <p>If income dips or an unexpected shock occurs, you know exactly which discretionary goals to pause (vacations, car upgrades) without compromising essential life milestones (your child’s college admission fee).</p>
+
+        <p>To read our detailed framework on prioritizing competing family goals, read: <a href="/insights/how-to-prioritise-competing-financial-goals/">When You Can't Fund Every Goal: The Priority Framework for Indian Families</a>.</p>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. Goal projections and returns are assumptions. Check current numbers before investing.
+    </div>
+</footer>
+
+<script>
+const SHARE_FIELDS = [
+    { id: "monthlyBudget", param: "bgt" }
+];
+for (let i = 1; i <= 6; i++) {
+    SHARE_FIELDS.push(
+        { id: `g${i}_target`, param: `t${i}` },
+        { id: `g${i}_asset`, param: `a${i}` },
+        { id: `g${i}_yrs`, param: `y${i}` }
+    );
+}
+initShareScenario(SHARE_FIELDS);
+
+let goalChart = null;
+let lastGoalResult = null;
+
+function formatINR(val) {
+    if (val === null || val === undefined || isNaN(val)) return "0";
+    return Math.round(val).toLocaleString("en-IN");
+}
+
+function shortINR(val) {
+    if (isNaN(val)) return "₹0";
+    const abs = Math.abs(val);
+    const sign = val < 0 ? "-" : "";
+    if (abs >= 10000000) return sign + "₹" + (abs / 10000000).toFixed(2) + " Cr";
+    if (abs >= 100000) return sign + "₹" + (abs / 100000).toFixed(2) + " Lakh";
+    return sign + "₹" + Math.round(abs).toLocaleString("en-IN");
+}
+
+function readNumber(id, def = 0) {
+    const el = document.getElementById(id);
+    if (!el) return def;
+    const v = parseFloat(el.value);
+    return isNaN(v) ? def : v;
+}
+
+function calculateGoals() {
+    const monthlyBudget = Math.max(0, readNumber("monthlyBudget", 100000));
+    let remainingBudget = monthlyBudget;
+
+    const goals = [];
+    let totalRequiredSIP = 0;
+    let totalAllocatedSIP = 0;
+    let sumFutureTargets = 0;
+    let sumCurrentAssets = 0;
+
+    for (let i = 1; i <= 6; i++) {
+        const name = document.getElementById(`g${i}_name`).value || `Goal ${i}`;
+        const targetToday = Math.max(0, readNumber(`g${i}_target`, 0));
+        const currentAsset = Math.max(0, readNumber(`g${i}_asset`, 0));
+        const years = Math.max(1, readNumber(`g${i}_yrs`, 1));
+        const infl = Math.max(0, readNumber(`g${i}_infl`, 6.0)) / 100;
+        const ret = Math.max(0, readNumber(`g${i}_ret`, 12.0)) / 100;
+
+        const months = years * 12;
+        const monthlyRate = ret / 12;
+
+        const futureTarget = targetToday * Math.pow(1 + infl, years);
+        const futureCurrentAsset = currentAsset * Math.pow(1 + monthlyRate, months);
+        const fundingGap = Math.max(0, futureTarget - futureCurrentAsset);
+
+        let requiredSIP = 0;
+        if (fundingGap > 0) {
+            requiredSIP = monthlyRate > 0
+                ? (fundingGap * monthlyRate / (Math.pow(1 + monthlyRate, months) - 1))
+                : (fundingGap / months);
+        }
+
+        const allocatedSIP = Math.min(remainingBudget, requiredSIP);
+        remainingBudget = Math.max(0, remainingBudget - allocatedSIP);
+        const monthlyShortfall = Math.max(0, requiredSIP - allocatedSIP);
+
+        const fvAllocated = monthlyRate > 0
+            ? (allocatedSIP * (Math.pow(1 + monthlyRate, months) - 1) / monthlyRate)
+            : (allocatedSIP * months);
+        
+        const projectedFinal = futureCurrentAsset + fvAllocated;
+        const fundedPct = futureTarget > 0 ? (projectedFinal / futureTarget) : 1;
+
+        totalRequiredSIP += requiredSIP;
+        totalAllocatedSIP += allocatedSIP;
+        sumFutureTargets += futureTarget;
+        sumCurrentAssets += currentAsset;
+
+        goals.push({
+            priority: i,
+            name,
+            targetToday,
+            currentAsset,
+            years,
+            futureTarget,
+            futureCurrentAsset,
+            fundingGap,
+            requiredSIP,
+            allocatedSIP,
+            monthlyShortfall,
+            fundedPct
+        });
+    }
+
+    const unallocatedBudget = Math.max(0, monthlyBudget - totalAllocatedSIP);
+    const overallShortfall = Math.max(0, totalRequiredSIP - monthlyBudget);
+    const goalsFullyFunded = goals.filter(g => g.fundedPct >= 0.999).length;
+
+    lastGoalResult = {
+        monthlyBudget,
+        totalRequiredSIP,
+        totalAllocatedSIP,
+        unallocatedBudget,
+        overallShortfall,
+        goalsFullyFunded,
+        sumFutureTargets,
+        sumCurrentAssets,
+        goals
+    };
+
+    renderVerdict();
+    renderChart();
+    renderWaterfall();
+    renderSummary();
+}
+
+function renderVerdict() {
+    const r = lastGoalResult;
+    let headline = "";
+    if (r.overallShortfall === 0) {
+        headline = `Full Budget Surplus: Your ₹${formatINR(r.monthlyBudget)} monthly budget fully funds all ${r.goals.length} life goals!`;
+    } else {
+        headline = `Budget Shortfall: Required SIPs exceed budget by ₹${formatINR(r.overallShortfall)}/month. ${r.goalsFullyFunded} of 6 goals fully covered.`;
+    }
+
+    const bullets = [
+        `<b>Monthly Budget Capacity:</b> You have <b>₹${formatINR(r.monthlyBudget)} per month</b> allocated across goals.`,
+        `<b>Total Required SIP:</b> Funding 100% of all future milestones requires <b>₹${formatINR(r.totalRequiredSIP)} per month</b>.`,
+        r.overallShortfall > 0
+            ? `<b>Priority Waterfall:</b> Goals 1 through ${r.goalsFullyFunded} are 100% secured. Lower priority goals receive remaining budget or depend on future salary hikes.`
+            : `<b>Surplus Budget:</b> You have <b>₹${formatINR(r.unallocatedBudget)} per month</b> in unallocated surplus to accelerate retirement.`,
+        `<b>Future Goals Aggregate:</b> Combined future cost of all goals totals <b>${shortINR(r.sumFutureTargets)}</b> across their respective target dates.`
+    ];
+
+    document.getElementById("verdictCard").innerHTML = `
+        <div class="verdict-top">
+            <span class="verdict-eyebrow">Goal Allocation Assessment</span>
+        </div>
+        <p class="verdict-headline">${headline}</p>
+        <p class="verdict-sub">Waterfall allocation evaluated in priority sequence (Goal 1 to 6).</p>
+        <ul class="verdict-bullets">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+    `;
+}
+
+function renderChart() {
+    const r = lastGoalResult;
+    const labels = r.goals.map(g => g.name);
+    const reqData = r.goals.map(g => Math.round(g.requiredSIP));
+    const allocData = r.goals.map(g => Math.round(g.allocatedSIP));
+
+    document.getElementById("chartCaption").textContent = `Required Monthly SIP vs Allocated Monthly SIP from your ₹${formatINR(r.monthlyBudget)} budget.`;
+
+    if (goalChart) goalChart.destroy();
+    goalChart = new Chart(document.getElementById("goalChart"), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Required SIP (₹/mo)",
+                    data: reqData,
+                    backgroundColor: "#ef4444",
+                    borderRadius: 6
+                },
+                {
+                    label: "Allocated SIP (₹/mo)",
+                    data: allocData,
+                    backgroundColor: "#10b981",
+                    borderRadius: 6
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { ticks: { callback: v => "₹" + Number(v).toLocaleString('en-IN') } }
+            }
+        }
+    });
+}
+
+function renderWaterfall() {
+    const r = lastGoalResult;
+    const rows = r.goals.map(g => {
+        let pillClass = "pill-funded";
+        let statusText = "100% Funded";
+        if (g.fundedPct < 0.999 && g.allocatedSIP > 0) {
+            pillClass = "pill-partial";
+            statusText = `${Math.round(g.fundedPct * 100)}% Funded`;
+        } else if (g.allocatedSIP === 0 && g.fundedPct < 0.999) {
+            pillClass = "pill-unfunded";
+            statusText = "0% Funded (SIP)";
+        }
+
+        return `
+            <tr>
+                <td><b>${g.priority}</b></td>
+                <td><b>${g.name}</b> (${g.years} yrs)</td>
+                <td>${shortINR(g.futureTarget)}</td>
+                <td>₹${formatINR(g.requiredSIP)}</td>
+                <td><b>₹${formatINR(g.allocatedSIP)}</b></td>
+                <td style="color:${g.monthlyShortfall > 0 ? '#dc2626' : '#16a34a'};">₹${formatINR(g.monthlyShortfall)}</td>
+                <td><span class="pill ${pillClass}">${statusText}</span></td>
+            </tr>
+        `;
+    }).join("");
+
+    document.getElementById("waterfallTableWrap").innerHTML = `
+        <table class="goals-table">
+            <thead>
+                <tr>
+                    <th>Pri</th>
+                    <th>Goal &amp; Horizon</th>
+                    <th>Future Target</th>
+                    <th>Required SIP</th>
+                    <th>Allocated SIP</th>
+                    <th>Shortfall</th>
+                    <th>Funding Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows}
+                <tr style="background:#f1f5f9; font-weight:700; border-top:2px solid #cbd5e1;">
+                    <td colspan="2">Total Portfolio</td>
+                    <td>${shortINR(r.sumFutureTargets)}</td>
+                    <td>₹${formatINR(r.totalRequiredSIP)}</td>
+                    <td>₹${formatINR(r.totalAllocatedSIP)}</td>
+                    <td>₹${formatINR(r.overallShortfall)}</td>
+                    <td>${r.goalsFullyFunded}/6 Goals Secured</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+}
+
+function renderSummary() {
+    const r = lastGoalResult;
+    const m = (l, v) => `<div class="metric"><span class="metric-label">${l}</span><span class="metric-value">${v}</span></div>`;
+    document.getElementById("summarySection").innerHTML = `
+        <h3 style="font-size: 15px; font-weight: 700; color: #1e293b; margin: 16px 0 8px;">📊 Portfolio Goal Metrics</h3>
+        <div class="metric-grid">
+            ${m("Monthly Investment Budget", "₹" + formatINR(r.monthlyBudget))}
+            ${m("Total Required SIP", "₹" + formatINR(r.totalRequiredSIP))}
+            ${m("Budget Allocated", "₹" + formatINR(r.totalAllocatedSIP))}
+            ${m("Monthly Shortfall", "₹" + formatINR(r.overallShortfall))}
+            ${m("Budget Coverage Ratio", ((r.totalAllocatedSIP / r.totalRequiredSIP) * 100).toFixed(1) + "%")}
+            ${m("Secured Goals", r.goalsFullyFunded + " of 6 Goals")}
+        </div>
+    `;
+}
+
+function exportGoals() {
+    if (!lastGoalResult) return;
+    const r = lastGoalResult;
+    exportWorkbook("goal-dashboard-plan.xlsx", {
+        Summary: [
+            ["Item", "Amount (₹)"],
+            ["Monthly Budget", r.monthlyBudget],
+            ["Total Required SIP", r.totalRequiredSIP],
+            ["Budget Allocated", r.totalAllocatedSIP],
+            ["Monthly Shortfall", r.overallShortfall],
+            ["Goals 100% Secured", r.goalsFullyFunded + " of 6"]
+        ],
+        GoalAllocation: [
+            ["Priority", "Goal Name", "Target Today", "Current Assets", "Years", "Future Target", "Required SIP", "Allocated SIP", "Monthly Shortfall", "Funded %"],
+            ...r.goals.map(g => [g.priority, g.name, g.targetToday, g.currentAsset, g.years, g.futureTarget, g.requiredSIP, g.allocatedSIP, g.monthlyShortfall, (g.fundedPct * 100).toFixed(1) + "%"])
+        ]
+    });
+}
+
+document.getElementById("monthlyBudget").addEventListener("input", calculateGoals);
+for (let i = 1; i <= 6; i++) {
+    [`g${i}_name`, `g${i}_target`, `g${i}_asset`, `g${i}_yrs`, `g${i}_infl`, `g${i}_ret`].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener("input", calculateGoals);
+    });
+}
+
+if (typeof bindAmountInWords === "function") {
+    bindAmountInWords("monthlyBudget", "monthlyBudgetWords");
+}
+
+calculateGoals();
+</script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
+</body>
+</html>

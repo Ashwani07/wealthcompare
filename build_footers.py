@@ -63,6 +63,18 @@ PAGES = {
         "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
     "insights/how-much-term-insurance-do-you-need/index.html":
         "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "tools/asset-allocation/index.html":
+        "This tool is for educational illustration only. Target mix is a rule of thumb, not advisory. Verify with your advisor.",
+    "tools/net-worth-tracker/index.html":
+        "This tool is for educational illustration only. Balance sheet metrics and ratios are guidelines. Verify with your financial advisor.",
+    "tools/goal-planner/index.html":
+        "This tool is for educational illustration only. Goal projections and returns are assumptions. Check current numbers before investing.",
+    "insights/tax-smart-portfolio-rebalancing/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "insights/financial-health-ratios-cash-flow/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "insights/how-to-prioritise-competing-financial-goals/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
     "about/index.html": None,
     "privacy-policy/index.html": None,
     "terms/index.html": None,

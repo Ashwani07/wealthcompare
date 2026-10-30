@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Calculate your target portfolio asset allocation across Equity, Debt, Gold, and Cash. See exact buy and trim amounts needed to rebalance back to target mix.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/asset-allocation/">
+<title>Asset Allocation &amp; Portfolio Rebalancing Calculator | WealthCompare</title>
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="Asset Allocation & Portfolio Rebalancing Calculator">
+<meta property="og:description" content="Calculate your target portfolio asset allocation across Equity, Debt, Gold, and Cash. See exact buy and trim amounts needed to rebalance back to target mix.">
+<meta property="og:url" content="https://wealthcompare.in/tools/asset-allocation/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Auto Ads (Anchor + Vignette + In-page) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
+     crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="/assets/js/amount-words.js"></script>
+<script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Asset Allocation and Rebalancing Calculator",
+  "url": "https://wealthcompare.in/tools/asset-allocation/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "isPartOf": { "@type": "WebSite", "name": "WealthCompare", "url": "https://wealthcompare.in/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
+}
+.hero { padding: 30px 20px 40px; text-align: center; color: white; }
+.hero-inner {
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 20px 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+.container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
+.card {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.card-title { background: linear-gradient(135deg,#4f46e5,#3b82f6); color: white; padding: 10px; border-radius: 10px; margin: 0 0 6px; font-size: 20px; }
+.group-title { font-size: 14px; font-weight: 700; color: #3730a3; margin: 16px 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+.inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
+.input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+.input-group input, .input-group select {
+    padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; font-family: inherit; background: #fff;
+}
+.input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+button {
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5); color: white; border: none;
+    border-radius: 12px; font-size: 15px; cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px; font-family: inherit;
+}
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
+
+.verdict-card {
+    background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.verdict-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0; }
+.verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
+.verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
+.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.verdict-bullets li { position: relative; padding-left: 18px; font-size: 14px; line-height: 1.5; color: #1f2937; }
+.verdict-bullets li::before { content: "•"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; font-size: 16px; }
+
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 14px 0; }
+.metric { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; }
+.metric-label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+.metric-value { font-size: 18px; font-weight: 700; color: #1e293b; }
+
+.table-scroll { overflow-x: auto; margin-top: 14px; }
+.rebalance-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.rebalance-table th, .rebalance-table td { padding: 9px 12px; text-align: right; border-bottom: 1px solid #e2e8f0; }
+.rebalance-table th:first-child, .rebalance-table td:first-child { text-align: left; }
+.rebalance-table th { background: #f8fafc; font-weight: 600; color: #475569; }
+.rebalance-table tr.total-row { font-weight: 700; background: #f1f5f9; border-top: 2px solid #cbd5e1; }
+.action-buy { color: #16a34a; font-weight: 700; }
+.action-trim { color: #dc2626; font-weight: 700; }
+.action-ok { color: #475569; font-weight: 600; }
+
+.breakdown-details { border: 1px solid #e2e8f0; }
+.breakdown-details summary { cursor: pointer; font-weight: 700; color: #3730a3; padding: 6px 0; }
+.breakdown-body { margin-top: 14px; }
+.nested-details { margin: 12px 0; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 10px 14px; }
+.nested-details summary { font-size: 13px; font-weight: 600; cursor: pointer; color: #475569; }
+.advanced-body { margin-top: 10px; font-size: 13px; color: #334155; line-height: 1.6; }
+
+.chart-container {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    border-radius: 18px; padding: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); margin-bottom: 20px;
+}
+.chart-caption { font-size: 13px; color: var(--text-secondary); margin: 0 0 12px; }
+.chart-canvas-wrap { position: relative; height: 320px; max-height: 380px; width: 100%; }
+
+.export-button { background: #10b981; max-width: 180px; margin-left: 8px; }
+.share-button { background: #0284c7; max-width: 200px; margin-left: 8px; }
+.share-button.is-copied { background: #15803d !important; }
+
+@media (max-width: 768px) {
+    .hero h1 { font-size: 22px; }
+    button, .export-button, .share-button { max-width: 100%; margin: 8px 0 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a href="/" class="brand-link">
+            <span class="brand-title">WealthCompare</span>
+            <span class="brand-tag">India</span>
+        </a>
+        <nav class="site-nav">
+            <a href="/">All Calculators</a>
+            <a href="/insights/">Insights</a>
+            <a href="/about/">About</a>
+        </nav>
+    </div>
+</header>
+
+<div class="hero">
+    <div class="hero-inner">
+        <h1>Asset Allocation &amp; Rebalancing Calculator</h1>
+        <p>Translate your goal horizon and risk profile into an illustrative target mix, then see the exact buy or trim orders required to rebalance your portfolio.</p>
+        <p style="font-size:12px; opacity:0.9;">Calibrated for Indian portfolios across Equity, Debt, Gold, and Cash with 5% rebalance threshold</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2 class="card-title">1. Investor Profile &amp; Target Mix</h2>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="goalHorizon">Goal Horizon (Years)</label>
+                <input id="goalHorizon" type="number" min="1" max="40" value="15">
+                <span class="input-help">Longer horizons permit higher equity exposure</span>
+            </div>
+            <div class="input-group">
+                <label for="riskComfort">Risk Comfort (1 Low – 5 High)</label>
+                <select id="riskComfort">
+                    <option value="1">1 - Very Conservative (Capital preservation)</option>
+                    <option value="2">2 - Conservative (Low drawdowns)</option>
+                    <option value="3" selected>3 - Moderate (Balanced growth)</option>
+                    <option value="4">4 - Aggressive (High equity tolerance)</option>
+                    <option value="5">5 - Very Aggressive (Maximum compounding)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="emergencyFundReady">Emergency fund already funded?</label>
+                <select id="emergencyFundReady">
+                    <option value="Yes" selected>Yes (Portfolio is purely for long-term growth)</option>
+                    <option value="No">No (Reduce equity by 10% to preserve safety cushion)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="rebalanceThreshold">Rebalance Band / Threshold (%)</label>
+                <input id="rebalanceThreshold" type="number" min="1" max="15" step="0.5" value="5.0">
+                <span class="input-help">Only rebalance if an asset drifts by ±5% to avoid excess tax</span>
+            </div>
+        </div>
+
+        <div class="group-title">2. Current Portfolio Holdings (₹)</div>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="valEquity">Equity Holdings (Mutual funds, Stocks) (₹)</label>
+                <input id="valEquity" type="number" min="0" step="50000" value="1900000">
+                <span id="valEquityWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="valDebt">Debt Holdings (EPF, PPF, Debt funds, FDs) (₹)</label>
+                <input id="valDebt" type="number" min="0" step="50000" value="1100000">
+                <span id="valDebtWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="valGold">Gold Holdings (SGBs, Gold ETFs, Coins) (₹)</label>
+                <input id="valGold" type="number" min="0" step="25000" value="300000">
+                <span id="valGoldWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="valCash">Cash &amp; Bank Savings (₹)</label>
+                <input id="valCash" type="number" min="0" step="25000" value="300000">
+                <span id="valCashWords" class="amount-words" aria-live="polite"></span>
+            </div>
+        </div>
+
+        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+
+        <button type="button" onclick="calculateRebalance()">Calculate Rebalancing</button>
+        <button type="button" class="export-button" onclick="exportRebalance()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
+    </div>
+
+    <div id="verdictCard" class="card verdict-card"></div>
+
+    <div class="chart-container">
+        <p id="chartCaption" class="chart-caption"></p>
+        <div class="chart-canvas-wrap"><canvas id="aaChart"></canvas></div>
+    </div>
+
+    <details class="card breakdown-details" open>
+        <summary>Show Rebalancing Plan &amp; Asset-by-Asset Drift</summary>
+        <div class="breakdown-body">
+            <div class="table-scroll" id="rebalanceTableWrap"></div>
+            <div class="result-section" id="summarySection"></div>
+            <details class="nested-details">
+                <summary>Tax-Smart Rebalancing Rules in India</summary>
+                <div class="advanced-body">
+                    <h4>Rebalance With Fresh SIP Inflows First</h4>
+                    <p>Instead of selling debt to buy equity (or vice versa), which triggers capital gains tax and transaction fees, direct your monthly SIP contributions exclusively into the underweight asset class until the portfolio realigns naturally.</p>
+                    <h4>Section 198 Tax Exemption Harvesting</h4>
+                    <p>If you must sell equity to trim an overweight position, remember that equity LTCG is taxed at 12.5% on gains above ₹1,25,000 per financial year. Liquidating lots with minimal gains or spacing redemptions across March and April utilizes two financial years of exemptions.</p>
+                    <h4>EPF and PPF Are Illiquid Debt</h4>
+                    <p>Remember that Employee Provident Fund (EPF) and Public Provident Fund (PPF) cannot be easily withdrawn before retirement or lock-in. When rebalancing out of debt, trim liquid debt mutual funds or bank fixed deposits rather than retirement accounts.</p>
+                </div>
+            </details>
+        </div>
+    </details>
+
+    <div class="learn">
+        <h2>Why Asset Allocation Drives 90% of Portfolio Returns</h2>
+        <p>Decades of academic finance research (such as the Brinson, Hood, and Beebower studies) confirm that over 90% of portfolio performance variability comes from <b>asset allocation</b>—the split between Equity, Debt, Gold, and Cash—rather than individual stock picking or mutual fund timing.</p>
+
+        <h3>1. The Mechanical Advantage of Rebalancing</h3>
+        <p>During a roaring bull market, your equity allocation will expand naturally from 60% to 75% as stock prices rise. If you do nothing, your portfolio becomes dangerously volatile right before a correction. Rebalancing forces you to do what human psychology resists: <b>sell high and buy low</b>.</p>
+
+        <h3>2. The Role of Uncorrelated Assets (Gold and Cash)</h3>
+        <p>Allocating 5% to 10% in Sovereign Gold Bonds (SGBs) or Gold ETFs provides an essential macroeconomic hedge during global currency debasement or geopolitical crises. Maintaining a 5% liquid cash allocation ensures you can rebalance into equities during market crashes without disturbing your emergency reserves.</p>
+
+        <p>For detailed strategies on how to realign your portfolio without paying unnecessary taxes, read our guide: <a href="/insights/tax-smart-portfolio-rebalancing/">Tax-Smart Portfolio Rebalancing: How to Realign Equity &amp; Debt in India</a>.</p>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. Target mix is a rule of thumb, not advisory. Verify with your advisor.
+    </div>
+</footer>
+
+<script>
+const SHARE_FIELDS = [
+    { id: "goalHorizon", param: "hor" },
+    { id: "riskComfort", param: "risk" },
+    { id: "emergencyFundReady", param: "ef" },
+    { id: "rebalanceThreshold", param: "band" },
+    { id: "valEquity", param: "eq" },
+    { id: "valDebt", param: "debt" },
+    { id: "valGold", param: "gold" },
+    { id: "valCash", param: "cash" }
+];
+initShareScenario(SHARE_FIELDS);
+
+let aaChart = null;
+let lastAaResult = null;
+
+function formatINR(val) {
+    if (val === null || val === undefined || isNaN(val)) return "0";
+    return Math.round(val).toLocaleString("en-IN");
+}
+
+function shortINR(val) {
+    if (isNaN(val)) return "₹0";
+    const abs = Math.abs(val);
+    const sign = val < 0 ? "-" : "";
+    if (abs >= 10000000) return sign + "₹" + (abs / 10000000).toFixed(2) + " Cr";
+    if (abs >= 100000) return sign + "₹" + (abs / 100000).toFixed(2) + " Lakh";
+    return sign + "₹" + Math.round(abs).toLocaleString("en-IN");
+}
+
+function readNumber(id, def = 0) {
+    const el = document.getElementById(id);
+    if (!el) return def;
+    const v = parseFloat(el.value);
+    return isNaN(v) ? def : v;
+}
+
+function calculateRebalance() {
+    const horizon = Math.max(1, readNumber("goalHorizon", 15));
+    const risk = parseInt(document.getElementById("riskComfort").value, 10) || 3;
+    const efReady = document.getElementById("emergencyFundReady").value === "Yes";
+    const thresholdPct = Math.max(1, readNumber("rebalanceThreshold", 5.0));
+    const threshold = thresholdPct / 100;
+
+    const valEq = Math.max(0, readNumber("valEquity", 1900000));
+    const valDebt = Math.max(0, readNumber("valDebt", 1100000));
+    const valGold = Math.max(0, readNumber("valGold", 300000));
+    const valCash = Math.max(0, readNumber("valCash", 300000));
+
+    const totalPortfolio = valEq + valDebt + valGold + valCash;
+
+    // Derived target mix formula matching workbook:
+    // Target Equity = MAX(0.2, MIN(0.8, 0.25 + 0.1 * Risk + (0.15 if hor>=10 else 0.05 if hor>=5 else -0.1) - (0 if ef else 0.1)))
+    let horAdj = -0.1;
+    if (horizon >= 10) horAdj = 0.15;
+    else if (horizon >= 5) horAdj = 0.05;
+
+    const efAdj = efReady ? 0 : 0.1;
+    const rawTargetEq = 0.25 + (0.10 * risk) + horAdj - efAdj;
+    const targetEqPct = Math.max(0.20, Math.min(0.80, rawTargetEq));
+    const targetGoldPct = 0.05;
+    const targetCashPct = 0.05;
+    const targetDebtPct = Math.max(0.10, 1.0 - targetEqPct - targetGoldPct - targetCashPct);
+
+    const curEqPct = totalPortfolio > 0 ? (valEq / totalPortfolio) : 0;
+    const curDebtPct = totalPortfolio > 0 ? (valDebt / totalPortfolio) : 0;
+    const curGoldPct = totalPortfolio > 0 ? (valGold / totalPortfolio) : 0;
+    const curCashPct = totalPortfolio > 0 ? (valCash / totalPortfolio) : 0;
+
+    const targetValEq = totalPortfolio * targetEqPct;
+    const targetValDebt = totalPortfolio * targetDebtPct;
+    const targetValGold = totalPortfolio * targetGoldPct;
+    const targetValCash = totalPortfolio * targetCashPct;
+
+    const diffEq = targetValEq - valEq;
+    const diffDebt = targetValDebt - valDebt;
+    const diffGold = targetValGold - valGold;
+    const diffCash = targetValCash - valCash;
+
+    const driftEq = Math.abs(curEqPct - targetEqPct);
+    const driftDebt = Math.abs(curDebtPct - targetDebtPct);
+    const driftGold = Math.abs(curGoldPct - targetGoldPct);
+    const driftCash = Math.abs(curCashPct - targetCashPct);
+
+    const rebalanceNeeded = (driftEq >= threshold) || (driftDebt >= threshold) || (driftGold >= threshold) || (driftCash >= threshold);
+
+    lastAaResult = {
+        horizon,
+        risk,
+        efReady,
+        thresholdPct,
+        totalPortfolio,
+        assets: [
+            { name: "Equity", curVal: valEq, curPct: curEqPct, targetPct: targetEqPct, targetVal: targetValEq, diff: diffEq, drift: driftEq },
+            { name: "Debt", curVal: valDebt, curPct: curDebtPct, targetPct: targetDebtPct, targetVal: targetValDebt, diff: diffDebt, drift: driftDebt },
+            { name: "Gold", curVal: valGold, curPct: curGoldPct, targetPct: targetGoldPct, targetVal: targetValGold, diff: diffGold, drift: driftGold },
+            { name: "Cash", curVal: valCash, curPct: curCashPct, targetPct: targetCashPct, targetVal: targetValCash, diff: diffCash, drift: driftCash }
+        ],
+        rebalanceNeeded
+    };
+
+    renderVerdict();
+    renderChart();
+    renderTable();
+    renderSummary();
+}
+
+function renderVerdict() {
+    const r = lastAaResult;
+    const eq = r.assets[0];
+    const curEqPct = Math.round(eq.curPct * 100);
+    const targetEqPct = Math.round(eq.targetPct * 100);
+
+    let headline = "";
+    if (r.rebalanceNeeded) {
+        headline = `Rebalancing Recommended: Portfolio has drifted beyond your ${r.thresholdPct}% threshold.`;
+    } else {
+        headline = `Portfolio in Alignment: All asset classes are within your ${r.thresholdPct}% tolerance band.`;
+    }
+
+    const bullets = [
+        `<b>Current vs Target Mix:</b> Your equity exposure is <b>${curEqPct}%</b> versus your target of <b>${targetEqPct}%</b> for a ${r.horizon}-year horizon and Risk Score ${r.risk}.`,
+        `<b>Portfolio Size:</b> Total active portfolio is <b>${shortINR(r.totalPortfolio)}</b> across all four asset classes.`,
+        r.assets[0].diff > 0
+            ? `<b>Action for Equity:</b> Buy <b>₹${formatINR(r.assets[0].diff)}</b> in equity to reach your target ${targetEqPct}% allocation.`
+            : `<b>Action for Equity:</b> Trim <b>₹${formatINR(Math.abs(r.assets[0].diff))}</b> from equity to lock in gains and de-risk.`,
+        `<b>Tax-Smart Execution:</b> Where possible, realign by routing new monthly SIP inflows into underweight assets rather than selling existing holdings.`
+    ];
+
+    document.getElementById("verdictCard").innerHTML = `
+        <div class="verdict-top">
+            <span class="verdict-eyebrow">Asset Allocation Verdict</span>
+        </div>
+        <p class="verdict-headline">${headline}</p>
+        <p class="verdict-sub">Evaluation based on ${r.horizon}-year investment horizon with ±${r.thresholdPct}% rebalance trigger.</p>
+        <ul class="verdict-bullets">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+    `;
+}
+
+function renderChart() {
+    const r = lastAaResult;
+    const labels = r.assets.map(a => a.name);
+    const curPcts = r.assets.map(a => +(a.curPct * 100).toFixed(1));
+    const targetPcts = r.assets.map(a => +(a.targetPct * 100).toFixed(1));
+
+    document.getElementById("chartCaption").textContent = `Current allocation % vs recommended target allocation % across your portfolio of ${shortINR(r.totalPortfolio)}.`;
+
+    if (aaChart) aaChart.destroy();
+    aaChart = new Chart(document.getElementById("aaChart"), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Current Allocation (%)",
+                    data: curPcts,
+                    backgroundColor: "#3b82f6",
+                    borderRadius: 6
+                },
+                {
+                    label: "Target Allocation (%)",
+                    data: targetPcts,
+                    backgroundColor: "#10b981",
+                    borderRadius: 6
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    ticks: { callback: v => v + "%" },
+                    max: 100
+                }
+            }
+        }
+    });
+}
+
+function renderTable() {
+    const r = lastAaResult;
+    const rows = r.assets.map(a => {
+        let actionClass = "action-ok";
+        let actionText = "In band";
+        if (a.diff > 1000) {
+            actionClass = "action-buy";
+            actionText = `Buy ₹${formatINR(a.diff)}`;
+        } else if (a.diff < -1000) {
+            actionClass = "action-trim";
+            actionText = `Trim ₹${formatINR(Math.abs(a.diff))}`;
+        }
+
+        const driftPct = (a.drift * 100).toFixed(1);
+        const driftColor = a.drift >= (r.thresholdPct / 100) ? "color:#dc2626; font-weight:700;" : "color:#475569;";
+
+        return `
+            <tr>
+                <td><b>${a.name}</b></td>
+                <td>₹${formatINR(a.curVal)}</td>
+                <td>${(a.curPct * 100).toFixed(1)}%</td>
+                <td>${(a.targetPct * 100).toFixed(1)}%</td>
+                <td>₹${formatINR(a.targetVal)}</td>
+                <td style="${driftColor}">${(a.curPct > a.targetPct ? "+" : "-")}${driftPct}%</td>
+                <td class="${actionClass}">${actionText}</td>
+            </tr>
+        `;
+    }).join("");
+
+    document.getElementById("rebalanceTableWrap").innerHTML = `
+        <table class="rebalance-table">
+            <thead>
+                <tr>
+                    <th>Asset Class</th>
+                    <th>Current Value (₹)</th>
+                    <th>Current %</th>
+                    <th>Target %</th>
+                    <th>Target Value (₹)</th>
+                    <th>Drift (%)</th>
+                    <th>Action Plan</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows}
+                <tr class="total-row">
+                    <td>Total Portfolio</td>
+                    <td>₹${formatINR(r.totalPortfolio)}</td>
+                    <td>100.0%</td>
+                    <td>100.0%</td>
+                    <td>₹${formatINR(r.totalPortfolio)}</td>
+                    <td>—</td>
+                    <td>${r.rebalanceNeeded ? "Rebalance Needed" : "Optimal"}</td>
+                </tr>
+            </tbody>
+        </table>
+    `;
+}
+
+function renderSummary() {
+    const r = lastAaResult;
+    const m = (l, v) => `<div class="metric"><span class="metric-label">${l}</span><span class="metric-value">${v}</span></div>`;
+    document.getElementById("summarySection").innerHTML = `
+        <h3 style="font-size: 15px; font-weight: 700; color: #1e293b; margin: 16px 0 8px;">📊 Portfolio Snapshot</h3>
+        <div class="metric-grid">
+            ${m("Total Portfolio Size", shortINR(r.totalPortfolio))}
+            ${m("Target Equity Exposure", (r.assets[0].targetPct * 100).toFixed(0) + "% (" + shortINR(r.assets[0].targetVal) + ")")}
+            ${m("Target Debt Exposure", (r.assets[1].targetPct * 100).toFixed(0) + "% (" + shortINR(r.assets[1].targetVal) + ")")}
+            ${m("Rebalance Status", r.rebalanceNeeded ? "Action Required" : "Within Tolerance")}
+        </div>
+    `;
+}
+
+function exportRebalance() {
+    if (!lastAaResult) return;
+    const r = lastAaResult;
+    exportWorkbook("asset-allocation-plan.xlsx", {
+        Assumptions: [
+            ["Parameter", "Value"],
+            ["Goal Horizon (Years)", r.horizon],
+            ["Risk Comfort Score (1-5)", r.risk],
+            ["Emergency Fund Ready", r.efReady ? "Yes" : "No"],
+            ["Rebalance Tolerance Band", r.thresholdPct + "%"],
+            ["Total Portfolio Value (₹)", r.totalPortfolio]
+        ],
+        RebalancePlan: [
+            ["Asset Class", "Current Value", "Current %", "Target %", "Target Value", "Net Action (₹)"],
+            ...r.assets.map(a => [a.name, a.curVal, (a.curPct * 100).toFixed(1) + "%", (a.targetPct * 100).toFixed(1) + "%", a.targetVal, a.diff])
+        ]
+    });
+}
+
+["goalHorizon", "riskComfort", "emergencyFundReady", "rebalanceThreshold", "valEquity", "valDebt", "valGold", "valCash"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", calculateRebalance);
+    if (el) el.addEventListener("change", calculateRebalance);
+});
+
+if (typeof bindAmountInWords === "function") {
+    bindAmountInWords("valEquity", "valEquityWords");
+    bindAmountInWords("valDebt", "valDebtWords");
+    bindAmountInWords("valGold", "valGoldWords");
+    bindAmountInWords("valCash", "valCashWords");
+}
+
+calculateRebalance();
+</script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
+</body>
+</html>

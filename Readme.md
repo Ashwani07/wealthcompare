@@ -41,7 +41,7 @@ WealthCompare operates on three principles:
 ├── 404.html                                   Custom 404 page
 ├── ads.txt                                    Google AdSense publisher verification
 ├── robots.txt                                 Crawler instructions (disallows *.xlsx)
-├── sitemap.xml                                Full sitemap with 25 validated URLs
+├── sitemap.xml                                Full sitemap with 31 validated URLs
 ├── site.webmanifest                           PWA web manifest
 ├── favicon.ico
 ├── build_footers.py                           Syncs standardized footer template across all pages
@@ -63,7 +63,7 @@ WealthCompare operates on three principles:
 │       ├── export-excel.js                    On-demand lazy-loading client-side Excel exporter
 │       ├── share-scenario.js                  URL query parameter sync and clipboard sharing
 │       └── ad-slot-collapse.js                AdSense unfilled ad container collapse (prevents CLS)
-├── insights/                                  10 Long-form Educational Articles:
+├── insights/                                  13 Long-form Educational Articles:
 │   ├── emergency-fund-before-investing/
 │   ├── loan-vs-sip-hidden-tradeoffs/
 │   ├── what-a-sip-return-assumption-means/
@@ -73,8 +73,11 @@ WealthCompare operates on three principles:
 │   ├── direct-vs-regular-mutual-fund-expense-ratio/
 │   ├── rent-vs-buy-india-wealth-comparison/
 │   ├── sustainable-swp-rate-india-retirement/
-│   └── how-much-term-insurance-do-you-need/
-└── tools/                                     11 Interactive Financial Calculators:
+│   ├── how-much-term-insurance-do-you-need/
+│   ├── tax-smart-portfolio-rebalancing/
+│   ├── financial-health-ratios-cash-flow/
+│   └── how-to-prioritise-competing-financial-goals/
+└── tools/                                     14 Interactive Financial Calculators:
     ├── emi-calculator/
     ├── loan-prepayment/
     ├── sip-growth/
@@ -85,14 +88,17 @@ WealthCompare operates on three principles:
     ├── loan-vs-sip/
     ├── emergency-fund/
     ├── retirement-swp/
-    └── term-insurance/
+    ├── term-insurance/
+    ├── asset-allocation/
+    ├── net-worth-tracker/
+    └── goal-planner/
 ```
 
 ---
 
-## 4. Current Suite: 11 Tools & 10 Articles
+## 4. Current Suite: 14 Tools & 13 Articles
 
-### A. The 11 Calculators
+### A. The 14 Calculators
 
 | Tool | Path | What It Answers | Status |
 |---|---|---|---|
