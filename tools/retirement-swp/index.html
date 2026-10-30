@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Calculate your required retirement corpus in India, test your current SIP accumulation, and simulate a 30-40 year inflation-adjusted SWP withdrawal schedule with LTCG taxes.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/retirement-swp/">
+<title>Retirement Corpus &amp; SWP Planner: Inflation-Linked Withdrawals | WealthCompare</title>
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="Retirement Corpus & SWP Planner: Inflation-Linked Withdrawals">
+<meta property="og:description" content="Calculate your required retirement corpus in India, test your current SIP accumulation, and simulate a 30-40 year inflation-adjusted SWP withdrawal schedule with LTCG taxes.">
+<meta property="og:url" content="https://wealthcompare.in/tools/retirement-swp/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Auto Ads (Anchor + Vignette + In-page) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
+     crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="/assets/js/amount-words.js"></script>
+<script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Retirement Corpus and SWP Planner",
+  "url": "https://wealthcompare.in/tools/retirement-swp/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "isPartOf": { "@type": "WebSite", "name": "WealthCompare", "url": "https://wealthcompare.in/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
+}
+.hero { padding: 30px 20px 40px; text-align: center; color: white; }
+.hero-inner {
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 20px 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+.container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
+.card {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.card-title { background: linear-gradient(135deg,#4f46e5,#3b82f6); color: white; padding: 10px; border-radius: 10px; margin: 0 0 6px; font-size: 20px; }
+.group-title { font-size: 14px; font-weight: 700; color: #3730a3; margin: 16px 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+.inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
+.input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+.input-group input, .input-group select {
+    padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; font-family: inherit; background: #fff;
+}
+.input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+button {
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5); color: white; border: none;
+    border-radius: 12px; font-size: 15px; cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px; font-family: inherit;
+}
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
+
+.verdict-card {
+    background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.verdict-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0; }
+.mode-toggle { display: inline-flex; border: 1px solid #c7d2fe; border-radius: 999px; overflow: hidden; background: #fff; }
+.mode-toggle button {
+    margin: 0; width: auto; max-width: none; padding: 7px 14px; font-size: 12px; font-weight: 700;
+    background: transparent; color: #3730a3; border-radius: 0;
+}
+.mode-toggle button[aria-pressed="true"] { background: #4f46e5; color: #fff; }
+.verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
+.verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
+.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.verdict-bullets li { position: relative; padding-left: 18px; font-size: 14px; line-height: 1.5; color: #1f2937; }
+.verdict-bullets li::before { content: "•"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; font-size: 16px; }
+
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 14px 0; }
+.metric { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; }
+.metric-label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+.metric-value { font-size: 18px; font-weight: 700; color: #1e293b; }
+
+.breakdown-details { border: 1px solid #e2e8f0; }
+.breakdown-details summary { cursor: pointer; font-weight: 700; color: #3730a3; padding: 6px 0; }
+.breakdown-body { margin-top: 14px; }
+.nested-details { margin: 12px 0; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 10px 14px; }
+.nested-details summary { font-size: 13px; font-weight: 600; cursor: pointer; color: #475569; }
+.advanced-body { margin-top: 10px; font-size: 13px; color: #334155; line-height: 1.6; }
+
+.chart-container {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    border-radius: 18px; padding: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); margin-bottom: 20px;
+}
+.chart-caption { font-size: 13px; color: var(--text-secondary); margin: 0 0 12px; }
+.chart-canvas-wrap { position: relative; height: 320px; max-height: 380px; width: 100%; }
+
+.table-container { overflow-x: auto; margin-top: 14px; max-height: 380px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #e2e8f0; }
+th:first-child, td:first-child { text-align: left; }
+th { background: #f8fafc; font-weight: 600; color: #475569; position: sticky; top: 0; }
+
+.export-button { background: #10b981; max-width: 180px; margin-left: 8px; }
+.share-button { background: #0284c7; max-width: 200px; margin-left: 8px; }
+.share-button.is-copied { background: #15803d !important; }
+
+@media (max-width: 768px) {
+    .hero h1 { font-size: 22px; }
+    button, .export-button, .share-button { max-width: 100%; margin: 8px 0 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a href="/" class="brand-link">
+            <span class="brand-title">WealthCompare</span>
+            <span class="brand-tag">India</span>
+        </a>
+        <nav class="site-nav">
+            <a href="/">All Calculators</a>
+            <a href="/insights/">Insights</a>
+            <a href="/about/">About</a>
+        </nav>
+    </div>
+</header>
+
+<div class="hero">
+    <div class="hero-inner">
+        <h1>Retirement Corpus &amp; SWP Planner</h1>
+        <p>Estimate the target corpus needed for a dignified retirement in India and test whether your savings path withstands 30–40 years of inflation and taxes.</p>
+        <p style="font-size:12px; opacity:0.9;">Solves for required corpus, monthly SIP needed, and 40-year systematic withdrawal simulation</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2 class="card-title">1. Your Profile &amp; Lifestyle Target</h2>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="currentAge">Current age</label>
+                <input id="currentAge" type="number" min="18" max="75" value="40">
+                <span class="field-error" id="currentAgeError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="retirementAge">Planned retirement age</label>
+                <input id="retirementAge" type="number" min="30" max="85" value="60">
+                <span class="field-error" id="retirementAgeError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="lifeExpectancy">Life expectancy</label>
+                <input id="lifeExpectancy" type="number" min="50" max="100" value="90">
+                <span class="input-help">Planning up to age 85–90 prevents longevity risk</span>
+                <span class="field-error" id="lifeExpectancyError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="monthlyExpenseToday">Monthly essential lifestyle today (₹)</label>
+                <input id="monthlyExpenseToday" type="number" min="5000" step="5000" value="100000">
+                <span id="monthlyExpenseTodayWords" class="amount-words" aria-live="polite"></span>
+                <span class="field-error" id="monthlyExpenseTodayError" role="alert"></span>
+            </div>
+            <div class="input-group">
+                <label for="inflation">Expected inflation (% p.a.)</label>
+                <input id="inflation" type="number" min="2" max="15" step="0.5" value="6.0">
+                <span class="input-help">Indian urban inflation typically 5.5% - 7.0%</span>
+            </div>
+        </div>
+
+        <div class="group-title">2. Pre-Retirement Savings &amp; Accumulation</div>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="currentCorpus">Current retirement savings (PF, PPF, NPS, MF) (₹)</label>
+                <input id="currentCorpus" type="number" min="0" step="100000" value="2000000">
+                <span id="currentCorpusWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="monthlySIP">Monthly retirement investment (₹)</label>
+                <input id="monthlySIP" type="number" min="0" step="5000" value="50000">
+                <span id="monthlySIPWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="preRetReturn">Expected pre-retirement return (% p.a.)</label>
+                <input id="preRetReturn" type="number" min="4" max="20" step="0.5" value="12.0">
+                <span class="input-help">E.g., 11-13% for equity-heavy diversified portfolio</span>
+            </div>
+            <div class="input-group">
+                <label for="preRetDrag">Pre-retirement cost drag / TER (% p.a.)</label>
+                <input id="preRetDrag" type="number" min="0" max="3" step="0.1" value="0.5">
+                <span class="input-help">Direct mutual fund expense ratio</span>
+            </div>
+            <div class="input-group">
+                <label for="ltcgTax">LTCG tax rate at retirement (%)</label>
+                <input id="ltcgTax" type="number" min="0" max="30" step="0.5" value="12.5">
+                <span class="input-help">Section 198 (Finance Act, 2024): 12.5%</span>
+            </div>
+        </div>
+
+        <div class="group-title">3. Post-Retirement Assumptions (Distribution Phase)</div>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="postRetReturn">Post-retirement gross return (% p.a.)</label>
+                <input id="postRetReturn" type="number" min="3" max="15" step="0.5" value="8.0">
+                <span class="input-help">Conservative mix: debt, arbitrage &amp; moderate equity</span>
+            </div>
+            <div class="input-group">
+                <label for="postRetDrag">Post-retirement tax &amp; cost drag (% p.a.)</label>
+                <input id="postRetDrag" type="number" min="0" max="4" step="0.1" value="1.0">
+                <span class="input-help">Effective annual tax drag on SWP withdrawals</span>
+            </div>
+        </div>
+
+        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+
+        <button type="button" onclick="calculateRetirement()">Plan Retirement</button>
+        <button type="button" class="export-button" onclick="exportRetirement()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
+    </div>
+
+    <div id="verdictCard" class="card verdict-card"></div>
+
+    <details class="card breakdown-details" open>
+        <summary>Show Full Readiness Breakdown &amp; Gap Analysis</summary>
+        <div class="breakdown-body">
+            <div class="result-section" id="summarySection"></div>
+            <details class="nested-details">
+                <summary>Advanced Read: calculation methodology and sequence of returns risk</summary>
+                <div class="advanced-body">
+                    <h4>The Growing Annuity Due Model</h4>
+                    <p>Unlike simplistic calculators that multiply annual expense by 25 or 30, this model computes the exact present value of an <b>inflation-indexed growing annuity due</b>. Withdrawals occur at the start of each year, and remaining capital compounds at net post-retirement returns <code>(postRetReturn - postRetDrag)</code>.</p>
+                    <h4>Taxation at Retirement (LTCG)</h4>
+                    <p>Pre-retirement accumulation estimates capital gains by subtracting your total contributions (initial corpus plus SIPs) and the Section 198 exemption (₹1.25 lakh). The 12.5% LTCG tax is deducted to reflect your true net available starting corpus at age 60.</p>
+                    <h4>Sequence of Returns Risk</h4>
+                    <p>The mathematical schedule assumes an even annual return of 7% net post-retirement. In real markets, experiencing a 20–30% drawdown in your first 3 retirement years while actively withdrawing money permanently shrinks capital longevity. It is critical to maintain a 2–3 year cash buffer during retirement.</p>
+                </div>
+            </details>
+        </div>
+    </details>
+
+    <div class="chart-container">
+        <p id="chartCaption" class="chart-caption"></p>
+        <div class="chart-canvas-wrap"><canvas id="retChart"></canvas></div>
+        <details class="nested-details">
+            <summary>Yearly Retirement Withdrawal Schedule (Up to 40 Years)</summary>
+            <div class="table-container" id="scheduleTable"></div>
+        </details>
+    </div>
+
+    <div class="learn">
+        <h2>Planning Retirement in India: The Real Math</h2>
+        <p>Retirement planning in India faces a dual challenge that western models like the famous "4% Rule" overlook: <b>persistently high inflation (6–7%)</b> paired with <b>longer post-retirement lifespans (25–35 years)</b>.</p>
+
+        <h3>1. The Compounding Trap of Inflation</h3>
+        <p>A monthly lifestyle that costs ₹1,00,000 today will require approximately <b>₹3,20,700 per month</b> in 20 years at 6% inflation. If your retirement lasts 30 years (from age 60 to 90), that monthly outgo will cross ₹18,00,000 by age 89 just to sustain the exact same purchasing power.</p>
+
+        <h3>2. Why Pure Fixed Deposits Fail in Retirement</h3>
+        <p>Many retirees move 100% of their savings into Bank FDs or Senior Citizens Savings Schemes (SCSS). When post-tax FD interest (typically 5.2%–6.0% for 30% slab earners) is lower than lifestyle inflation (6%–7%), the real purchasing power of the corpus shrinks every single year. A sustainable retirement portfolio requires a balanced asset allocation (30–40% equity, 60–70% debt and arbitrage) to beat inflation.</p>
+
+        <p>For an in-depth analysis of sustainable withdrawal rates in India, read our pillar guide: <a href="/insights/sustainable-swp-rate-india-retirement/">The 4% Rule Fails in India: Sustainable SWP Rates with 6% Inflation</a>.</p>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. Post-retirement returns, inflation and tax rules will vary over time. Verify with your advisor.
+    </div>
+</footer>
+
+<script>
+const SHARE_FIELDS = [
+    { id: "currentAge", param: "age" },
+    { id: "retirementAge", param: "retage" },
+    { id: "lifeExpectancy", param: "lexp" },
+    { id: "monthlyExpenseToday", param: "exp" },
+    { id: "inflation", param: "infl" },
+    { id: "currentCorpus", param: "cur" },
+    { id: "monthlySIP", param: "sip" },
+    { id: "preRetReturn", param: "preret" },
+    { id: "preRetDrag", param: "predrag" },
+    { id: "ltcgTax", param: "tax" },
+    { id: "postRetReturn", param: "postret" },
+    { id: "postRetDrag", param: "postdrag" }
+];
+initShareScenario(SHARE_FIELDS);
+
+let retChart = null;
+let lastRetResult = null;
+let viewBasis = "real";
+
+function formatINR(val) {
+    if (val === null || val === undefined || isNaN(val)) return "0";
+    return Math.round(val).toLocaleString("en-IN");
+}
+
+function shortINR(val) {
+    if (isNaN(val)) return "₹0";
+    const abs = Math.abs(val);
+    const sign = val < 0 ? "-" : "";
+    if (abs >= 10000000) return sign + "₹" + (abs / 10000000).toFixed(2) + " Cr";
+    if (abs >= 100000) return sign + "₹" + (abs / 100000).toFixed(2) + " Lakh";
+    return sign + "₹" + Math.round(abs).toLocaleString("en-IN");
+}
+
+function readNumber(id, def = 0) {
+    const el = document.getElementById(id);
+    if (!el) return def;
+    const v = parseFloat(el.value);
+    return isNaN(v) ? def : v;
+}
+
+function calculateRetirement() {
+    const currentAge = readNumber("currentAge", 40);
+    const retirementAge = readNumber("retirementAge", 60);
+    const lifeExpectancy = readNumber("lifeExpectancy", 90);
+
+    const formError = document.getElementById("formError");
+    if (retirementAge <= currentAge) {
+        formError.textContent = "Retirement age must be greater than current age.";
+        return;
+    }
+    if (lifeExpectancy <= retirementAge) {
+        formError.textContent = "Life expectancy must be greater than retirement age.";
+        return;
+    }
+    formError.textContent = "";
+
+    const monthlyExpenseToday = Math.max(0, readNumber("monthlyExpenseToday", 100000));
+    const inflation = Math.max(0, readNumber("inflation", 6.0));
+    const inflRate = inflation / 100;
+
+    const currentCorpus = Math.max(0, readNumber("currentCorpus", 2000000));
+    const monthlySIP = Math.max(0, readNumber("monthlySIP", 50000));
+    const preRetReturn = Math.max(0, readNumber("preRetReturn", 12.0));
+    const preRetDrag = Math.max(0, readNumber("preRetDrag", 0.5));
+    const ltcgTaxRate = Math.max(0, readNumber("ltcgTax", 12.5));
+    const ltcgExemp = 125000;
+
+    const postRetReturn = Math.max(0, readNumber("postRetReturn", 8.0));
+    const postRetDrag = Math.max(0, readNumber("postRetDrag", 1.0));
+
+    const yearsToRetire = retirementAge - currentAge;
+    const retireYears = Math.min(40, lifeExpectancy - retirementAge);
+
+    // 1. Monthly expense at retirement
+    const monthlyExpenseAtRetirement = monthlyExpenseToday * Math.pow(1 + inflRate, yearsToRetire);
+    const firstYearAnnualExpense = monthlyExpenseAtRetirement * 12;
+
+    // 2. Required starting corpus at retirement
+    const netPostRetReturn = (postRetReturn - postRetDrag) / 100;
+    let requiredCorpus = 0;
+    if (Math.abs(netPostRetReturn - inflRate) < 0.000001) {
+        requiredCorpus = firstYearAnnualExpense * retireYears * (1 + netPostRetReturn);
+    } else {
+        requiredCorpus = firstYearAnnualExpense * ((1 - Math.pow((1 + inflRate) / (1 + netPostRetReturn), retireYears)) / (netPostRetReturn - inflRate)) * (1 + netPostRetReturn);
+    }
+
+    // 3. Pre-retirement accumulation
+    const netPreMonthlyRate = ((preRetReturn - preRetDrag) / 100) / 12;
+    const months = yearsToRetire * 12;
+    const fvCorpus = currentCorpus * Math.pow(1 + netPreMonthlyRate, months);
+    const fvSIP = netPreMonthlyRate > 0 ? (monthlySIP * (Math.pow(1 + netPreMonthlyRate, months) - 1) / netPreMonthlyRate) : (monthlySIP * months);
+    const projectedPreTax = fvCorpus + fvSIP;
+
+    const totalContributions = currentCorpus + (monthlySIP * months);
+    const totalGains = Math.max(0, projectedPreTax - totalContributions);
+    const estimatedTax = Math.max(0, totalGains - ltcgExemp) * (ltcgTaxRate / 100);
+    const projectedAvailableCorpus = Math.max(0, projectedPreTax - estimatedTax);
+
+    const surplusOrGap = projectedAvailableCorpus - requiredCorpus;
+    const fundingReadiness = requiredCorpus > 0 ? (projectedAvailableCorpus / requiredCorpus) : 1;
+
+    // Required monthly SIP to reach exactly requiredCorpus post-tax
+    let requiredMonthlySIP = 0;
+    if (yearsToRetire > 0) {
+        const fvFactor1 = netPreMonthlyRate > 0 ? ((Math.pow(1 + netPreMonthlyRate, months) - 1) / netPreMonthlyRate) : months;
+        const netGrowthCorpus = fvCorpus - currentCorpus;
+        const taxRate = ltcgTaxRate / 100;
+        
+        // Target pre-tax corpus needed:
+        // projectedPreTax - (projectedPreTax - currentCorpus - SIP*months - ltcgExemp)*taxRate = requiredCorpus
+        // projectedPreTax*(1 - taxRate) + SIP*months*taxRate + (currentCorpus + ltcgExemp)*taxRate = requiredCorpus
+        // (fvCorpus + SIP*fvFactor1)*(1 - taxRate) + SIP*months*taxRate + (currentCorpus + ltcgExemp)*taxRate = requiredCorpus
+        const denom = fvFactor1 * (1 - taxRate) + months * taxRate;
+        const numer = requiredCorpus - fvCorpus * (1 - taxRate) - (currentCorpus + ltcgExemp) * taxRate;
+        requiredMonthlySIP = Math.max(0, denom > 0 ? (numer / denom) : 0);
+    }
+
+    // 4. Withdrawal schedule (up to retireYears)
+    const schedule = [];
+    let curBal = projectedAvailableCorpus;
+    let reqBal = requiredCorpus;
+    let yearsFunded = retireYears;
+    let fundedDepleted = false;
+
+    for (let y = 1; y <= retireYears; y++) {
+        const age = retirementAge + y;
+        const plannedWithdrawal = firstYearAnnualExpense * Math.pow(1 + inflRate, y - 1);
+        const actualWithdrawal = Math.min(curBal, plannedWithdrawal);
+        const growth = Math.max(0, curBal - actualWithdrawal) * netPostRetReturn;
+        const closing = Math.max(0, curBal - actualWithdrawal + growth);
+
+        const reqActual = Math.min(reqBal, plannedWithdrawal);
+        const reqGrowth = Math.max(0, reqBal - reqActual) * netPostRetReturn;
+        const reqClosing = Math.max(0, reqBal - reqActual + reqGrowth);
+
+        schedule.push({
+            year: y,
+            age,
+            opening: curBal,
+            plannedWithdrawal,
+            actualWithdrawal,
+            growth,
+            closing,
+            reqOpening: reqBal,
+            reqClosing
+        });
+
+        curBal = closing;
+        reqBal = reqClosing;
+
+        if (!fundedDepleted && curBal <= 0) {
+            yearsFunded = y - 1;
+            fundedDepleted = true;
+        }
+    }
+
+    if (projectedAvailableCorpus >= requiredCorpus) {
+        yearsFunded = retireYears;
+    }
+
+    lastRetResult = {
+        currentAge,
+        retirementAge,
+        lifeExpectancy,
+        yearsToRetire,
+        retireYears,
+        monthlyExpenseToday,
+        monthlyExpenseAtRetirement,
+        firstYearAnnualExpense,
+        inflation,
+        requiredCorpus,
+        projectedPreTax,
+        totalContributions,
+        estimatedTax,
+        projectedAvailableCorpus,
+        surplusOrGap,
+        fundingReadiness,
+        requiredMonthlySIP,
+        yearsFunded,
+        schedule
+    };
+
+    renderVerdict();
+    renderSummary();
+    renderChart();
+    renderSchedule();
+}
+
+function setViewBasis(mode) {
+    viewBasis = mode;
+    document.getElementById("btnReal").setAttribute("aria-pressed", mode === "real");
+    document.getElementById("btnNominal").setAttribute("aria-pressed", mode === "nominal");
+    renderVerdict();
+    renderSummary();
+    renderChart();
+}
+
+function renderVerdict() {
+    const r = lastRetResult;
+    const isReal = viewBasis === "real";
+    const deflAtRet = Math.pow(1 + r.inflation / 100, r.yearsToRetire);
+
+    const reqDisplay = isReal ? r.requiredCorpus / deflAtRet : r.requiredCorpus;
+    const availDisplay = isReal ? r.projectedAvailableCorpus / deflAtRet : r.projectedAvailableCorpus;
+    const gapDisplay = isReal ? Math.abs(r.surplusOrGap) / deflAtRet : Math.abs(r.surplusOrGap);
+
+    const readinessPct = Math.round(r.fundingReadiness * 100);
+    let headline = "";
+    if (r.surplusOrGap >= 0) {
+        headline = `Retirement on track! Projected corpus has a buffer of ${shortINR(gapDisplay)} ${isReal ? "(today's purchasing power)" : "(nominal)"}.`;
+    } else {
+        headline = `Modeled gap of ${shortINR(gapDisplay)} ${isReal ? "(today's purchasing power)" : "(nominal)"}. Current funding readiness: ${readinessPct}%.`;
+    }
+
+    const bullets = [
+        `<b>Lifestyle after inflation:</b> At age ${r.retirementAge}, your ₹${formatINR(r.monthlyExpenseToday)} monthly lifestyle will require <b>₹${formatINR(r.monthlyExpenseAtRetirement)} per month</b> (₹${formatINR(r.firstYearAnnualExpense)} in year 1).`,
+        `<b>Required Starting Corpus:</b> <b>${shortINR(reqDisplay)}</b> is needed to fund <b>${r.retireYears} years</b> of inflation-linked SWP withdrawals until age ${r.lifeExpectancy}.`,
+        `<b>Your Projected Corpus:</b> Accumulates to <b>${shortINR(availDisplay)}</b> post-tax (₹${formatINR(r.totalContributions)} contributions + growth minus ₹${formatINR(r.estimatedTax)} LTCG tax).`,
+        r.surplusOrGap >= 0
+            ? `<b>Corpus Longevity:</b> Your funds are projected to comfortably cover all <b>${r.retireYears} retirement years</b>.`
+            : `<b>Corpus Longevity:</b> At current savings, your corpus will sustain withdrawals for <b>${r.yearsFunded} years</b> (depleting at age ${r.retirementAge + r.yearsFunded}). Raising monthly investment to <b>₹${formatINR(r.requiredMonthlySIP)}</b> bridges the gap.`
+    ];
+
+    document.getElementById("verdictCard").innerHTML = `
+        <div class="verdict-top">
+            <span class="verdict-eyebrow">Retirement Readiness Assessment</span>
+            <div class="mode-toggle" role="group" aria-label="Show real or nominal values">
+                <button type="button" id="btnReal" aria-pressed="${isReal}" onclick="setViewBasis('real')">Today's rupees</button>
+                <button type="button" id="btnNominal" aria-pressed="${!isReal}" onclick="setViewBasis('nominal')">Future rupees</button>
+            </div>
+        </div>
+        <p class="verdict-headline">${headline}</p>
+        <p class="verdict-sub">Modeling ${r.yearsToRetire} accumulation years and ${r.retireYears} distribution years under ${r.inflation}% inflation.</p>
+        <ul class="verdict-bullets">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+    `;
+}
+
+function renderSummary() {
+    const r = lastRetResult;
+    const isReal = viewBasis === "real";
+    const deflAtRet = Math.pow(1 + r.inflation / 100, r.yearsToRetire);
+
+    const m = (l, v) => `<div class="metric"><span class="metric-label">${l}</span><span class="metric-value">${v}</span></div>`;
+    document.getElementById("summarySection").innerHTML = `
+        <h3 style="font-size: 15px; font-weight: 700; color: #1e293b; margin: 16px 0 8px;">📊 Key Retirement Numbers (${isReal ? "Today's Purchasing Power" : "Future Nominal Rupees"})</h3>
+        <div class="metric-grid">
+            ${m("First Year Monthly Expense", isReal ? "₹" + formatINR(r.monthlyExpenseToday) : "₹" + formatINR(r.monthlyExpenseAtRetirement))}
+            ${m("Target Corpus Needed", shortINR(isReal ? r.requiredCorpus / deflAtRet : r.requiredCorpus))}
+            ${m("Projected Available Corpus", shortINR(isReal ? r.projectedAvailableCorpus / deflAtRet : r.projectedAvailableCorpus))}
+            ${m("Surplus / (Gap)", (r.surplusOrGap >= 0 ? "+" : "-") + shortINR(isReal ? Math.abs(r.surplusOrGap) / deflAtRet : Math.abs(r.surplusOrGap)))}
+            ${m("Required Monthly SIP", "₹" + formatINR(r.requiredMonthlySIP))}
+            ${m("Years Funded in Model", r.yearsFunded + " of " + r.retireYears + " Years")}
+        </div>
+    `;
+}
+
+function renderChart() {
+    const r = lastRetResult;
+    const isReal = viewBasis === "real";
+    const labels = r.schedule.map(d => "Age " + d.age);
+
+    const availBalances = r.schedule.map(d => {
+        const defl = Math.pow(1 + r.inflation / 100, r.yearsToRetire + d.year);
+        return Math.round(isReal ? d.closing / defl : d.closing);
+    });
+
+    const reqBalances = r.schedule.map(d => {
+        const defl = Math.pow(1 + r.inflation / 100, r.yearsToRetire + d.year);
+        return Math.round(isReal ? d.reqClosing / defl : d.reqClosing);
+    });
+
+    document.getElementById("chartCaption").textContent = `Retirement corpus trajectory over ${r.retireYears} retirement years (${isReal ? "adjusted for inflation" : "nominal rupees"}).`;
+
+    if (retChart) retChart.destroy();
+    retChart = new Chart(document.getElementById("retChart"), {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Your Projected Corpus",
+                    data: availBalances,
+                    borderColor: "#3b82f6",
+                    backgroundColor: "rgba(59,130,246,0.1)",
+                    fill: true,
+                    tension: 0.15,
+                    borderWidth: 2
+                },
+                {
+                    label: "Ideal Target Corpus",
+                    data: reqBalances,
+                    borderColor: "#10b981",
+                    borderDash: [5, 5],
+                    fill: false,
+                    pointRadius: 0,
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { ticks: { callback: v => "₹" + Number(v).toLocaleString('en-IN') } }
+            }
+        }
+    });
+}
+
+function renderSchedule() {
+    const r = lastRetResult;
+    const rows = r.schedule.map(d => `
+        <tr>
+            <td>${d.year}</td>
+            <td>${d.age}</td>
+            <td>₹${formatINR(d.opening)}</td>
+            <td>₹${formatINR(d.plannedWithdrawal)}</td>
+            <td>₹${formatINR(d.actualWithdrawal)}</td>
+            <td>₹${formatINR(d.growth)}</td>
+            <td><b>₹${formatINR(d.closing)}</b></td>
+        </tr>
+    `).join("");
+
+    document.getElementById("scheduleTable").innerHTML = `
+        <table>
+            <thead><tr><th>Year</th><th>Age</th><th>Opening Corpus (₹)</th><th>Planned SWP (₹)</th><th>Actual SWP (₹)</th><th>Net Growth (₹)</th><th>Closing Corpus (₹)</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table>
+    `;
+}
+
+function exportRetirement() {
+    if (!lastRetResult) return;
+    const r = lastRetResult;
+    exportWorkbook("retirement-swp-plan.xlsx", {
+        Assumptions: [
+            ["Parameter", "Value"],
+            ["Current Age", r.currentAge],
+            ["Retirement Age", r.retirementAge],
+            ["Life Expectancy", r.lifeExpectancy],
+            ["Monthly Essential Lifestyle Today (₹)", r.monthlyExpenseToday],
+            ["Inflation (% p.a.)", r.inflation],
+            ["Current Savings (₹)", readNumber("currentCorpus")],
+            ["Monthly SIP (₹)", readNumber("monthlySIP")],
+            ["Pre-Retirement Gross Return (%)", readNumber("preRetReturn")],
+            ["Post-Retirement Gross Return (%)", readNumber("postRetReturn")]
+        ],
+        Results: [
+            ["Metric", "Value"],
+            ["Monthly Expense at Retirement (₹)", r.monthlyExpenseAtRetirement],
+            ["Required Target Corpus (₹)", r.requiredCorpus],
+            ["Projected Available Corpus (₹)", r.projectedAvailableCorpus],
+            ["Estimated LTCG Tax at Retirement (₹)", r.estimatedTax],
+            ["Surplus / (Gap) (₹)", r.surplusOrGap],
+            ["Funding Readiness", (r.fundingReadiness * 100).toFixed(1) + "%"],
+            ["Years Funded in Model", r.yearsFunded],
+            ["Recommended Monthly SIP to close gap (₹)", r.requiredMonthlySIP]
+        ],
+        Schedule: [
+            ["Year", "Age", "Opening Corpus", "Planned Withdrawal", "Actual Withdrawal", "Net Growth", "Closing Corpus"],
+            ...r.schedule.map(d => [d.year, d.age, d.opening, d.plannedWithdrawal, d.actualWithdrawal, d.growth, d.closing])
+        ]
+    });
+}
+
+["currentAge", "retirementAge", "lifeExpectancy", "monthlyExpenseToday", "inflation", "currentCorpus", "monthlySIP", "preRetReturn", "preRetDrag", "ltcgTax", "postRetReturn", "postRetDrag"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", calculateRetirement);
+});
+
+if (typeof bindAmountInWords === "function") {
+    bindAmountInWords("monthlyExpenseToday", "monthlyExpenseTodayWords");
+    bindAmountInWords("currentCorpus", "currentCorpusWords");
+    bindAmountInWords("monthlySIP", "monthlySIPWords");
+}
+
+calculateRetirement();
+</script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
+</body>
+</html>

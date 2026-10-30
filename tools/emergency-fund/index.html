@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Calculate your true emergency fund target based on monthly essentials, income volatility, dependants, and medical risks. See your funding timeline and tiered cash allocation.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wealthcompare.in/tools/emergency-fund/">
+<title>Emergency Fund Calculator: Target, Risk Multiplier &amp; Timeline | WealthCompare</title>
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="WealthCompare">
+<meta property="og:title" content="Emergency Fund Calculator: Target, Risk Multiplier & Timeline">
+<meta property="og:description" content="Calculate your true emergency fund target based on monthly essentials, income volatility, dependants, and medical risks. See your funding timeline and tiered cash allocation.">
+<meta property="og:url" content="https://wealthcompare.in/tools/emergency-fund/">
+<meta property="og:image" content="https://wealthcompare.in/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Auto Ads (Anchor + Vignette + In-page) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4357149194740826"
+     crossorigin="anonymous"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="/assets/css/site.css?v=6" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="/assets/js/amount-words.js"></script>
+<script src="/assets/js/export-excel.js"></script>
+<script src="/assets/js/share-scenario.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Emergency Fund Calculator",
+  "url": "https://wealthcompare.in/tools/emergency-fund/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "isPartOf": { "@type": "WebSite", "name": "WealthCompare", "url": "https://wealthcompare.in/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
+}
+</script>
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: radial-gradient(circle at top, var(--bg-grad-start) 0, var(--bg-grad-mid) 40%, var(--bg-grad-end) 100%);
+    color: var(--text-primary);
+}
+.hero { padding: 30px 20px 40px; text-align: center; color: white; }
+.hero-inner {
+    max-width: 900px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(79,70,229,0.9), rgba(59,130,246,0.9));
+    padding: 20px 18px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.hero h1 { margin: 0 0 10px; font-size: 26px; }
+.hero p { margin: 0 0 8px; font-size: 14px; }
+.container { max-width: 1100px; margin: 20px auto 40px; padding: 0 16px; }
+.card {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    padding: 20px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.card-title { background: linear-gradient(135deg,#4f46e5,#3b82f6); color: white; padding: 10px; border-radius: 10px; margin: 0 0 6px; font-size: 20px; }
+.group-title { font-size: 14px; font-weight: 700; color: #3730a3; margin: 16px 0 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+.inputs-grid { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 10px; }
+.input-group { flex: 1 1 220px; display: flex; flex-direction: column; }
+.input-group label { margin-bottom: 4px; color: var(--text-secondary); font-size: 13px; font-weight: 600; }
+.input-group input, .input-group select {
+    padding: 9px 10px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; width: 100%; font-family: inherit; background: #fff;
+}
+.input-help { min-height: 18px; margin-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+.amount-words { min-height: 18px; padding-top: 4px; color: var(--text-muted); font-size: 11px; line-height: 1.35; }
+button {
+    padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #4f46e5); color: white; border: none;
+    border-radius: 12px; font-size: 15px; cursor: pointer; margin-top: 16px; width: 100%; max-width: 240px; font-family: inherit;
+}
+.form-error { color: #b91c1c; font-size: 12px; font-weight: 600; margin: 10px 0 0; min-height: 16px; }
+
+.verdict-card {
+    background: linear-gradient(135deg, #eef2ff, #ecfeff); border: 1px solid #c7d2fe; border-radius: 18px;
+    padding: 22px 20px; margin-bottom: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.verdict-top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.verdict-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #3730a3; margin: 0; }
+.verdict-headline { font-size: 20px; font-weight: 800; color: #1f2937; margin: 0 0 6px; line-height: 1.35; }
+.verdict-sub { font-size: 13px; color: var(--text-secondary); margin: 0 0 14px; }
+.verdict-bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.verdict-bullets li { position: relative; padding-left: 18px; font-size: 14px; line-height: 1.5; color: #1f2937; }
+.verdict-bullets li::before { content: "•"; position: absolute; left: 4px; color: #4f46e5; font-weight: 700; font-size: 16px; }
+
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 14px 0; }
+.metric { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; }
+.metric-label { font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+.metric-value { font-size: 18px; font-weight: 700; color: #1e293b; }
+
+.tier-boxes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin: 16px 0; }
+.tier-box { border-radius: 14px; padding: 16px; border: 1px solid #e2e8f0; background: #fff; }
+.tier-box.tier-1 { border-left: 6px solid #3b82f6; }
+.tier-box.tier-2 { border-left: 6px solid #10b981; }
+.tier-title { font-size: 14px; font-weight: 700; margin: 0 0 4px; }
+.tier-amount { font-size: 22px; font-weight: 800; margin: 4px 0 6px; color: #1e293b; }
+.tier-desc { font-size: 12px; color: var(--text-secondary); margin: 0; line-height: 1.4; }
+
+.breakdown-details { border: 1px solid #e2e8f0; }
+.breakdown-details summary { cursor: pointer; font-weight: 700; color: #3730a3; padding: 6px 0; }
+.breakdown-body { margin-top: 14px; }
+.nested-details { margin: 12px 0; border: 1px dashed #cbd5e1; border-radius: 10px; padding: 10px 14px; }
+.nested-details summary { font-size: 13px; font-weight: 600; cursor: pointer; color: #475569; }
+.advanced-body { margin-top: 10px; font-size: 13px; color: #334155; line-height: 1.6; }
+
+.chart-container {
+    background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+    border-radius: 18px; padding: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); margin-bottom: 20px;
+}
+.chart-caption { font-size: 13px; color: var(--text-secondary); margin: 0 0 12px; }
+.chart-canvas-wrap { position: relative; height: 320px; max-height: 380px; width: 100%; }
+
+.table-container { overflow-x: auto; margin-top: 14px; max-height: 380px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th, td { padding: 8px 10px; text-align: right; border-bottom: 1px solid #e2e8f0; }
+th:first-child, td:first-child { text-align: left; }
+th { background: #f8fafc; font-weight: 600; color: #475569; position: sticky; top: 0; }
+
+.export-button { background: #10b981; max-width: 180px; margin-left: 8px; }
+.share-button { background: #0284c7; max-width: 200px; margin-left: 8px; }
+.share-button.is-copied { background: #15803d !important; }
+
+@media (max-width: 768px) {
+    .hero h1 { font-size: 22px; }
+    button, .export-button, .share-button { max-width: 100%; margin: 8px 0 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="site-header-inner">
+        <a href="/" class="brand-link">
+            <span class="brand-title">WealthCompare</span>
+            <span class="brand-tag">India</span>
+        </a>
+        <nav class="site-nav">
+            <a href="/">All Calculators</a>
+            <a href="/insights/">Insights</a>
+            <a href="/about/">About</a>
+        </nav>
+    </div>
+</header>
+
+<div class="hero">
+    <div class="hero-inner">
+        <h1>Emergency Fund Calculator</h1>
+        <p>Build an airtight financial safety net tailored to your family's actual essential burn rate and income risk.</p>
+        <p style="font-size:12px; opacity:0.9;">Calibrated for Indian households: Tier 1 instant bank cash + Tier 2 liquid reserves</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2 class="card-title">1. Monthly Essential Expenses (Survival Burn Rate)</h2>
+        <p style="font-size: 13px; color: var(--text-secondary); margin: 0 0 10px;">Include non-negotiable living expenses that must be paid even in job loss or medical hiatus. Exclude discretionary shopping and voluntary investments.</p>
+        
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="rentEmi">Housing / Rent / Home EMI (₹)</label>
+                <input id="rentEmi" type="number" inputmode="decimal" min="0" step="1000" value="30000">
+                <span id="rentEmiWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="groceries">Groceries &amp; Household (₹)</label>
+                <input id="groceries" type="number" inputmode="decimal" min="0" step="1000" value="15000">
+                <span id="groceriesWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="utilities">Utilities &amp; Communication (₹)</label>
+                <input id="utilities" type="number" inputmode="decimal" min="0" step="500" value="5000">
+                <span id="utilitiesWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="transport">Transport &amp; Fuel (₹)</label>
+                <input id="transport" type="number" inputmode="decimal" min="0" step="500" value="5000">
+                <span id="transportWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="medical">Insurance &amp; Medical (₹)</label>
+                <input id="medical" type="number" inputmode="decimal" min="0" step="500" value="5000">
+                <span id="medicalWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="debtEmis">Other Debt EMIs (Personal, Auto, Card) (₹)</label>
+                <input id="debtEmis" type="number" inputmode="decimal" min="0" step="1000" value="20000">
+                <span id="debtEmisWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="dependants">Dependants &amp; School Essentials (₹)</label>
+                <input id="dependants" type="number" inputmode="decimal" min="0" step="1000" value="10000">
+                <span id="dependantsWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="otherCosts">Other Essential Costs (₹)</label>
+                <input id="otherCosts" type="number" inputmode="decimal" min="0" step="500" value="5000">
+                <span id="otherCostsWords" class="amount-words" aria-live="polite"></span>
+            </div>
+        </div>
+
+        <div class="group-title">2. Risk Factors &amp; Multipliers</div>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="baseCoverage">Baseline Target Coverage</label>
+                <select id="baseCoverage">
+                    <option value="3">3 Months (Aggressive / Dual secure salary)</option>
+                    <option value="6" selected>6 Months (Standard Indian benchmark)</option>
+                    <option value="9">9 Months (Conservative / Single breadwinner)</option>
+                </select>
+                <span class="input-help">Starting safety floor before personal risk factors</span>
+            </div>
+            <div class="input-group">
+                <label for="incomeStability">Income Stability</label>
+                <select id="incomeStability">
+                    <option value="Stable" selected>Stable (Permanent salaried / Established PSU)</option>
+                    <option value="Variable">Variable (Sales incentives, commission, startup)</option>
+                    <option value="Highly variable">Highly variable (Freelance, consulting, business)</option>
+                </select>
+                <span class="input-help">Variable incomes need thicker reserves (+2 to +4 mo)</span>
+            </div>
+            <div class="input-group">
+                <label for="incomeSources">Household Income Earners</label>
+                <select id="incomeSources">
+                    <option value="1">1 Earner (Single earner household: +2 mo)</option>
+                    <option value="2" selected>2 or More Earners (Diversified income: 0 mo)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="numDependants">Dependants Supported</label>
+                <select id="numDependants">
+                    <option value="0">0 Dependants (Self-reliant)</option>
+                    <option value="2" selected>1 or More (Children, elderly parents: +1 mo)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label for="medicalRisk">Elevated Medical Risk / Chronic Illness?</label>
+                <select id="medicalRisk">
+                    <option value="No" selected>No (Standard health policy in place)</option>
+                    <option value="Yes">Yes (Ongoing treatment, ageing parents without full cover: +1 mo)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="group-title">3. Current Savings &amp; Build-up Strategy</div>
+        <div class="inputs-grid">
+            <div class="input-group">
+                <label for="currentSavings">Current Dedicated Emergency Savings (₹)</label>
+                <input id="currentSavings" type="number" inputmode="decimal" min="0" step="10000" value="200000">
+                <span id="currentSavingsWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="monthlyContribution">Monthly Savings Contribution (₹)</label>
+                <input id="monthlyContribution" type="number" inputmode="decimal" min="0" step="1000" value="25000">
+                <span id="monthlyContributionWords" class="amount-words" aria-live="polite"></span>
+            </div>
+            <div class="input-group">
+                <label for="savingsReturn">Liquid / Savings Return (% p.a.)</label>
+                <input id="savingsReturn" type="number" inputmode="decimal" min="0" max="10" step="0.5" value="4.0">
+                <span class="input-help">Typical sweep FD or liquid mutual fund return</span>
+            </div>
+        </div>
+
+        <p id="formError" class="form-error" role="alert" aria-live="polite"></p>
+
+        <button type="button" onclick="calculateEmergencyFund()">Calculate Fund Target</button>
+        <button type="button" class="export-button" onclick="exportEmergencyFund()">Export to Excel</button>
+        <button type="button" id="shareBtn" class="share-button" onclick="shareCurrentCalculation('shareBtn', SHARE_FIELDS)">Share calculation</button>
+    </div>
+
+    <div id="verdictCard" class="card verdict-card"></div>
+
+    <details class="card breakdown-details" open>
+        <summary>Show Tiered Allocation &amp; Safety Roadmap</summary>
+        <div class="breakdown-body">
+            <div class="tier-boxes" id="tierBoxes"></div>
+            <div class="result-section" id="summarySection"></div>
+            <details class="nested-details">
+                <summary>Where to keep your emergency fund in India</summary>
+                <div class="advanced-body">
+                    <h4>Tier 1: Instant Cash Reserve (1 Month Essentials)</h4>
+                    <p>Keep roughly 1 month of essential expenses in a high-yield savings bank account with instant ATM/UPI access or auto-sweep fixed deposit (FD). This pays for urgent hospital admissions, immediate car repairs, or home pipe bursts without waiting for market cut-offs.</p>
+                    <h4>Tier 2: Liquid Reserve (Remaining 5–11 Months)</h4>
+                    <p>Keep the rest across high-safety, low-volatility instruments:</p>
+                    <ul>
+                        <li><b>Direct Liquid or Overnight Mutual Funds:</b> Offer instant redemption up to ₹50,000 per folio or T+1 morning payout. Zero exit loads after 7 days.</li>
+                        <li><b>Multi-bank Sweep FDs:</b> Spreading across 2 distinct Scheduled Commercial Banks (ICICI, HDFC, SBI) keeps you within the ₹5,00,000 DICGC insurance limit per bank.</li>
+                        <li><b>Never in equity or volatile debt:</b> Never park emergency funds in equity funds, hybrid funds, or credit-risk debt funds to chase extra yield. Liquidity and capital safety trump returns.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+    </details>
+
+    <div class="chart-container">
+        <p id="chartCaption" class="chart-caption"></p>
+        <div class="chart-canvas-wrap"><canvas id="efChart"></canvas></div>
+        <details class="nested-details">
+            <summary>Monthly Build-Up Schedule (First 60 Months)</summary>
+            <div class="table-container" id="scheduleTable"></div>
+        </details>
+    </div>
+
+    <div class="learn">
+        <h2>The Emergency Fund: The Foundation of Wealth Creation</h2>
+        <p>Before putting a single rupee into equity SIPs, real estate down payments, or stocks, an Indian household must build an untouchable emergency reserve. Without one, the first financial shock—a job loss, a family medical emergency, or a major auto repair—forces you to break long-term compounding by liquidating equity at market bottoms or taking predatory 18–36% personal loans.</p>
+
+        <h3>How This Model Calibrates Your Target</h3>
+        <p>A generic rule like "save 6 months of salary" is inefficient: it over-insures low spenders and under-insures high earners with heavy EMIs. This calculator models your <b>actual non-negotiable burn rate</b> and adjusts the target:</p>
+        <ul>
+            <li><b>Variable or Freelance Income (+2 to +4 months):</b> If your income depends on project billings or sales commissions, a prolonged drought requires a thicker cushion.</li>
+            <li><b>Single-Earner Household (+2 months):</b> Having only one earning member carries 100% income concentration risk.</li>
+            <li><b>Dependants &amp; Healthcare (+1 to +2 months):</b> Non-salaried elderly parents or school-going children need liquidity for out-of-pocket medical bills that health policies may delay or partially reimburse.</li>
+        </ul>
+        <p>For a detailed breakdown of why an emergency reserve must precede your investment journey, read our guide: <a href="/insights/emergency-fund-before-investing/">Why an Emergency Fund Must Come Before Any Investment</a>.</p>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-links"><a href="/about/">About &amp; Contact</a><span class="sep">·</span><a href="/privacy-policy/">Privacy Policy</a><span class="sep">·</span><a href="/terms/">Terms of Use</a></div>
+    <div style="margin-top:8px;">© <span id="year"></span> WealthCompare. All rights reserved.</div>
+    <div style="margin-top:6px;">
+        This tool is for educational illustration only. Actual reserve needs vary based on household risk. Verify with your advisor.
+    </div>
+</footer>
+
+<script>
+const SHARE_FIELDS = [
+    { id: "rentEmi", param: "rent" },
+    { id: "groceries", param: "groc" },
+    { id: "utilities", param: "util" },
+    { id: "transport", param: "trans" },
+    { id: "medical", param: "med" },
+    { id: "debtEmis", param: "debt" },
+    { id: "dependants", param: "dep" },
+    { id: "otherCosts", param: "oth" },
+    { id: "baseCoverage", param: "base" },
+    { id: "incomeStability", param: "stab" },
+    { id: "incomeSources", param: "earn" },
+    { id: "numDependants", param: "deps" },
+    { id: "medicalRisk", param: "mrisk" },
+    { id: "currentSavings", param: "cur" },
+    { id: "monthlyContribution", param: "sip" },
+    { id: "savingsReturn", param: "ret" }
+];
+initShareScenario(SHARE_FIELDS);
+
+const EXPENSE_IDS = [
+    "rentEmi", "groceries", "utilities", "transport",
+    "medical", "debtEmis", "dependants", "otherCosts"
+];
+
+let efChart = null;
+let lastResult = null;
+
+function formatINR(val) {
+    if (val === null || val === undefined || isNaN(val)) return "0";
+    return Math.round(val).toLocaleString("en-IN");
+}
+
+function shortINR(val) {
+    if (isNaN(val)) return "₹0";
+    const abs = Math.abs(val);
+    const sign = val < 0 ? "-" : "";
+    if (abs >= 10000000) return sign + "₹" + (abs / 10000000).toFixed(2) + " Cr";
+    if (abs >= 100000) return sign + "₹" + (abs / 100000).toFixed(2) + " Lakh";
+    return sign + "₹" + Math.round(abs).toLocaleString("en-IN");
+}
+
+function readNumber(id, def = 0) {
+    const el = document.getElementById(id);
+    if (!el) return def;
+    const v = parseFloat(el.value);
+    return isNaN(v) ? def : v;
+}
+
+function calculateEmergencyFund() {
+    let monthlyEssentials = 0;
+    EXPENSE_IDS.forEach(id => {
+        monthlyEssentials += Math.max(0, readNumber(id, 0));
+    });
+
+    const baseCoverage = parseInt(document.getElementById("baseCoverage").value, 10) || 6;
+    const stability = document.getElementById("incomeStability").value;
+    const earners = parseInt(document.getElementById("incomeSources").value, 10) || 1;
+    const numDeps = parseInt(document.getElementById("numDependants").value, 10) || 0;
+    const medRisk = document.getElementById("medicalRisk").value === "Yes";
+
+    let riskAdj = 0;
+    if (stability === "Variable") riskAdj += 2;
+    if (stability === "Highly variable") riskAdj += 4;
+    if (earners <= 1) riskAdj += 2;
+    if (numDeps > 0) riskAdj += 1;
+    if (medRisk) riskAdj += 1;
+
+    const recommendedCoverage = Math.min(12, baseCoverage + riskAdj);
+    const targetFund = monthlyEssentials * recommendedCoverage;
+
+    const tier1 = monthlyEssentials; // 1 month in immediate cash
+    const tier2 = Math.max(0, targetFund - tier1); // remaining in liquid funds
+
+    const currentSavings = Math.max(0, readNumber("currentSavings", 0));
+    const monthlyContribution = Math.max(0, readNumber("monthlyContribution", 0));
+    const annualReturn = Math.max(0, readNumber("savingsReturn", 4.0));
+    const monthlyRate = (annualReturn / 100) / 12;
+
+    const fundingGap = Math.max(0, targetFund - currentSavings);
+    const fundedPct = targetFund > 0 ? Math.min(1, currentSavings / targetFund) : 1;
+
+    // Simulate monthly build-up schedule (up to 60 months)
+    let balance = currentSavings;
+    let monthsToTarget = 0;
+    let targetReached = balance >= targetFund;
+    const schedule = [];
+
+    for (let m = 1; m <= 60; m++) {
+        const opening = balance;
+        const interest = opening * monthlyRate;
+        const closing = opening + monthlyContribution + interest;
+        schedule.push({
+            month: m,
+            opening,
+            contribution: monthlyContribution,
+            interest,
+            closing,
+            target: targetFund
+        });
+        balance = closing;
+        if (!targetReached && balance >= targetFund) {
+            monthsToTarget = m;
+            targetReached = true;
+        }
+    }
+
+    // Exact NPER formula if not reached within 60 months
+    if (!targetReached) {
+        if (monthlyContribution <= 0 && annualReturn <= 0) {
+            monthsToTarget = Infinity;
+        } else if (monthlyRate > 0) {
+            const num = (targetFund * monthlyRate + monthlyContribution) / (currentSavings * monthlyRate + monthlyContribution);
+            if (num > 0) {
+                monthsToTarget = Math.ceil(Math.log(num) / Math.log(1 + monthlyRate));
+            } else {
+                monthsToTarget = Infinity;
+            }
+        } else {
+            monthsToTarget = Math.ceil(fundingGap / monthlyContribution);
+        }
+    }
+
+    lastResult = {
+        monthlyEssentials,
+        riskAdj,
+        recommendedCoverage,
+        targetFund,
+        tier1,
+        tier2,
+        currentSavings,
+        fundingGap,
+        fundedPct,
+        monthlyContribution,
+        annualReturn,
+        monthsToTarget: targetFund <= currentSavings ? 0 : monthsToTarget,
+        schedule
+    };
+
+    renderVerdict();
+    renderTiers();
+    renderSummary();
+    renderChart();
+    renderSchedule();
+}
+
+function renderVerdict() {
+    const r = lastResult;
+    const fundedPctDisplay = Math.round(r.fundedPct * 100);
+    let headline = "";
+    if (r.fundingGap === 0) {
+        headline = `Your emergency fund is 100% funded! You have a fully protected safety net.`;
+    } else {
+        headline = `Target: ${shortINR(r.targetFund)} (${r.recommendedCoverage} months of essentials). You are ${fundedPctDisplay}% funded.`;
+    }
+
+    let timelineText = "";
+    if (r.fundingGap === 0) {
+        timelineText = "<b>The target is fully funded:</b> Redirect new monthly savings to high-priority debt prepayments or long-term equity SIPs.";
+    } else if (!isFinite(r.monthsToTarget)) {
+        timelineText = "<b>Target not reachable:</b> Increase your monthly contribution to start building toward the reserve.";
+    } else if (r.monthsToTarget > 60) {
+        timelineText = `At ₹${formatINR(r.monthlyContribution)} per month, you will reach the full target in about <b>${r.monthsToTarget} months (~${(r.monthsToTarget / 12).toFixed(1)} years)</b>.`;
+    } else {
+        timelineText = `At ₹${formatINR(r.monthlyContribution)} per month, you will bridge the ${shortINR(r.fundingGap)} gap in <b>${r.monthsToTarget} months</b>.`;
+    }
+
+    const bullets = [
+        `<b>Monthly essential burn rate:</b> ₹${formatINR(r.monthlyEssentials)} per month. Your recommended reserve is <b>${r.recommendedCoverage} months</b> (${shortINR(r.targetFund)}).`,
+        `<b>Current status:</b> You hold <b>₹${formatINR(r.currentSavings)}</b> (${fundedPctDisplay}% of target). Remaining gap to build: <b>₹${formatINR(r.fundingGap)}</b>.`,
+        timelineText,
+        `<b>Tiered liquidity rule:</b> Keep <b>₹${formatINR(r.tier1)}</b> (1 month) instantly accessible in an auto-sweep bank account, and the remaining <b>₹${formatINR(r.tier2)}</b> in liquid mutual funds or multi-bank short FDs.`,
+        `<b>Recalibration triggers:</b> Recalculate whenever you take on a new loan, change jobs, or welcome a dependant.`
+    ];
+
+    document.getElementById("verdictCard").innerHTML = `
+        <div class="verdict-top">
+            <span class="verdict-eyebrow">Emergency Reserve Analysis</span>
+        </div>
+        <p class="verdict-headline">${headline}</p>
+        <p class="verdict-sub">Based on ₹${formatINR(r.monthlyEssentials)} monthly living expenses adjusted for household income risks.</p>
+        <ul class="verdict-bullets">${bullets.map(b => `<li>${b}</li>`).join("")}</ul>
+    `;
+}
+
+function renderTiers() {
+    const r = lastResult;
+    document.getElementById("tierBoxes").innerHTML = `
+        <div class="tier-box tier-1">
+            <div class="tier-title" style="color:#2563eb;">Tier 1: Instant Cash Reserve</div>
+            <div class="tier-amount">₹${formatINR(r.tier1)}</div>
+            <p class="tier-desc"><b>1 Month of Living Expenses.</b> Hold in your primary savings account or sweep-in FD for immediate same-hour access via UPI or debit card.</p>
+        </div>
+        <div class="tier-box tier-2">
+            <div class="tier-title" style="color:#059669;">Tier 2: Liquid Safety Reserve</div>
+            <div class="tier-amount">₹${formatINR(r.tier2)}</div>
+            <p class="tier-desc"><b>${r.recommendedCoverage - 1} Months of Expenses.</b> Hold in low-duration / liquid mutual funds or multi-bank FDs for T+1 settlement with zero volatility.</p>
+        </div>
+    `;
+}
+
+function renderSummary() {
+    const r = lastResult;
+    const m = (l, v) => `<div class="metric"><span class="metric-label">${l}</span><span class="metric-value">${v}</span></div>`;
+    document.getElementById("summarySection").innerHTML = `
+        <h3 style="font-size: 15px; font-weight: 700; color: #1e293b; margin: 16px 0 8px;">📊 Emergency Fund Metrics</h3>
+        <div class="metric-grid">
+            ${m("Monthly Essential Outgo", "₹" + formatINR(r.monthlyEssentials))}
+            ${m("Recommended Coverage", r.recommendedCoverage + " Months")}
+            ${m("Target Emergency Fund", "₹" + formatINR(r.targetFund))}
+            ${m("Current Savings", "₹" + formatINR(r.currentSavings))}
+            ${m("Funding Gap", "₹" + formatINR(r.fundingGap))}
+            ${m("Funding Timeline", r.monthsToTarget === 0 ? "Fully Funded" : (isFinite(r.monthsToTarget) ? r.monthsToTarget + " Months" : "Increase SIP"))}
+        </div>
+    `;
+}
+
+function renderChart() {
+    const r = lastResult;
+    const labels = r.schedule.slice(0, 36).map(d => "Mo " + d.month);
+    const balances = r.schedule.slice(0, 36).map(d => Math.round(d.closing));
+    const targets = r.schedule.slice(0, 36).map(() => r.targetFund);
+
+    document.getElementById("chartCaption").textContent = `Emergency fund balance progression over the first 36 months vs your target of ₹${formatINR(r.targetFund)}.`;
+
+    if (efChart) efChart.destroy();
+    efChart = new Chart(document.getElementById("efChart"), {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Emergency Fund Balance",
+                    data: balances,
+                    borderColor: "#3b82f6",
+                    backgroundColor: "rgba(59,130,246,0.12)",
+                    fill: true,
+                    tension: 0.15,
+                    borderWidth: 2
+                },
+                {
+                    label: "Target Reserve",
+                    data: targets,
+                    borderColor: "#10b981",
+                    borderDash: [5, 5],
+                    fill: false,
+                    pointRadius: 0,
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { ticks: { callback: v => "₹" + Number(v).toLocaleString('en-IN') } }
+            }
+        }
+    });
+}
+
+function renderSchedule() {
+    const r = lastResult;
+    const rows = r.schedule.map(d => `
+        <tr>
+            <td>${d.month}</td>
+            <td>₹${formatINR(d.opening)}</td>
+            <td>₹${formatINR(d.contribution)}</td>
+            <td>₹${formatINR(d.interest)}</td>
+            <td>₹${formatINR(d.closing)}</td>
+            <td>₹${formatINR(d.target)}</td>
+        </tr>
+    `).join("");
+
+    document.getElementById("scheduleTable").innerHTML = `
+        <table>
+            <thead><tr><th>Month</th><th>Opening (₹)</th><th>Contribution (₹)</th><th>Interest (₹)</th><th>Closing (₹)</th><th>Target (₹)</th></tr></thead>
+            <tbody>${rows}</tbody>
+        </table>
+    `;
+}
+
+function exportEmergencyFund() {
+    if (!lastResult) return;
+    const r = lastResult;
+    exportWorkbook("emergency-fund-plan.xlsx", {
+        Inputs: [
+            ["Item", "Monthly Cost (₹)"],
+            ["Housing / Rent / EMI", readNumber("rentEmi")],
+            ["Groceries & Household", readNumber("groceries")],
+            ["Utilities & Communication", readNumber("utilities")],
+            ["Transport & Fuel", readNumber("transport")],
+            ["Insurance & Medical", readNumber("medical")],
+            ["Other Debt EMIs", readNumber("debtEmis")],
+            ["Dependants & School", readNumber("dependants")],
+            ["Other Essential Costs", readNumber("otherCosts")],
+            ["Total Monthly Burn Rate", r.monthlyEssentials]
+        ],
+        Plan: [
+            ["Parameter", "Value"],
+            ["Recommended Coverage Months", r.recommendedCoverage],
+            ["Target Emergency Fund", r.targetFund],
+            ["Tier 1: Immediate Cash", r.tier1],
+            ["Tier 2: Liquid Reserve", r.tier2],
+            ["Current Savings", r.currentSavings],
+            ["Funding Gap", r.fundingGap],
+            ["Funded Percentage", (r.fundedPct * 100).toFixed(1) + "%"],
+            ["Monthly Contribution", r.monthlyContribution],
+            ["Months to Target", isFinite(r.monthsToTarget) ? r.monthsToTarget : "Not reachable"]
+        ],
+        Schedule: [
+            ["Month", "Opening Balance", "Contribution", "Interest Earned", "Closing Balance", "Target Fund"],
+            ...r.schedule.map(d => [d.month, d.opening, d.contribution, d.interest, d.closing, d.target])
+        ]
+    });
+}
+
+EXPENSE_IDS.concat(["currentSavings", "monthlyContribution", "savingsReturn"]).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", calculateEmergencyFund);
+});
+["baseCoverage", "incomeStability", "incomeSources", "numDependants", "medicalRisk"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("change", calculateEmergencyFund);
+});
+
+if (typeof bindAmountInWords === "function") {
+    EXPENSE_IDS.forEach(id => bindAmountInWords(id, id + "Words"));
+    bindAmountInWords("currentSavings", "currentSavingsWords");
+    bindAmountInWords("monthlyContribution", "monthlyContributionWords");
+}
+
+calculateEmergencyFund();
+</script>
+
+<script src="/assets/js/ad-slot-collapse.js"></script>
+</body>
+</html>

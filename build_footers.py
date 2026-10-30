@@ -53,6 +53,16 @@ PAGES = {
         "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
     "insights/rent-vs-buy-india-wealth-comparison/index.html":
         "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "tools/emergency-fund/index.html":
+        "This tool is for educational illustration only. Actual reserve needs vary based on household risk. Verify with your advisor.",
+    "tools/retirement-swp/index.html":
+        "This tool is for educational illustration only. Post-retirement returns, inflation and tax rules will vary over time. Verify with your advisor.",
+    "tools/term-insurance/index.html":
+        "This tool is for educational illustration only. Insurance requirements vary based on personal health and debts. Check policy wording carefully.",
+    "insights/sustainable-swp-rate-india-retirement/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
+    "insights/how-much-term-insurance-do-you-need/index.html":
+        "This article is for educational purposes only. Rates and tax rules change, so verify current figures with your bank, fund house or a qualified advisor.",
     "about/index.html": None,
     "privacy-policy/index.html": None,
     "terms/index.html": None,

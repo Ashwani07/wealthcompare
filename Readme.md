@@ -41,7 +41,7 @@ WealthCompare operates on three principles:
 ├── 404.html                                   Custom 404 page
 ├── ads.txt                                    Google AdSense publisher verification
 ├── robots.txt                                 Crawler instructions (disallows *.xlsx)
-├── sitemap.xml                                Full sitemap with 20 validated URLs
+├── sitemap.xml                                Full sitemap with 25 validated URLs
 ├── site.webmanifest                           PWA web manifest
 ├── favicon.ico
 ├── build_footers.py                           Syncs standardized footer template across all pages
@@ -63,7 +63,7 @@ WealthCompare operates on three principles:
 │       ├── export-excel.js                    On-demand lazy-loading client-side Excel exporter
 │       ├── share-scenario.js                  URL query parameter sync and clipboard sharing
 │       └── ad-slot-collapse.js                AdSense unfilled ad container collapse (prevents CLS)
-├── insights/                                  8 Long-form Educational Articles:
+├── insights/                                  10 Long-form Educational Articles:
 │   ├── emergency-fund-before-investing/
 │   ├── loan-vs-sip-hidden-tradeoffs/
 │   ├── what-a-sip-return-assumption-means/
@@ -71,8 +71,10 @@ WealthCompare operates on three principles:
 │   ├── how-an-emi-splits-between-interest-and-principal/
 │   ├── prepay-loan-vs-invest/
 │   ├── direct-vs-regular-mutual-fund-expense-ratio/
-│   └── rent-vs-buy-india-wealth-comparison/
-└── tools/                                     8 Interactive Financial Calculators:
+│   ├── rent-vs-buy-india-wealth-comparison/
+│   ├── sustainable-swp-rate-india-retirement/
+│   └── how-much-term-insurance-do-you-need/
+└── tools/                                     11 Interactive Financial Calculators:
     ├── emi-calculator/
     ├── loan-prepayment/
     ├── sip-growth/
@@ -80,14 +82,17 @@ WealthCompare operates on three principles:
     ├── expense-ratio-impact/
     ├── prepay-vs-invest/
     ├── rent-vs-buy/
-    └── loan-vs-sip/
+    ├── loan-vs-sip/
+    ├── emergency-fund/
+    ├── retirement-swp/
+    └── term-insurance/
 ```
 
 ---
 
-## 4. Current Suite: 8 Tools & 8 Articles
+## 4. Current Suite: 11 Tools & 10 Articles
 
-### A. The 8 Calculators
+### A. The 11 Calculators
 
 | Tool | Path | What It Answers | Status |
 |---|---|---|---|
