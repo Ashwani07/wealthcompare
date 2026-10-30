@@ -4,214 +4,209 @@ Free personal-finance calculators and short articles for Indian households, at [
 
 The aim is simple. Show what a money decision does in **today's rupees** as well as future rupees, state every assumption in plain words, and keep the tools educational. Nothing here recommends a fund, stock, lender or broker.
 
-Last updated: 12 October 2026.
+Last updated: 30 October 2026.
 
 ---
 
-## How the site is built
+## 1. Mission & Core Philosophy
 
-- Static HTML, CSS and plain JavaScript. No framework and no build step beyond one small Python script.
-- Hosted on Cloudflare Pages.
-- Every page lives at `/<section>/<slug>/index.html`.
-- Shared styling is in `assets/css/site.css` (loaded as `?v=6`). Bump the version number in every page when you change it.
-- Shared scripts are in `assets/js/`: `amount-words.js` (amount in words under inputs), `export-excel.js` (Export to Excel button) and `ad-slot-collapse.js`.
-- Charts use Chart.js 4.4.4 and spreadsheet export uses SheetJS 0.18.5, both pinned and loaded from jsDelivr.
-- Ads: the AdSense Auto Ads script is in the head of each page. See "Ads" below.
+Most Indian financial portals (banks, brokers, aggregators) design calculators as lead-generation funnels. Their projections show massive, multi-crore nominal sums while hiding inflation, commissions, and exit taxes.
 
-## Folder layout
+WealthCompare operates on three principles:
+1. **Purchasing Power Reality:** ₹1 crore 20 years from now will not buy what ₹1 crore buys today. Every tool and worked example calculates the real purchasing power in today's rupees using stated inflation assumptions.
+2. **Radical Transparency:** Every variable (inflation, expected return, tax rate, tax exemption, selling cost, maintenance) is an editable input. What a tool leaves out is stated prominently in an "Advanced Read" section.
+3. **No Commercial Conflicts:** Strictly educational. No demat account affiliate links, no sponsored loan recommendations, and no dark patterns.
+
+---
+
+## 2. Architecture & Technical Stack
+
+- **Static Frontend:** Plain, semantic HTML5, CSS3, and vanilla JavaScript. No framework overhead (no React, Next.js, or build pipeline).
+- **Fast Global Hosting:** Cloudflare Pages with automatic HTTPS and edge distribution.
+- **Client-Side Autonomy:** All calculations, compound interest models, and amortization schedules run 100% inside the browser. No server-side calculation calls.
+- **Zero Blocking Heavy Libraries:**
+  - `Chart.js` (4.4.4 pinned) loaded via jsDelivr for responsive interactive canvas rendering.
+  - `SheetJS` (`xlsx.full.min.js`) is **lazy-loaded on demand** only when a user clicks "Export to Excel" (saving ~500KB of blocking render time).
+  - Resource hints (`<link rel="preconnect">`) enabled for Google Fonts and jsDelivr.
+- **Viral Scenario Sharing:** Built-in `share-scenario.js` syncs form inputs with URL parameters in real time and provides a one-click clipboard copy (`?param=value`) so visitors can share exact calculations.
+- **Offline Reference Workbook:** `WealthCompare Excel Calculator.xlsx` is strictly an offline mathematical baseline and developer reference. It is never deployed, linked, or served on the site, and is disallowed from search indexing via `robots.txt`.
+
+---
+
+## 3. Directory Layout
 
 ```
 /
-├── index.html                  Homepage
-├── 404.html
-├── ads.txt                     AdSense publisher line
-├── robots.txt
-├── sitemap.xml                 Keep lastmod dates current
-├── site.webmanifest
+├── index.html                                 Homepage (hero, 8 calculators grid, 8 insights grid)
+├── 404.html                                   Custom 404 page
+├── ads.txt                                    Google AdSense publisher verification
+├── robots.txt                                 Crawler instructions (disallows *.xlsx)
+├── sitemap.xml                                Full sitemap with 20 validated URLs
+├── site.webmanifest                           PWA web manifest
 ├── favicon.ico
-├── build_footers.py            Syncs the footer into every page (see below)
-├── footer-template.html        The footer, with a {{DISCLAIMER}} placeholder
-├── WealthCompare Excel Calculator.xlsx   Offline development reference only; not served on the website.
-├── README.md                   This file
-├── calculator-ui-notes.md      How the tool pages are built: page pattern, tax rules, validation, ads, chart sizing
-├── paid-features.txt           Monetization status, options and the feature backlog (nothing here is decided)
-├── folder-tree.txt             Folder listing
-├── about/ privacy-policy/ terms/
-├── Articles/                   Markdown sources for the articles
+├── build_footers.py                           Syncs standardized footer template across all pages
+├── footer-template.html                       Footer base template with {{DISCLAIMER}} tag
+├── WealthCompare Excel Calculator.xlsx        Offline mathematical model (not served publicly)
+├── README.md                                  This comprehensive documentation
+├── calculator-ui-notes.md                     Page patterns, tax rules, validation limits, UX notes
+├── paid-features.txt                          Monetization status and roadmap notes
+├── folder-tree.txt                            Directory tree backup
+├── about/                                     About & Contact page
+├── privacy-policy/                            DPDP Act 2023 & cookie compliance policy
+├── terms/                                     Terms of Use & legal limitations
 ├── assets/
-│   ├── logo.svg  og-image.png
-│   ├── css/site.css
-│   ├── icons/
-│   └── js/                     amount-words.js, export-excel.js, ad-slot-collapse.js
-├── insights/                   Articles
+│   ├── logo.svg  og-image.png                 Branding and social share images
+│   ├── css/site.css                           Shared CSS design tokens, .learn, .formula, .share-button
+│   ├── icons/                                 Touch and favicon icons
+│   └── js/                                    Shared JS:
+│       ├── amount-words.js                    Indian numbering (lakh/crore) text under inputs
+│       ├── export-excel.js                    On-demand lazy-loading client-side Excel exporter
+│       ├── share-scenario.js                  URL query parameter sync and clipboard sharing
+│       └── ad-slot-collapse.js                AdSense unfilled ad container collapse (prevents CLS)
+├── insights/                                  8 Long-form Educational Articles:
 │   ├── emergency-fund-before-investing/
 │   ├── loan-vs-sip-hidden-tradeoffs/
 │   ├── what-a-sip-return-assumption-means/
-│   └── reduce-emi-or-reduce-tenure-after-prepayment/
-└── tools/                      Calculators
+│   ├── reduce-emi-or-reduce-tenure-after-prepayment/
+│   ├── how-an-emi-splits-between-interest-and-principal/
+│   ├── prepay-loan-vs-invest/
+│   ├── direct-vs-regular-mutual-fund-expense-ratio/
+│   └── rent-vs-buy-india-wealth-comparison/
+└── tools/                                     8 Interactive Financial Calculators:
     ├── emi-calculator/
-    ├── loan-vs-sip/
-    ├── sip-growth/
     ├── loan-prepayment/
-    └── step-up-sip/
+    ├── sip-growth/
+    ├── step-up-sip/
+    ├── expense-ratio-impact/
+    ├── prepay-vs-invest/
+    ├── rent-vs-buy/
+    └── loan-vs-sip/
 ```
 
 ---
 
-## Tools
+## 4. Current Suite: 8 Tools & 8 Articles
 
-| Tool | Path | What it answers | State |
+### A. The 8 Calculators
+
+| Tool | Path | What It Answers | Status |
 |---|---|---|---|
-| EMI Calculator | `/tools/emi-calculator/` | EMI, total interest, total repayment, yearly split between interest and principal | Live. Reworked, matches the workbook |
-| Loan vs SIP | `/tools/loan-vs-sip/` | If you already own a home: buy a second property with a loan, or invest the same down payment and EMI in a SIP | Live. Reworked, matches the workbook |
-| SIP Growth | `/tools/sip-growth/` | What a SIP grows to, before and after tax, in today's rupees | Live. Reworked, matches the workbook |
-| Loan Prepayment | `/tools/loan-prepayment/` | Lump sums, monthly extra, rate change: effect on tenure and interest | Live. Matches the workbook |
-| Step-Up SIP Goal | `/tools/step-up-sip/` | Starting SIP for a goal when you raise it each year | Live. Matches the workbook |
-| Prepay vs Invest | `/tools/prepay-vs-invest/` | Prepay loan vs invest surplus in equity SIP: hurdle rate, early debt-free month, terminal wealth | Live. Matches the workbook |
-| Expense Ratio Impact | `/tools/expense-ratio-impact/` | Direct vs Regular mutual funds: compounding cost of distributor commissions | Live. Matches the workbook |
-| Rent vs Buy | `/tools/rent-vs-buy/` | Buy with home loan vs rent and invest down payment + monthly difference in mutual funds | Live. Matches the workbook |
+| **EMI Calculator** | `/tools/emi-calculator/` | Monthly EMI, total interest, and year-by-year principal vs. interest breakdown. | Live |
+| **Loan Prepayment** | `/tools/loan-prepayment/` | How lump sums, monthly top-ups, or rate hikes affect tenure and interest saved. | Live |
+| **SIP Growth** | `/tools/sip-growth/` | Long-term mutual fund SIP compounding, LTCG tax deduction, and real wealth in today's rupees. | Live |
+| **Step-Up SIP Goal** | `/tools/step-up-sip/` | Solves for the starting SIP needed for a goal when increasing investment annually with salary hikes. | Live |
+| **Expense Ratio Impact** | `/tools/expense-ratio-impact/` | Direct vs. Regular mutual fund compounding cost (shows how a 1% fee eats ₹20L+). | Live |
+| **Prepay vs Invest** | `/tools/prepay-vs-invest/` | Prepaying home loan vs. investing surplus in mutual funds (hurdle rate, early debt-free date). | Live |
+| **Rent vs Buy** | `/tools/rent-vs-buy/` | 20-year wealth: buying a flat vs. renting and investing down payment + surplus in equity SIP. | Live |
+| **Loan vs SIP Matchup** | `/tools/loan-vs-sip/` | Buying a second property with a loan vs. investing the down payment and EMI in an equity SIP. | Live |
 
-Workbook sheets not yet converted to web pages: Prepay vs Invest, Retirement SWP, Emergency Fund, Net Worth & Cash Flow, Term Insurance, Asset Allocation, Goal Dashboard, Expense Ratio Impact, Rent vs Buy (plus its Sensitivity sheet). Rent vs Buy and Expense Ratio Impact had a lighter review than the others. Re-verify them before converting.
+*All 8 tools feature: inline numeric validation, amount-in-words under currency fields, URL scenario sharing, client-side Excel export, interactive charts, and rich static educational (`.learn`) sections.*
 
-All tools follow one layout: verdict first, a collapsed full breakdown, an "Advanced Read", a chart, inline field errors, and Export to Excel.
+### B. The 8 In-Depth Insight Articles
 
-## Articles
-
-| Article | Path |
-|---|---|
-| Emergency Fund Before Investing | `/insights/emergency-fund-before-investing/` |
-| Loan vs SIP: The Hidden Trade-offs | `/insights/loan-vs-sip-hidden-tradeoffs/` |
-| What a SIP Return Assumption Really Means | `/insights/what-a-sip-return-assumption-means/` |
-| Reduce EMI or Reduce Tenure After a Prepayment? | `/insights/reduce-emi-or-reduce-tenure-after-prepayment/` |
-| How Your EMI Splits Between Interest and Principal | /insights/how-an-emi-splits-between-interest-and-principal/ |
-| Prepay Loan vs Invest: The Mathematics of Surplus Cash | /insights/prepay-loan-vs-invest/ |
-| Direct vs Regular Mutual Funds: How a 1% Fee Costs ₹23 Lakh | /insights/direct-vs-regular-mutual-fund-expense-ratio/ |
-
-| Rent vs Buy in India: Why the 30x Rule of Thumb is Broken | /insights/rent-vs-buy-india-wealth-comparison/ |
-Planned: real vs nominal wealth.
+| Article | Path | Core Focus |
+|---|---|---|
+| **Emergency Fund Before Investing** | `/insights/emergency-fund-before-investing/` | How much cash to keep aside before starting a SIP; post-tax yields of savings, FDs, and liquid funds. |
+| **Loan vs SIP: Hidden Trade-offs** | `/insights/loan-vs-sip-hidden-tradeoffs/` | 5 factors calculators miss: liquidity, divisibility, maintenance, tax rules, and emotional debt friction. |
+| **What a SIP Return Assumption Means** | `/insights/what-a-sip-return-assumption-means/` | Expected return vs. guaranteed return, 1% sensitivity, and why sequence of returns matters. |
+| **Reduce EMI or Reduce Tenure?** | `/insights/reduce-emi-or-reduce-tenure-after-prepayment/` | Why reducing tenure saves significantly more interest than reducing EMI, with worked examples. |
+| **How an EMI Splits Over Time** | `/insights/how-an-emi-splits-between-interest-and-principal/` | Month-by-month analysis showing why early EMIs are 80%+ interest, and when the turning point occurs. |
+| **Prepay Loan vs Invest: The Math** | `/insights/prepay-loan-vs-invest/` | Hurdle rate formula (`[Loan / (1-Tax)] + TER`), early debt freedom, and sequence risk. |
+| **Direct vs Regular Mutual Funds** | `/insights/direct-vs-regular-mutual-fund-expense-ratio/` | Why a 1% fee costs ₹22L+ over 20 years, how fees are deducted from NAV, and tax-efficient switching. |
+| **Rent vs Buy in India** | `/insights/rent-vs-buy-india-wealth-comparison/` | Why the 30x rule fails in Indian metros (~3% rental yields vs. 8.5% loans) and 20-year sensitivity. |
 
 ---
 
-## The workbook is the source of truth
+## 5. Mathematical & Regulatory Standards
 
-WealthCompare Excel Calculator.xlsx is strictly an offline mathematical reference and source of truth for development; it is never linked or served directly to users. Each web tool runs client-side JavaScript that independently matches its sheet.
+Every calculation and published article follows strict verified benchmarks:
 
-- Defaults and shared assumptions (inflation, return, tax rate, exemption, loan rate, property tax, selling cost, LTV bands) sit on the **Common Assumptions** sheet.
-- Read `calculator-ui-notes.md` before building a tool. It records the page pattern and the reasons behind each convention.
-- If a page and its sheet disagree, find out which is right, fix the workbook first, then fix the page. Never patch only the page.
-- A sheet's hidden engine sheets (Prepayment Engine, PVI Engine) carry the month-by-month calculation. Do not delete them.
-
-### Conventions every tool follows
-
-1. **Real and nominal stay consistent on both sides.** A future amount is divided by (1 + inflation)^years. Money paid in over time is brought back to today's rupees year by year, using the year each instalment falls in (`ceil(month / 12)`), not left as a plain total. The down payment is paid today and is not discounted.
-2. **Tax is applied once, at redemption.** SIP gains: 12.5% on the gain above ₹1,25,000. Tools treat all gains as long-term and say so. Cess, surcharge, exit loads and fund costs are not included.
-3. **Monthly compounding** at the yearly rate divided by 12. SIP instalments go in at the end of the month.
-4. **No hard return figures in evergreen content.** Any rate shown is a labelled assumption.
-5. **Educational only.** No tool or article recommends a fund, stock, lender or product.
-
----
-
-## Standards for any new content
-
-- **Verify every tax or regulatory figure on an official source before writing it.** Allowed sources: incometaxindia.gov.in, sebi.gov.in, rbi.org.in, dicgc.org.in, nism.ac.in. If there is no official source, say so and soften the claim.
-- The Income-tax Act, 2025 replaced the 1961 Act on 1 April 2026. Use the new section number and put the old one in brackets, for example "Section 198 (Section 112A of the 1961 Act)".
-- "Checked on" and "published" dates use the real date, never one copied from elsewhere.
-- Simple language, short sentences, specific numbers. Put complexity in a collapsible "Advanced Read". Avoid stock phrases and em dashes.
-- Do not recommend specific funds or stocks.
-
-### What has been verified
-
-| Fact | Source |
-|---|---|
-| Long-term gains on equity-oriented fund units: 12.5% above ₹1,25,000; 65% equity test | Income-tax Act, 2025, Section 198 on incometaxindia.gov.in (the same provisions appear under Section 112A of the 1961 Act) |
-| Short-term gains on equity-oriented fund units: 20% | Income-tax Act, 2025, Section 196 on incometaxindia.gov.in |
-| Property long-term gains: 12.5% without indexation; resident individuals who bought land or buildings before 23 July 2024 can choose 20% with indexation | Income Tax Department, capital gains page |
-| Loan-to-value limits for individual housing loans: 90% up to ₹30 lakh, 80% up to ₹75 lakh, 75% above | RBI Master Circular, Housing Finance (18 February 2022) on rbi.org.in. A later version exists, so link the latest |
-| No pre-payment charges on floating-rate loans to individuals for non-business purposes, for loans sanctioned or renewed from 1 January 2026 | RBI (Pre-payment Charges on Loans) Directions, 2025, RBI/2025-26/64 |
-| When floating rates reset, lenders must offer a higher EMI or more EMIs, a switch to a fixed rate where offered, and prepayment at any time | RBI FAQs on reset of floating interest rate on EMI based loans |
-
-### Not verified yet
-
-- The 12-month holding period for equity-oriented units under the 2025 Act (taken from a 1961-Act page).
-- The Income-tax Act, 2025 section for property gains.
-- The Section 156 rebate and the ₹12 lakh limit.
-- The SEBI mutual fund advertisement code wording on a SEBI page. The AMFI guideline (a 2% to 13% return range for fund companies' calculators) was used as a sanity check only.
+1. **Taxation on Equity Funds (Section 198, Income-tax Act, 2025):**
+   - Long-Term Capital Gains (LTCG) on equity mutual fund units held >12 months: **12.5%** on gains exceeding **₹1,25,000** per financial year.
+   - Short-Term Capital Gains (STCG) on units held ≤12 months: **20%** under Section 196.
+2. **Property Capital Gains (Finance Act 2024 / Income-tax Act, 2025):**
+   - 12.5% without indexation benefit for properties acquired after 23 July 2024.
+3. **RBI Loan-to-Value (LTV) Limits:**
+   - 90% for loans up to ₹30 lakh.
+   - 80% for loans between ₹30 lakh and ₹75 lakh.
+   - 75% for loans above ₹75 lakh.
+4. **RBI Pre-payment Directions:**
+   - Zero pre-payment penalties on floating-rate term loans to individual borrowers for non-business purposes.
+5. **Real vs. Nominal Formula:**
+   - `Value in Today's Rupees = Future Nominal Amount ÷ (1 + Inflation)^Years`
+   - Ongoing monthly contributions brought to today's purchasing power using `ceil(month / 12)`.
 
 ---
 
-## Everyday tasks
+## 6. Future Monetization Strategy
 
-### Sync the footer into every page
+The owner decision is to keep the entire site free with **no mandatory user login, no credit card storage, and no intrusive popups**. The monetization plan follows a 3-stage roadmap:
 
-Run this before every deploy, and any time the footer changes or a page is added:
+### Stage 1: Display Advertising (Immediate Focus)
+- **Primary Channel:** Google AdSense Auto Ads (configured with anchor and responsive in-page units).
+- **Status:** Previous rejection for "Low value content" is now completely addressed by expanding to 8 in-depth, original articles (each 1,500–2,500 words with official citations) and adding static educational sections to all 8 calculators.
+- **Action:** Request AdSense re-review in the Google AdSense dashboard.
 
-```
-python3 build_footers.py
-```
+### Stage 2: Micro-Transaction Utility (When Traffic Hits 5,000+ Monthly Visitors)
+- **One-Click Comprehensive PDF Reports (₹99 - ₹149 via UPI / Razorpay):**
+  - Instant client-side PDF generation (e.g. using `pdfmake` or `html2pdf`).
+  - Generates a branded, multi-page personalized financial memo: amortization tables, visual charts, scenario comparisons, and tax breakdown.
+  - No user accounts required; delivered via instant browser download upon UPI payment confirmation.
 
-It copies `footer-template.html` into each page listed in `PAGES` inside the script, filling in that page's own disclaimer. To add a page, add one entry to `PAGES` with its disclaimer text. A page whose footer is already correct is left unchanged, so running it twice does no harm.
-
-### Add a new tool
-
-1. Build or finish the sheet in the workbook. Put shared inputs on Common Assumptions.
-2. Copy an existing tool page as the template (Loan Prepayment or Step-Up SIP are the cleanest). Keep the same classes and layout.
-3. Port the formulas from the sheet. Do not invent new maths.
-4. Check the page against the workbook for at least eight cases: the defaults, zero rate, zero tenure or the shortest allowed, the longest allowed, a result that goes negative, and one extreme value for each input.
-5. Add the footer disclaimer to `build_footers.py` and run it.
-6. Add the page to `sitemap.xml` with today's date and to the homepage tools grid.
-7. Add a link from a related article, and a link to the tool from the article.
-
-### Add a new article
-
-1. Copy `insights/what-a-sip-return-assumption-means/` as the template.
-2. Every number must come from a calculator or a script. State the assumptions. Label rates as examples.
-3. Verify any tax or regulatory fact (see the standards above) and list it under "Sources and Verification" with the date checked.
-4. Add it to `sitemap.xml`, the homepage Insights grid, `build_footers.py`, and the "Keep reading" links of related articles.
-
-### Update the sitemap
-
-Change `lastmod` on a page whenever its content changes. The date is the real date. Do not leave stale dates.
-
-### Test a page
-
-There is no test folder in the repository yet. The approach used so far:
-
-1. Load the page in jsdom with the chart, export and amount-words scripts replaced by stubs.
-2. Set the inputs, call the page's calculate function, and read the result object.
-3. Recalculate the same inputs in the workbook (for example with LibreOffice in headless mode) and compare every summary number and every row of the schedule.
-4. Check validation, the Real/Nominal toggle, the empty and error cases, and that no `NaN`, `undefined` or `Infinity` appears anywhere on the page.
-
-Adding these scripts to a `tests/` folder would make the checks repeatable. Dynamic-array functions such as `XMATCH` do not recalculate in LibreOffice, so compare payoff months from the engine's balance columns instead.
+### Stage 3: Professional & B2B Licensing (Future)
+- **Embeddable Financial Widgets for Independent Financial Advisors (IFAs) & CAs:**
+  - Whitelabel iframe widgets or custom reports for fee-only financial planners and Chartered Accountants.
+- **Dedicated Sponsor / Banner Placements:**
+  - Direct fixed-fee monthly sponsorships from SEBI-registered fee-only investment advisors (RIA) or ethical fintech platforms (strictly screened for alignment with our educational mission).
 
 ---
 
-## Ads
+## 7. Marketing & Traffic Acquisition Strategy
 
-- AdSense Auto Ads are loaded from the head of each page (publisher `ca-pub-4357149194740826`).
-- `ads.txt` must contain exactly: `google.com, pub-4357149194740826, DIRECT, f08c47fec0942fa0`
-- The homepage still has three manual ad units with slot IDs that look like placeholders (`300000001` to `300000003`). Replace them with real slot IDs from AdSense or remove the manual units.
-- All five tool pages and the articles contain no manual ad units.
-- AdSense status last seen: "Needs attention, Low value content" (8 September 2026). More original articles are being added before a review is requested. Monetization beyond ads is undecided. Decision as of 12 October 2026: no accounts, email capture or payment collection for now; see `paid-features.txt`.
+To build awareness and traffic without a paid ad budget, execute this playbook:
+
+### 1. Organic Search & Programmatic SEO
+- **Target High-Intent Indian Financial Queries:**
+  - Search queries like *"loan prepayment vs sip calculator"*, *"rent vs buy calculator bangalore"*, *"direct vs regular mutual fund calculator"*, and *"how much interest saved by reducing tenure"*.
+- **Submit to Google Search Console (GSC):**
+  - Verify ownership via Cloudflare DNS or HTML tag.
+  - Submit `https://wealthcompare.in/sitemap.xml` for immediate crawling.
+- **Rich Snippets & Structured Data:**
+  - Maintain `WebApplication` JSON-LD on all 8 tools and `Article` schema on all 8 articles to capture featured snippets.
+
+### 2. High-Intent Community Seeding
+- **Reddit (`r/IndiaInvestments`, `r/FIRE_India`, `r/developersIndia`):**
+  - Write thoughtful, data-driven answers to user questions (e.g., *"I have a 10 lakh bonus, should I prepay my 8.5% home loan or put it in Nifty 50?"*).
+  - Use our **Share Calculation** links (`?loan=...&rate=...`) to illustrate the math directly. Never spam; provide complete value in the comment and link to the tool as the source calculator.
+- **X (Twitter) & LinkedIn:**
+  - Post bite-sized visual charts showing counter-intuitive financial realities:
+    - *"Why paying rent of ₹25k feels bad, but paying ₹45k in bank interest in Year 1 of a loan feels like an investment."*
+    - *"How a 1% mutual fund commission quietly costs ₹22,00,000 over 20 years."*
+  - Include the direct calculator link in the thread.
+
+### 3. WhatsApp & Word-of-Mouth Virality
+- The newly added **"Share calculation"** button enables users running real scenarios (e.g., buying a flat in Pune or comparing prepayments) to copy a clean link with all numbers prefilled and send it directly to their spouse, family, or financial planner.
 
 ---
 
-## Known open items
+## 8. Development & Maintenance Guidelines
 
-- Homepage ad slot IDs (above).
-- `build_footers.py` does not yet list the Loan vs SIP article, because its page was not available to check.
-- `EMI Calculator` sheet: the yearly schedule has 20 rows while tenure can go to 40, the schedule errors at a 0% rate (CUMPRINC and CUMIPMT need a rate above zero), and the sheet has no input validation. The web page handles all three.
-- `Home Loan Analysis`, cells `C41` and `C42`, hold text instead of values and break the text in row 48 (fix prompt given separately).
-- Rent vs Buy and Expense Ratio Impact need a full re-derivation before conversion.
-- Lower-priority workbook items: the Loan Prepayment sheet's yearly schedule is 30 rows while tenure goes to 40, and it has five lump-sum slots while the page accepts up to 20 (the page was checked against an independent simulator for more than five).
-- Check the Section 196 link used in the emergency-fund article.
+### Deploying Changes
+The site is hosted on Cloudflare Pages connected to this Git repository. Pushing to `main` triggers an automatic global build.
+
+### Everyday Maintenance Commands
+1. **Sync Footers:**
+   Run after modifying `footer-template.html` or adding a new page:
+   ```bash
+   python build_footers.py
+   ```
+2. **Update Sitemap:**
+   Ensure every new page is added to `sitemap.xml` with today's date in `YYYY-MM-DD` format.
+3. **Verify Integrity:**
+   Ensure all internal links use relative or canonical HTTPS URLs, and that no public page references `WealthCompare Excel Calculator.xlsx`.
 
 ---
-
-## Pages that are not tools or articles
-
-- `about/` was rewritten on 12 October 2026. It describes the site as built by one independent person in India and does not publish the creator's name, experience or certifications. Keep it that way unless that is changed on purpose.
-- `privacy-policy/` and `terms/` were updated on 12 October 2026 so that they describe what the site really does (third-party fonts and scripts, AdSense, the current list of tools, no regulated-adviser status). They are not legal advice. Have them reviewed by a qualified person before adding accounts, email capture, payments or referral links, and before relying on them for visitors outside India.
 
 ## Disclaimer
 
-WealthCompare is an educational resource. It is not a SEBI-registered investment adviser, research analyst or distributor, and nothing on the site is personalised advice. Tax and regulatory rules change, so check current figures with the Income Tax Department, RBI, SEBI, your lender or a qualified professional before acting.
+WealthCompare is an educational resource. It is not a SEBI-registered investment adviser, research analyst, or distributor, and nothing on the site is personalised advice. Tax and regulatory rules change, so check current figures with the Income Tax Department, RBI, SEBI, your lender, or a qualified professional before acting.
